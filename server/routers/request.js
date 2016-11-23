@@ -1,4 +1,5 @@
 const fetch = require('isomorphic-fetch')
+const inspect = require('util').inspect
 const arrayToHeaders = require('../utils/arrayToHeaders')
 
 module.exports = function request(server) {
@@ -12,9 +13,19 @@ module.exports = function request(server) {
         body: data.body,
         headers: arrayToHeaders(data.headers),
       }).then(_res => _res[data.readType]())
-        .then(res.send.bind(res))
+        .then((body) => {
+          res.send({
+            status: 'OK',
+            body,
+            beautifiedBody: inspect(body),
+          })
+        })
         .catch((err) => {
-          res.send(err.toString())
+          res.send({
+            status: 'Error',
+            name: err.name,
+            message: err.message,
+          })
         })
     })
   })

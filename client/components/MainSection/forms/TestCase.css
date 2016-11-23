@@ -8,3 +8,24 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+.run {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+.console {
+  height: 100px;
+  overflow: auto;
+  border-radius: 6px;
+  background-color: #323232;
+  color: #ccc;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.console li {
+  padding: 0 16px;
+  border-bottom: 1px solid #666;
+}

@@ -14,12 +14,28 @@ export default class TestCase extends Component {
       body: getFieldValue('body'),
       headers: getFieldValue('headers'),
       readType: props.scout.readType || 'text',
+      testResult: {
+        logs: [],
+      },
+      isConsoleVisible: false,
     }
     this.request = this.request.bind(this)
     this.test = this.test.bind(this)
+    this.toggleConsole = this.toggleConsole.bind(this)
   }
   componentDidMount() {
     this.request()
+  }
+  getOutput() {
+    const result = this.state.testResult
+    switch (result.status) {
+      case 'OK':
+        return <span style={{ color: '#60BE29' }}>OK</span>
+      case 'Error':
+        return <span style={{ color: '#E01515' }}>{result.name}: {result.message}</span>
+      default:
+        return ''
+    }
   }
   request() {
     fetch(`${origin}/request`, {
@@ -32,7 +48,12 @@ export default class TestCase extends Component {
         readType: this.state.readType,
       }),
     }).then(res => res[this.state.readType]())
-      .then((resBody) => { this.setState({ resBody }) })
+      .then((body) => {
+        this.setState({
+          resBody: body.body,
+          beautifiedBody: body.beautifiedBody,
+        })
+      })
   }
   test() {
     fetch(`${origin}/test`, {
@@ -42,7 +63,12 @@ export default class TestCase extends Component {
         testCase: this.props.form.getFieldValue('testCase'),
       }),
     }).then(res => res.json())
-      .then((result) => { this.setState({ result }) })
+      .then((testResult) => { this.setState({ testResult }) })
+  }
+  toggleConsole() {
+    this.setState({
+      isConsoleVisible: !this.state.isConsoleVisible,
+    })
   }
   render() {
     const { scout = Object.create(null), form } = this.props
@@ -70,32 +96,27 @@ export default class TestCase extends Component {
         </Button>
       </Row>
 
-      <pre className={$.pre}>{
-        typeof this.state.body === 'string' ?
-          this.state.resBody :
-          JSON.stringify(this.state.resBody, true, 2)
-      }</pre>
+      <pre className={$.pre}>{this.state.beautifiedBody}</pre>
 
-      <Item label="条件">
+      <Item label="条件" style={{ marginBottom: 0 }}>
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
-      </Item>
-
-      <Row type="flex" justify="space-between" align="top">
-        <Col
-          span={20}
-          style={{
-            lineHeight: '32px',
-            color: this.state.result === 'OK' ? '#60BE29' : '#E01515',
-          }}
-        >
-          {this.state.result}
-        </Col>
-        <Button onClick={this.test} size="large">
+        <Button onClick={this.test} size="large" className={$.run}>
           <Icon type="play-circle-o" />运行
         </Button>
-      </Row>
+      </Item>
+
+      <p style={{ lineHeight: '32px', overflow: 'hidden' }}>
+        {this.getOutput()}
+        <a style={{ float: 'right' }} onClick={this.toggleConsole}>
+          <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台
+        </a>
+      </p>
+
+      <ul className={$.console} style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
+        {this.state.testResult.logs.map(log => <li><pre>{log}</pre></li>)}
+      </ul>
     </Form>)
   }
 }

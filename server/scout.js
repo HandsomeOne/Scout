@@ -46,7 +46,11 @@ ScoutSchema.methods = {
       body: this.body,
     }).then(res => res[this.readType]())
       .then((body) => {
-        new vm.Script(this.testCase).runInNewContext({ body, assert })
+        new vm.Script(this.testCase).runInNewContext({
+          assert,
+          body,
+          console: { log() {} },
+        })
         this.allClear()
       }).catch(this.alert.bind(this))
   },
