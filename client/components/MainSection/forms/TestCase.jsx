@@ -47,7 +47,7 @@ export default class TestCase extends Component {
         headers: this.state.headers,
         readType: this.state.readType,
       }),
-    }).then(res => res[this.state.readType]())
+    }).then(res => res.json())
       .then((body) => {
         this.setState({
           resBody: body.body,
