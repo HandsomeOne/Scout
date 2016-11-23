@@ -16,7 +16,7 @@
 }
 
 .console {
-  height: 200px;
+  height: 150px;
   overflow: auto;
   border-radius: 6px;
   background-color: #323232;
@@ -28,4 +28,15 @@
 .console li {
   padding: 0 16px;
   border-bottom: 1px solid #666;
+}
+
+:global .CodeMirror {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  line-height: 1.5;
+  height: 150px !important;
+}
+
+:global .CodeMirror pre {
+  font-variant-ligatures: normal;
 }

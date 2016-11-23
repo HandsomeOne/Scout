@@ -15,7 +15,9 @@ module.exports = function test(server) {
           body: data.body,
           console: {
             log(...any) {
-              logs.push(any.map(v => (typeof v === 'string' ? v : inspect(v))).join(' '))
+              logs.push(any.map(v => (
+                typeof v === 'string' ? v : inspect(v, { colors: true })
+              )).join(' '))
             },
           },
         })

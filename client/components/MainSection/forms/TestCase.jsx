@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Form, Select, Button, Row, Col, Icon } from 'antd'
+import { ansi_to_html as toHtml } from 'ansi_up'
 import CodeEditor from './custom/CodeEditor'
 import { origin } from '../../../config'
 import $ from './TestCase.css'
@@ -96,7 +97,7 @@ export default class TestCase extends Component {
         </Button>
       </Row>
 
-      <pre className={$.pre}>{this.state.beautifiedBody}</pre>
+      <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.beautifiedBody || '') }} />
 
       <Item label="条件" style={{ marginBottom: 0 }}>
         {getFieldDecorator('testCase', {
@@ -115,7 +116,11 @@ export default class TestCase extends Component {
       </p>
 
       <ul className={$.console} style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
-        {this.state.testResult.logs.map(log => <li><pre>{log}</pre></li>)}
+        {this.state.testResult.logs.map((log, i) => (
+          <li key={i}>
+            <pre dangerouslySetInnerHTML={{ __html: toHtml(log || '') }} />
+          </li>
+        ))}
       </ul>
     </Form>)
   }

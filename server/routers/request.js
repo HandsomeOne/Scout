@@ -17,7 +17,7 @@ module.exports = function request(server) {
           res.send({
             status: 'OK',
             body,
-            beautifiedBody: typeof body === 'string' ? body : inspect(body),
+            beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
           })
         })
         .catch((err) => {
