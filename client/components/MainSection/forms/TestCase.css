@@ -1,0 +1,10 @@
+.pre {
+  height: 200px;
+  overflow: auto;
+  padding: 0 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

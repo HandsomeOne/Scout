@@ -1,0 +1,17 @@
+maybe: {
+  Paste cURL
+  Weekly reports
+}
+
+properties: {
+  tests: {
+    console.log
+    status
+    Apdex time
+    with [??helpers]
+  }
+
+> status: {
+
+  }
+}
