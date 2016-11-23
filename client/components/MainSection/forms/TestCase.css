@@ -21,13 +21,16 @@
   border-radius: 6px;
   background-color: #323232;
   color: #ccc;
-  white-space: pre-wrap;
-  word-wrap: break-word;
 }
 
 .console li {
   padding: 0 16px;
   border-bottom: 1px solid #666;
+}
+
+.console li pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 :global .CodeMirror {

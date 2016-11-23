@@ -1,6 +1,7 @@
 th {
   white-space: nowrap;
 }
+
 textarea {
   resize: none;
 }
@@ -9,15 +10,4 @@ textarea {
   text-align: center;
   font-size: 1.25em;
   position: relative;
-}
-
-:global .CodeMirror {
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  line-height: 1.5;
-  height: 200px !important;
-}
-
-:global .CodeMirror pre {
-  font-variant-ligatures: normal;
 }
