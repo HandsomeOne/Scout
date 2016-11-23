@@ -102,7 +102,7 @@ export default class TestCase extends Component {
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
-        <Button onClick={this.test} size="large" className={$.run}>
+        <Button onClick={this.test} size="large" className={$.run} type="primary">
           <Icon type="play-circle-o" />运行
         </Button>
       </Item>
