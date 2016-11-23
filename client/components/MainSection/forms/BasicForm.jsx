@@ -25,7 +25,7 @@ export default function BasicForm(props) {
         <Item label="标签" >
           {getFieldDecorator('tags', {
             initialValue: scout.tags,
-          })(<Select tags>
+          })(<Select tags notFoundContent="空">
             {props.allTags.map(tag => <Option key={tag}>{tag}</Option>)}
           </Select>)}
         </Item>
@@ -64,7 +64,7 @@ export default function BasicForm(props) {
     <Item label="报警接收人" >
       {getFieldDecorator('recipients', {
         initialValue: scout.recipients,
-      })(<Select tags>
+      })(<Select tags notFoundContent="空">
         {props.allRecipients.map(recipient => <Option key={recipient}>{recipient}</Option>)}
       </Select>)}
     </Item>
