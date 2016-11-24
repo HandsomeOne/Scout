@@ -1,6 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Cascader, Button, Icon, Row, Col } from 'antd'
-import $ from './WorkTime.css'
+import WorkTimeChart from './WorkTimeChart'
 
 const minutes = new Array(60).fill().map((_, i) => ({
   value: i,
@@ -44,82 +44,6 @@ export default class WorkTime extends Component {
       workTime: nextProps.value,
     })
   }
-  getRanges() {
-    function toPercent(hour, minute) {
-      return (hour + (minute / 60)) * (100 / 24)
-    }
-    function compare(a, b) {
-      for (let i = 0; i < 3; i += 1) {
-        if (a[i] !== b[i]) {
-          return Math.sign(a[i] - b[i])
-        }
-      }
-      return 0
-    }
-
-    const ranges = new Array(7).fill().map(() => [])
-    if (this.state.workTime.length === 0) {
-      ranges.forEach((range) => {
-        range.push({
-          left: 0,
-          width: '100%',
-        })
-      })
-      return ranges
-    }
-
-    this.state.workTime.forEach((arr) => {
-      const [start, end] = arr
-      if (start && end) {
-        const left = toPercent(start[1], start[2])
-        if (compare(start, end) <= 0) {
-          if (start[0] === end[0]) {
-            ranges[start[0]].push({
-              left: `${left}%`,
-              width: `${toPercent(end[1], end[2]) - left}%`,
-            })
-          } else {
-            ranges[start[0]].push({
-              left: `${left}%`,
-              width: `${100 - left}%`,
-            })
-            for (let i = start[0] + 1; i < end[0]; i += 1) {
-              ranges[i].push({
-                left: 0,
-                width: '100%',
-              })
-            }
-            ranges[end[0]].push({
-              left: 0,
-              width: `${toPercent(end[1], end[2])}%`,
-            })
-          }
-        } else {
-          for (let i = 0; i < end[0]; i += 1) {
-            ranges[i].push({
-              left: 0,
-              width: '100%',
-            })
-          }
-          ranges[end[0]].push({
-            left: 0,
-            width: `${toPercent(end[1], end[2])}%`,
-          })
-          ranges[start[0]].push({
-            left: `${left}%`,
-            width: `${100 - left}%`,
-          })
-          for (let i = start[0] + 1; i < 7; i += 1) {
-            ranges[i].push({
-              left: 0,
-              width: '100%',
-            })
-          }
-        }
-      }
-    })
-    return ranges
-  }
   update(value, i, j) {
     this.state.workTime[i][j] = value
     this.props.onChange(this.state.workTime)
@@ -138,24 +62,8 @@ export default class WorkTime extends Component {
       expandTrigger: 'hover',
       options,
     }
-    const ranges = this.getRanges()
     return (<div>
-      <Row gutter={16}>
-        <Col span={22}>
-          {new Array(7).fill().map((_, i) => (
-            <div key={i} style={{ padding: '8px 0' }}>
-              <div className={$.day}>
-                {ranges[i].map((style, j) => (
-                  <div key={j} style={style} className={$.range} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </Col>
-        <Col span={2} style={{ lineHeight: '26px' }}>
-          {options.map((v, i) => <div key={i}>{v.label}</div>)}
-        </Col>
-      </Row>
+      <WorkTimeChart workTime={this.state.workTime} />
       {this.state.workTime.map((range, i) =>
         <Row key={i} type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
           <Col span={10}>
@@ -179,7 +87,7 @@ export default class WorkTime extends Component {
           </Button>
         </Row>)}
       <Button type="dashed" size="large" onClick={this.add} style={{ width: '100%' }}>
-        <Icon type="plus" />添加约束
+        <Icon type="plus" />添加时间段
       </Button>
     </div>)
   }

@@ -45,7 +45,7 @@ export default function AdvancedForm(props) {
       })(<HTTPHeaders />)}
     </Item>
 
-    <Item label="活跃时间段">
+    <Item label="活跃时间段" extra="若不指定时间段，默认为 7×24">
       {getFieldDecorator('worktime', {
         initialValue: scout.worktime,
       })(<WorkTime />)}

@@ -50,6 +50,7 @@ class ScoutModal extends Component {
     const scout = this.props.scout
     return (
       <Modal
+        maskClosable={false}
         title={scout ? <Icon type="edit" /> : <Icon type="plus" />}
         width={720}
         visible={this.props.visible}
