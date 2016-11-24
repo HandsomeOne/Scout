@@ -37,12 +37,12 @@ class Scouts extends Component {
     }
     const icons = {
       [states.OK]: <Icon
-        type="check-circle"
+        type="check"
         className={$.state}
         style={{ color: '#60BE29' }}
       />,
       [states.ERROR]: <Icon
-        type="exclamation-circle"
+        type="exclamation"
         className={$.state}
         style={{ color: '#FAC450' }}
       />,
@@ -106,7 +106,7 @@ class Scouts extends Component {
     return (<Table
       columns={columns}
       footer={() => <div style={{ textAlign: 'right' }}>
-        <Button type="dashed" size="large" onClick={this.props.actions.willAddScout}>
+        <Button type="primary" size="large" onClick={this.props.actions.willAddScout}>
           <Icon type="plus" />添加
         </Button>
       </div>}
