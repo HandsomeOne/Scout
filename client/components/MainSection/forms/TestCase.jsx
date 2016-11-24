@@ -35,6 +35,15 @@ export default class TestCase extends Component {
         return ''
     }
   }
+  reset() {
+    const { getFieldValue } = this.props.form
+    this.setState({
+      method: getFieldValue('method'),
+      URL: getFieldValue('URL'),
+      body: getFieldValue('body'),
+      headers: getFieldValue('headers'),
+    })
+  }
   request() {
     fetch(`${origin}/request`, {
       method: 'POST',

@@ -56,8 +56,8 @@ class ScoutModal extends Component {
         visible={this.props.visible}
         onOk={this.handleOk}
         onCancel={() => {
-          this.form.resetFields()
           this.props.actions.hideModal()
+          setTimeout(() => this.form.resetFields(), 100)
         }}
       >
         <ScoutForm

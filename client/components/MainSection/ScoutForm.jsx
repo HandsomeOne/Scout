@@ -6,10 +6,13 @@ import TestCase from './forms/TestCase'
 
 function ScoutForm(props) {
   const { TabPane } = Tabs
-  return (<Tabs defaultActiveKey="basic">
+  let testCase
+  return (<Tabs defaultActiveKey="basic" onChange={() => { testCase.reset() }}>
     <TabPane tab="基本信息" key="basic"><BasicForm {...props} /></TabPane>
     <TabPane tab="高级设置" key="advanced"><AdvancedForm {...props} /></TabPane>
-    <TabPane tab="测试用例" key="testcase"><TestCase {...props} /></TabPane>
+    <TabPane tab="测试用例" key="testCase">
+      <TestCase {...props} ref={(e) => { testCase = e }} />
+    </TabPane>
   </Tabs>)
 }
 

@@ -4,7 +4,7 @@ import { Input, Select } from 'antd'
 const protocols = ['http:', 'https:']
 function parse(value) {
   let protocol = 'http:'
-  let url = value
+  let url = value.trim()
   let mayFound = true
 
   function find(_protocol) {
