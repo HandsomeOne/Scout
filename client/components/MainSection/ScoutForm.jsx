@@ -7,7 +7,14 @@ import TestCase from './forms/TestCase'
 function ScoutForm(props) {
   const { TabPane } = Tabs
   let testCase
-  return (<Tabs defaultActiveKey="basic" onChange={() => { testCase.reset() }}>
+  return (<Tabs
+    defaultActiveKey="basic"
+    onChange={(key) => {
+      if (key === 'testCase' && testCase) {
+        testCase.reset()
+      }
+    }}
+  >
     <TabPane tab="基本信息" key="basic"><BasicForm {...props} /></TabPane>
     <TabPane tab="高级设置" key="advanced"><AdvancedForm {...props} /></TabPane>
     <TabPane tab="测试用例" key="testCase">

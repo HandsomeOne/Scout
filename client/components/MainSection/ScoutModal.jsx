@@ -61,7 +61,7 @@ class ScoutModal extends Component {
         }}
       >
         <ScoutForm
-          key={this.props.scout}
+          key={this.props.scout && this.props.scout._id}
           ref={(c) => { this.form = c }}
           scout={this.props.scout}
           allTags={this.props.allTags}
