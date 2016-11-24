@@ -24,9 +24,6 @@ export default class TestCase extends Component {
     this.test = this.test.bind(this)
     this.toggleConsole = this.toggleConsole.bind(this)
   }
-  componentDidMount() {
-    this.request()
-  }
   getOutput() {
     const result = this.state.testResult
     switch (result.status) {

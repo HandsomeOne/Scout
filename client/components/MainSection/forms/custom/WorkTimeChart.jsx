@@ -89,11 +89,11 @@ export default class WorkTimeChart extends Component {
           {weekdays.map((_, i) => (
             <div key={i} style={{ padding: '8px 0' }}>
               <div className={$.day}>
-                {ranges[i].map((style, j) => (
-                  <div key={j} className={$.middle}>
-                    <div style={style} className={$.range} />
-                  </div>
-                ))}
+                <div className={$.middle}>
+                  {ranges[i].map((style, j) => (
+                    <div key={j} style={style} className={$.range} />
+                  ))}
+                </div>
               </div>
             </div>
           ))}

@@ -11,24 +11,20 @@ export default class MainSection extends Component {
       />
       <ScoutModal
         allTags={
-          this.props.scouts.reduce((tags, scout) => {
+          [...this.props.scouts.reduce((tags, scout) => {
             scout.tags.forEach((tag) => {
-              if (tags.indexOf(tag) === -1) {
-                tags.push(tag)
-              }
+              tags.add(tag)
             })
             return tags
-          }, [])
+          }, new Set())]
         }
         allRecipients={
-          this.props.scouts.reduce((recipients, scout) => {
+          [...this.props.scouts.reduce((recipients, scout) => {
             scout.recipients.forEach((tag) => {
-              if (recipients.indexOf(tag) === -1) {
-                recipients.push(tag)
-              }
+              recipients.add(tag)
             })
             return recipients
-          }, [])
+          }, new Set())]
         }
         scout={this.props.activeId && this.props.scouts.find(
           scout => scout._id === this.props.activeId,
