@@ -14,7 +14,7 @@ class ScoutModal extends Component {
     const data = this.form.getFieldsValue()
     console.log(data)
     if (this.props.scout) {
-      if (fromJS(data).isSubset(fromJS(this.props.scout))) {
+      if (fromJS(data).filter(v => v).isSubset(fromJS(this.props.scout))) {
         message.info('未改动')
         this.form.resetFields()
         this.props.actions.hideModal()
