@@ -1,0 +1,13 @@
+.day {
+  background-color: #f3f3f3;
+  border-radius: 100px;
+  height: 10px;
+  position: relative;
+}
+
+.range {
+  position: absolute;
+  background-color: #80DDE9;
+  height: 100%;
+  border-radius: 100px;
+}

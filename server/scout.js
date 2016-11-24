@@ -79,10 +79,10 @@ ScoutSchema.methods = {
     return this.workTime.some((range) => {
       if (compare(range[0], range[1]) <= 0) {
         return compare(range[0], timeArray) <= 0 &&
-              compare(timeArray, range[1]) < 0
+               compare(timeArray, range[1]) < 0
       }
       return compare(range[1], timeArray) <= 0 ||
-            compare(timeArray, range[0]) < 0
+             compare(timeArray, range[0]) < 0
     })
   },
 
