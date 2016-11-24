@@ -95,21 +95,21 @@ export default class WorkTime extends Component {
             })
           }
         } else {
-          for (let i = 0; i < start[0]; i += 1) {
+          for (let i = 0; i < end[0]; i += 1) {
             ranges[i].push({
               left: 0,
               width: '100%',
             })
           }
-          ranges[start[0]].push({
-            left: `${left}%`,
-            width: `${100 - left}%`,
-          })
           ranges[end[0]].push({
             left: 0,
             width: `${toPercent(end[1], end[2])}%`,
           })
-          for (let i = end[0] + 1; i < 7; i += 1) {
+          ranges[start[0]].push({
+            left: `${left}%`,
+            width: `${100 - left}%`,
+          })
+          for (let i = start[0] + 1; i < 7; i += 1) {
             ranges[i].push({
               left: 0,
               width: '100%',
