@@ -1,9 +1,18 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Form, Select, Button, Row, Col, Icon } from 'antd'
-import { ansi_to_html as toHtml } from 'ansi_up'
+import { Form, Select, Button, Row, Col, Icon, Tooltip } from 'antd'
+import { ansi_to_html as __toHtml } from 'ansi_up'
 import CodeEditor from './custom/CodeEditor'
 import { origin } from '../../../config'
 import $ from './TestCase.css'
+
+function toHtml(s) {
+  return __toHtml(
+    s.replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;')
+     .replace(/"/g, '&quot;'),
+  )
+}
 
 export default class TestCase extends Component {
   constructor(props) {
@@ -15,6 +24,7 @@ export default class TestCase extends Component {
       body: getFieldValue('body'),
       headers: getFieldValue('headers'),
       readType: props.scout.readType || 'text',
+      requestResult: {},
       testResult: {
         logs: [],
       },
@@ -35,7 +45,7 @@ export default class TestCase extends Component {
         return ''
     }
   }
-  reset() {
+  resetRequest() {
     const { getFieldValue } = this.props.form
     this.setState({
       method: getFieldValue('method'),
@@ -55,18 +65,13 @@ export default class TestCase extends Component {
         readType: this.state.readType,
       }),
     }).then(res => res.json())
-      .then((body) => {
-        this.setState({
-          resBody: body.body,
-          beautifiedBody: body.beautifiedBody,
-        })
-      })
+      .then((requestResult) => { this.setState({ requestResult }) })
   }
   test() {
     fetch(`${origin}/test`, {
       method: 'POST',
       body: JSON.stringify({
-        body: this.state.resBody,
+        body: this.state.requestResult.body,
         testCase: this.props.form.getFieldValue('testCase'),
       }),
     }).then(res => res.json())
@@ -98,20 +103,22 @@ export default class TestCase extends Component {
             </Select>)}
           </Item>
         </Col>
-        <Button onClick={this.request} size="large">
+        <Button onClick={this.request} size="large" disabled={!this.state.URL}>
           <Icon type="cloud-download-o" />请求
         </Button>
       </Row>
 
-      <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.beautifiedBody || '') }} />
+      <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
 
       <Item label="条件" style={{ marginBottom: 0 }}>
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
-        <Button onClick={this.test} size="large" className={$.run} type="primary">
-          <Icon type="play-circle-o" />运行
-        </Button>
+        <Tooltip title={'body' in this.state.requestResult || '请至少执行一次请求'}>
+          <Button onClick={this.test} size="large" className={$.run} type="primary" disabled={!('body' in this.state.requestResult)}>
+            <Icon type="play-circle-o" />运行
+          </Button>
+        </Tooltip>
       </Item>
 
       <p style={{ lineHeight: '32px', overflow: 'hidden' }}>

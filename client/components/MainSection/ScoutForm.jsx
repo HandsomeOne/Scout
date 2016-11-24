@@ -11,7 +11,7 @@ function ScoutForm(props) {
     defaultActiveKey="basic"
     onChange={(key) => {
       if (key === 'testCase' && testCase) {
-        testCase.reset()
+        testCase.resetRequest()
       }
     }}
   >
