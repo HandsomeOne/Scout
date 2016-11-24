@@ -1,29 +1,47 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Input, Select } from 'antd'
 
-export default class HTTPHeaders extends Component {
+const protocols = ['http:', 'https:']
+function parse(value) {
+  let protocol = 'http:'
+  let url = value
+  let mayFound = true
+
+  function find(_protocol) {
+    if (url.indexOf(_protocol) === 0) {
+      protocol = _protocol
+      url = url.slice(_protocol.length + 2)
+      mayFound = true
+    }
+  }
+  while (mayFound) {
+    mayFound = false
+    protocols.forEach(find)
+  }
+  return { protocol, url }
+}
+function stringify({ protocol, url }) {
+  const parsed = parse(`${protocol}//${url}`)
+  return `${parsed.protocol}//${parsed.url}`
+}
+
+export default class PrefixedURL extends Component {
   constructor(props) {
     super(props)
-    const arr = props.value.split('//')
-    this.state = {
-      protocol: arr[0],
-      value: arr[1],
-    }
+    this.state = parse(props.value)
     this.onSelect = this.onSelect.bind(this)
     this.onChange = this.onChange.bind(this)
   }
   componentWillReceiveProps(nextProps) {
-    const arr = nextProps.value.split('//')
-    this.setState({
-      protocol: arr[0],
-      value: arr[1],
-    })
+    this.setState(parse(nextProps.value))
   }
   onSelect(value) {
-    this.props.onChange(`${value}//${this.state.value}`)
+    this.state.protocol = value
+    this.props.onChange(stringify(this.state))
   }
   onChange(e) {
-    this.props.onChange(`${this.state.protocol}//${e.target.value}`)
+    this.state.url = e.target.value
+    this.props.onChange(stringify(this.state))
   }
   render() {
     const { Option } = Select
@@ -31,8 +49,8 @@ export default class HTTPHeaders extends Component {
       <Select
         size="large"
         onChange={this.onSelect}
+        value={this.state.protocol}
         style={{ width: 75 }}
-        defaultValue="http:"
       >
         <Option value="http:">http://</Option>
         <Option value="https:">https://</Option>
@@ -42,16 +60,16 @@ export default class HTTPHeaders extends Component {
       size="large"
       addonBefore={protocol}
       onChange={this.onChange}
-      value={this.state.value}
+      value={this.state.url}
     />)
   }
 }
 
-HTTPHeaders.propTypes = {
+PrefixedURL.propTypes = {
   value: T.string.isRequired,
   onChange: T.func.isRequired,
 }
-HTTPHeaders.defaultProps = {
-  value: 'http://',
+PrefixedURL.defaultProps = {
+  value: '',
   onChange: e => e,
 }

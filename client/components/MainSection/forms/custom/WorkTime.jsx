@@ -71,6 +71,7 @@ export default class WorkTime extends Component {
               {...CascaderProps}
               placeholder="从"
               displayRender={displayRenderFrom}
+              value={this.state.workTime[i][0]}
               onChange={(value) => { this.update(value, i, 0) }}
             />
           </Col>
@@ -79,6 +80,7 @@ export default class WorkTime extends Component {
               {...CascaderProps}
               placeholder="至"
               displayRender={displayRenderTo}
+              value={this.state.workTime[i][1]}
               onChange={(value) => { this.update(value, i, 1) }}
             />
           </Col>
