@@ -5,10 +5,11 @@ module.exports = function crud(server) {
     let doc = ''
     req.on('data', (chunk) => { doc += chunk })
     req.on('end', () => {
-      Scout.create(JSON.parse(doc)).then((scout) => {
+      doc = JSON.parse(doc)
+      Scout.create(doc).then((scout) => {
         res.send(scout)
       }).catch((err) => {
-        res.send(err)
+        res.send(err.toString())
       })
     })
   })
@@ -16,11 +17,12 @@ module.exports = function crud(server) {
     let doc = ''
     req.on('data', (chunk) => { doc += chunk })
     req.on('end', () => {
-      Scout.findByIdAndUpdate(req.params.id, JSON.parse(doc)).then(() => {
+      doc = JSON.parse(doc)
+      Scout.findByIdAndUpdate(req.params.id, doc).then(() => {
         res.status(204)
         res.end()
       }).catch((err) => {
-        res.send(err)
+        res.send(err.toString())
       })
     })
   })
@@ -28,7 +30,7 @@ module.exports = function crud(server) {
     Scout.find().then((scouts) => {
       res.send(scouts)
     }).catch((err) => {
-      res.send(err)
+      res.send(err.toString())
     })
   })
   server.del('/scout/:id', (req, res) => {
@@ -36,7 +38,7 @@ module.exports = function crud(server) {
       res.status(204)
       res.end()
     }).catch((err) => {
-      res.send(err)
+      res.send(err.toString())
     })
   })
 }

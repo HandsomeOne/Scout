@@ -46,8 +46,8 @@ export default function AdvancedForm(props) {
     </Item>
 
     <Item label="活跃时间段" extra="若不指定时间段，默认为 7×24">
-      {getFieldDecorator('worktime', {
-        initialValue: scout.worktime,
+      {getFieldDecorator('workTime', {
+        initialValue: scout.workTime,
       })(<WorkTime />)}
     </Item>
   </Form>)
@@ -62,6 +62,6 @@ AdvancedForm.propTypes = {
     tolerance: T.number,
     Apdex: T.number,
     headers: T.arrayOf(T.arrayOf(T.string)),
-    worktime: T.arrayOf(T.arrayOf(T.arrayOf(T.number))),
+    workTime: T.arrayOf(T.arrayOf(T.arrayOf(T.number))),
   }),
 }
