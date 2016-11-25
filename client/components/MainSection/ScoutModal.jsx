@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Modal, Icon, message } from 'antd'
+import { Modal, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { fromJS } from 'immutable'
 import ScoutForm from './ScoutForm'
@@ -51,7 +51,7 @@ class ScoutModal extends Component {
     return (
       <Modal
         maskClosable={false}
-        title={scout ? <Icon type="edit" /> : <Icon type="plus" />}
+        title={scout ? `编辑${scout.name}` : '添加监控'}
         width={720}
         visible={this.props.visible}
         onOk={this.handleOk}

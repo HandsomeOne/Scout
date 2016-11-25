@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Cascader, Button, Icon, Row, Col } from 'antd'
+import { Cascader, Button, Row, Col } from 'antd'
 import WorkTimeChart from './WorkTimeChart'
 
 const minutes = new Array(60).fill().map((_, i) => ({
@@ -84,13 +84,19 @@ export default class WorkTime extends Component {
               onChange={(value) => { this.update(value, i, 1) }}
             />
           </Col>
-          <Button type="ghost" onClick={() => { this.del(i) }}>
-            <Icon type="delete" />删除
-          </Button>
+          <Button
+            type="ghost"
+            icon="delete"
+            onClick={() => { this.del(i) }}
+          >删除</Button>
         </Row>)}
-      <Button type="dashed" size="large" onClick={this.add} style={{ width: '100%' }}>
-        <Icon type="plus" />添加时间段
-      </Button>
+      <Button
+        type="dashed"
+        size="large"
+        icon="plus"
+        onClick={this.add}
+        style={{ width: '100%' }}
+      >添加时间段</Button>
     </div>)
   }
 }

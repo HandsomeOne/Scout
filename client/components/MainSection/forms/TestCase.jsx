@@ -103,9 +103,12 @@ export default class TestCase extends Component {
             </Select>)}
           </Item>
         </Col>
-        <Button onClick={this.request} size="large" disabled={!this.state.URL}>
-          <Icon type="cloud-download-o" />请求
-        </Button>
+        <Button
+          size="large"
+          icon="cloud-download-o"
+          onClick={this.request}
+          disabled={!this.state.URL}
+        >请求</Button>
       </Row>
 
       <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
@@ -115,16 +118,21 @@ export default class TestCase extends Component {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
         <Tooltip title={'body' in this.state.requestResult || '请至少执行一次请求'}>
-          <Button onClick={this.test} size="large" className={$.run} type="primary" disabled={!('body' in this.state.requestResult)}>
-            <Icon type="play-circle-o" />运行
-          </Button>
+          <Button
+            type="primary"
+            size="large"
+            icon="play-circle-o"
+            className={$.run}
+            onClick={this.test}
+            disabled={!('body' in this.state.requestResult)}
+          >运行</Button>
         </Tooltip>
       </Item>
 
       <p style={{ lineHeight: '32px', overflow: 'hidden' }}>
         {this.getOutput()}
         <a style={{ float: 'right' }} onClick={this.toggleConsole}>
-          <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台
+          <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
         </a>
       </p>
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Input, Button, Icon, Row, Col } from 'antd'
+import { Input, Button, Row, Col } from 'antd'
 
 export default class HTTPHeaders extends Component {
   constructor(props) {
@@ -46,14 +46,17 @@ export default class HTTPHeaders extends Component {
           </Col>
           <Button
             type="ghost"
+            icon="delete"
             onClick={() => { this.del(i) }}
-          >
-            <Icon type="delete" />删除
-          </Button>
+          >删除</Button>
         </Row>)}
-      <Button type="dashed" size="large" onClick={this.add} style={{ width: '100%' }}>
-        <Icon type="plus" />添加请求头
-      </Button>
+      <Button
+        type="dashed"
+        size="large"
+        icon="plus"
+        onClick={this.add}
+        style={{ width: '100%' }}
+      >添加请求头</Button>
     </Group>)
   }
 }
