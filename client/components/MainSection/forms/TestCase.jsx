@@ -8,9 +8,9 @@ import $ from './TestCase.css'
 function toHtml(s) {
   return __toHtml(
     s.replace(/&/g, '&amp;')
-     .replace(/</g, '&lt;')
-     .replace(/>/g, '&gt;')
-     .replace(/"/g, '&quot;'),
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;'),
   )
 }
 
@@ -24,7 +24,9 @@ export default class TestCase extends Component {
       body: getFieldValue('body'),
       headers: getFieldValue('headers'),
       readType: props.scout.readType || 'text',
+      isRequesting: false,
       requestResult: {},
+      isTesting: false,
       testResult: {
         logs: [],
       },
@@ -55,6 +57,7 @@ export default class TestCase extends Component {
     })
   }
   request() {
+    this.setState({ isRequesting: true })
     fetch(`${origin}/request`, {
       method: 'POST',
       body: JSON.stringify({
@@ -65,9 +68,25 @@ export default class TestCase extends Component {
         readType: this.state.readType,
       }),
     }).then(res => res.json())
-      .then((requestResult) => { this.setState({ requestResult }) })
+      .then((requestResult) => {
+        this.setState({
+          isRequesting: false,
+          requestResult,
+        })
+      })
+      .catch((err) => {
+        this.setState({
+          isRequesting: false,
+          requestResult: {
+            status: 'Error',
+            name: err.name,
+            message: err.message,
+          },
+        })
+      })
   }
   test() {
+    this.setState({ isTesting: true })
     fetch(`${origin}/test`, {
       method: 'POST',
       body: JSON.stringify({
@@ -75,7 +94,22 @@ export default class TestCase extends Component {
         testCase: this.props.form.getFieldValue('testCase'),
       }),
     }).then(res => res.json())
-      .then((testResult) => { this.setState({ testResult }) })
+      .then((testResult) => {
+        this.setState({
+          isTesting: false,
+          testResult,
+        })
+      })
+      .catch((err) => {
+        this.setState({
+          isTesting: false,
+          testResult: {
+            status: 'Error',
+            name: err.name,
+            message: err.message,
+          },
+        })
+      })
   }
   toggleConsole() {
     this.setState({
@@ -88,6 +122,28 @@ export default class TestCase extends Component {
 
     const { Item } = Form
     const { Option } = Select
+
+    const requestButton = (
+      <Button
+        size="large"
+        icon="cloud-download-o"
+        loading={this.state.isRequesting}
+        onClick={this.request}
+        disabled={!this.state.URL}
+      >请求</Button>
+    )
+    const runButton = (
+      <Button
+        type="primary"
+        size="large"
+        icon="play-circle-o"
+        loading={this.state.isTesting}
+        className={$.run}
+        onClick={this.test}
+        disabled={!('body' in this.state.requestResult)}
+      >运行</Button>
+    )
+
     return (<Form>
       <Row type="flex" justify="space-between" align="top">
         <Col span={16} style={{ lineHeight: '32px' }}>
@@ -103,30 +159,20 @@ export default class TestCase extends Component {
             </Select>)}
           </Item>
         </Col>
-        <Button
-          size="large"
-          icon="cloud-download-o"
-          onClick={this.request}
-          disabled={!this.state.URL}
-        >请求</Button>
+        {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
       </Row>
 
-      <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
+      {
+        this.state.requestResult.status === 'Error' ?
+          <pre className={$.pre} style={{ color: '#E01515' }}>{this.state.requestResult.name}: {this.state.requestResult.message}</pre> :
+          <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
+      }
 
       <Item label="条件" style={{ marginBottom: 0 }}>
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
-        <Tooltip title={'body' in this.state.requestResult || '请至少执行一次请求'}>
-          <Button
-            type="primary"
-            size="large"
-            icon="play-circle-o"
-            className={$.run}
-            onClick={this.test}
-            disabled={!('body' in this.state.requestResult)}
-          >运行</Button>
-        </Tooltip>
+        {'body' in this.state.requestResult ? runButton : <Tooltip title="请至少执行一次请求">{runButton}</Tooltip>}
       </Item>
 
       <p style={{ lineHeight: '32px', overflow: 'hidden' }}>
