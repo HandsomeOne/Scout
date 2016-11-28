@@ -32,8 +32,8 @@ export default function AdvancedForm(props) {
 
       <Col span={12}>
         <Item label="Apdex 目标响应时间">
-          {getFieldDecorator('Apdex', {
-            initialValue: scout.Apdex || 500,
+          {getFieldDecorator('ApdexTarget', {
+            initialValue: scout.ApdexTarget || 500,
           })(<Slider min={100} max={2000} step={100} tipFormatter={formatTime} />)}
         </Item>
       </Col>
@@ -60,7 +60,7 @@ AdvancedForm.propTypes = {
   scout: T.shape({
     interval: T.number,
     tolerance: T.number,
-    Apdex: T.number,
+    ApdexTarget: T.number,
     headers: T.arrayOf(T.arrayOf(T.string)),
     workTime: T.arrayOf(T.arrayOf(T.arrayOf(T.number))),
   }),

@@ -27,7 +27,7 @@ const ScoutSchema = new mongoose.Schema({
   recipients: [String],
 
   headers: [[String]],
-  Apdex: { type: Number, default: 500, min: 100, get: floor, set: floor },
+  ApdexTarget: { type: Number, default: 500, min: 100, get: floor, set: floor },
   interval: { type: Number, default: 5, min: 1, get: floor, set: floor },
   tolerance: { type: Number, default: 0, min: 0, get: floor, set: floor },
 

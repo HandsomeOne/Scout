@@ -23,6 +23,7 @@ export default class TestCase extends Component {
       URL: getFieldValue('URL'),
       body: getFieldValue('body'),
       headers: getFieldValue('headers'),
+      ApdexTarget: getFieldValue('ApdexTarget'),
       readType: props.scout.readType || 'text',
       isRequesting: false,
       requestResult: {},
@@ -41,9 +42,38 @@ export default class TestCase extends Component {
     switch (result.status) {
       case 'OK':
         return (
-          <span style={{ color: C.green }}>
-            {result.statusCode} {result.statusText}
-            <span style={{ float: 'right' }}>{result.responseTime}ms</span>
+          <span
+            style={{
+              color: [
+                C.grey,
+                C.blue,
+                C.green,
+                C.yellow,
+                C.red,
+                C.magenta,
+              ][Math.floor(result.statusCode / 100)],
+            }}
+          >
+            <Tooltip title={<code>statusCode</code>}>
+              <span>{result.statusCode}</span>
+            </Tooltip> {result.statusText}
+            <Tooltip title={<code>responseTime</code>}>
+              <span
+                style={{
+                  float: 'right',
+                  color: (() => {
+                    const ratio = result.responseTime / (this.state.ApdexTarget || 500)
+                    if (ratio <= 1) {
+                      return C.green
+                    }
+                    if (ratio <= 4) {
+                      return C.yellow
+                    }
+                    return C.red
+                  })(),
+                }}
+              >{result.responseTime}ms</span>
+            </Tooltip>
           </span>
         )
       case 'Error':
@@ -63,13 +93,14 @@ export default class TestCase extends Component {
         return ''
     }
   }
-  resetRequest() {
+  renewRequest() {
     const { getFieldValue } = this.props.form
     this.setState({
       method: getFieldValue('method'),
       URL: getFieldValue('URL'),
       body: getFieldValue('body'),
       headers: getFieldValue('headers'),
+      ApdexTarget: getFieldValue('ApdexTarget'),
     })
   }
   request() {
@@ -162,19 +193,15 @@ export default class TestCase extends Component {
         {this.getRequestOutput()}
       </p>
 
-      {
-        this.state.requestResult.status === 'Error' ?
-          <pre className={$.pre} style={{ color: C.red }}>
-            {this.state.requestResult.name}: {this.state.requestResult.message}
-          </pre> :
-          <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
-      }
+      <Tooltip title={<code>body</code>}>
+        <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
+      </Tooltip>
 
       <Item label="条件" style={{ marginBottom: 0 }}>
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
-        {'body' in this.state.requestResult ? runButton : <Tooltip title="请至少执行一次请求">{runButton}</Tooltip>}
+        {this.state.requestResult.status === 'OK' ? runButton : <Tooltip title="请执行一次成功的请求">{runButton}</Tooltip>}
       </Item>
 
       <p style={{ height: 32, lineHeight: '32px' }}>

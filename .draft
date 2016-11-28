@@ -5,9 +5,6 @@ maybe: {
 
 properties: {
   tests: {
-    console.log
-    status
-    Apdex time
     with [??helpers]
   }
 
