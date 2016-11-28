@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Form, Select, Button, Row, Col, Icon, Tooltip } from 'antd'
 import { ansi_to_html as __toHtml } from 'ansi_up'
 import CodeEditor from './custom/CodeEditor'
-import { origin } from '../../../config'
+import { origin, colors as C } from '../../../config'
 import $ from './TestCase.css'
 
 function toHtml(s) {
@@ -41,13 +41,13 @@ export default class TestCase extends Component {
     switch (result.status) {
       case 'OK':
         return (
-          <span style={{ color: '#60BE29' }}>
+          <span style={{ color: C.green }}>
             {result.statusCode} {result.statusText}
             <span style={{ float: 'right' }}>{result.responseTime}ms</span>
           </span>
         )
       case 'Error':
-        return <span style={{ color: '#E01515' }}>{result.name}: {result.message}</span>
+        return <span style={{ color: C.red }}>{result.name}: {result.message}</span>
       default:
         return ''
     }
@@ -56,9 +56,9 @@ export default class TestCase extends Component {
     const result = this.state.testResult
     switch (result.status) {
       case 'OK':
-        return <span style={{ color: '#60BE29' }}>测试通过</span>
+        return <span style={{ color: C.green }}>测试通过</span>
       case 'Error':
-        return <span style={{ color: '#E01515' }}>{result.name}: {result.message}</span>
+        return <span style={{ color: C.red }}>{result.name}: {result.message}</span>
       default:
         return ''
     }
@@ -164,7 +164,9 @@ export default class TestCase extends Component {
 
       {
         this.state.requestResult.status === 'Error' ?
-          <pre className={$.pre} style={{ color: '#E01515' }}>{this.state.requestResult.name}: {this.state.requestResult.message}</pre> :
+          <pre className={$.pre} style={{ color: C.red }}>
+            {this.state.requestResult.name}: {this.state.requestResult.message}
+          </pre> :
           <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
       }
 

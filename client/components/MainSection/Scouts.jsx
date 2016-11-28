@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import $ from './style.css'
-import { origin } from '../../config'
+import { origin, colors as C } from '../../config'
 
 class Scouts extends Component {
   constructor(props) {
@@ -39,17 +39,17 @@ class Scouts extends Component {
       [states.OK]: <Icon
         type="check"
         className={$.state}
-        style={{ color: '#60BE29' }}
+        style={{ color: C.green }}
       />,
       [states.ERROR]: <Icon
         type="exclamation"
         className={$.state}
-        style={{ color: '#FAC450' }}
+        style={{ color: C.yellow }}
       />,
       [states.INACTIVE]: <Icon
         type="poweroff"
         className={$.state}
-        style={{ color: '#CCCCCC' }}
+        style={{ color: C.grey }}
       />,
     }
     const columns = [
@@ -66,7 +66,7 @@ class Scouts extends Component {
         render: (name, record) =>
           <p>
             <b>{name}</b><br />
-            <span style={{ color: '#989898' }}>{record.URL}</span>
+            <span style={{ color: C.grey }}>{record.URL}</span>
           </p>,
       },
       {
@@ -99,7 +99,7 @@ class Scouts extends Component {
             placement="topRight"
             onConfirm={() => this.del(record._id)}
           >
-            <a><Icon type="delete" style={{ color: '#E01515' }} /></a>
+            <a><Icon type="delete" style={{ color: C.red }} /></a>
           </Popconfirm>,
       },
     ]
