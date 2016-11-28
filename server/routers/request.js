@@ -9,14 +9,25 @@ module.exports = function request(server) {
     req.on('end', () => {
       data = JSON.parse(data)
       try {
+        let statusCode
+        let statusText
+        const start = Date.now()
         fetch(data.URL, {
           method: data.method,
           body: data.body,
           headers: arrayToHeaders(data.headers),
-        }).then(_res => _res[data.readType]())
+        })
+          .then((_res) => {
+            statusCode = _res.status
+            statusText = _res.statusText
+            return _res[data.readType]()
+          })
           .then((body) => {
             res.send({
               status: 'OK',
+              responseTime: Date.now() - start,
+              statusCode,
+              statusText,
               body,
               beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
             })

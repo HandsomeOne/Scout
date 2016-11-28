@@ -36,11 +36,27 @@ export default class TestCase extends Component {
     this.test = this.test.bind(this)
     this.toggleConsole = this.toggleConsole.bind(this)
   }
-  getOutput() {
+  getRequestOutput() {
+    const result = this.state.requestResult
+    switch (result.status) {
+      case 'OK':
+        return (
+          <span style={{ color: '#60BE29' }}>
+            {result.statusCode} {result.statusText}
+            <span style={{ float: 'right' }}>{result.responseTime}ms</span>
+          </span>
+        )
+      case 'Error':
+        return <span style={{ color: '#E01515' }}>{result.name}: {result.message}</span>
+      default:
+        return ''
+    }
+  }
+  getTestOutput() {
     const result = this.state.testResult
     switch (result.status) {
       case 'OK':
-        return <span style={{ color: '#60BE29' }}>OK</span>
+        return <span style={{ color: '#60BE29' }}>测试通过</span>
       case 'Error':
         return <span style={{ color: '#E01515' }}>{result.name}: {result.message}</span>
       default:
@@ -74,16 +90,6 @@ export default class TestCase extends Component {
           requestResult,
         })
       })
-      .catch((err) => {
-        this.setState({
-          isRequesting: false,
-          requestResult: {
-            status: 'Error',
-            name: err.name,
-            message: err.message,
-          },
-        })
-      })
   }
   test() {
     this.setState({ isTesting: true })
@@ -98,16 +104,6 @@ export default class TestCase extends Component {
         this.setState({
           isTesting: false,
           testResult,
-        })
-      })
-      .catch((err) => {
-        this.setState({
-          isTesting: false,
-          testResult: {
-            status: 'Error',
-            name: err.name,
-            message: err.message,
-          },
         })
       })
   }
@@ -150,7 +146,7 @@ export default class TestCase extends Component {
           <b>{this.state.method}</b> {this.state.URL}
         </Col>
         <Col span={4}>
-          <Item>
+          <Item style={{ marginBottom: 0 }}>
             {getFieldDecorator('readType', {
               initialValue: scout.readType || 'text',
             })(<Select onChange={(readType) => { this.setState({ readType }) }}>
@@ -161,6 +157,10 @@ export default class TestCase extends Component {
         </Col>
         {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
       </Row>
+
+      <p style={{ height: 32, lineHeight: '32px' }}>
+        {this.getRequestOutput()}
+      </p>
 
       {
         this.state.requestResult.status === 'Error' ?
@@ -175,8 +175,8 @@ export default class TestCase extends Component {
         {'body' in this.state.requestResult ? runButton : <Tooltip title="请至少执行一次请求">{runButton}</Tooltip>}
       </Item>
 
-      <p style={{ lineHeight: '32px', overflow: 'hidden' }}>
-        {this.getOutput()}
+      <p style={{ height: 32, lineHeight: '32px' }}>
+        {this.getTestOutput()}
         <a style={{ float: 'right' }} onClick={this.toggleConsole}>
           <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
         </a>
