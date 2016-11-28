@@ -12,6 +12,8 @@ module.exports = function test(server) {
       try {
         new vm.Script(data.testCase).runInNewContext({
           assert,
+          statusCode: data.statusCode,
+          responseTime: data.responseTime,
           body: data.body,
           console: {
             log(...any) {

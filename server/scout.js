@@ -40,19 +40,28 @@ const ScoutSchema = new mongoose.Schema({
 
 ScoutSchema.methods = {
   patrol() {
+    let statusCode
+    const start = Date.now()
     fetch(this.URL, {
       method: this.method,
       headers: arrayToHeaders(this.headers),
       body: this.body,
-    }).then(res => res[this.readType]())
+    })
+      .then((_res) => {
+        statusCode = _res.status
+        return _res[this.readType]()
+      })
       .then((body) => {
         new vm.Script(this.testCase).runInNewContext({
           assert,
+          statusCode,
+          responseTime: Date.now() - start,
           body,
           console: { log() {} },
         })
         this.allClear()
-      }).catch(this.alert.bind(this))
+      })
+      .catch(this.alert.bind(this))
   },
 
   isWorkTime() {

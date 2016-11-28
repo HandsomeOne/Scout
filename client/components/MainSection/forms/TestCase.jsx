@@ -127,6 +127,8 @@ export default class TestCase extends Component {
     fetch(`${origin}/test`, {
       method: 'POST',
       body: JSON.stringify({
+        statusCode: this.state.requestResult.statusCode,
+        responseTime: this.state.requestResult.responseTime,
         body: this.state.requestResult.body,
         testCase: this.props.form.getFieldValue('testCase'),
       }),
