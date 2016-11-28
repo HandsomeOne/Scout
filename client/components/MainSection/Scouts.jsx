@@ -77,7 +77,6 @@ class Scouts extends Component {
           tags.map(tag => <Tag key={tag}>{tag}</Tag>),
       },
       {
-        title: '　',
         dataIndex: 'edit',
         width: 50,
         fixed: 'right',
@@ -88,7 +87,6 @@ class Scouts extends Component {
           </a>,
       },
       {
-        title: '　',
         dataIndex: 'delete',
         width: 50,
         fixed: 'right',

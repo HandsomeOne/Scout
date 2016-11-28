@@ -3,7 +3,7 @@
   overflow: auto;
   padding: 0 16px;
   border: 1px solid #d9d9d9;
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: #f7f7f7;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -18,7 +18,7 @@
 .console {
   height: 150px;
   overflow: auto;
-  border-radius: 6px;
+  border-radius: 4px;
   background-color: #323232;
   color: #ccc;
 }
@@ -35,7 +35,7 @@
 
 :global .CodeMirror {
   border: 1px solid #d9d9d9;
-  border-radius: 6px;
+  border-radius: 4px;
   line-height: 1.5;
   height: 150px !important;
 }
