@@ -3,7 +3,7 @@ import { Modal, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { fromJS } from 'immutable'
 import ScoutForm from './ScoutForm'
-import { SCOUT_URL } from '../../config'
+import { origin } from '../../config'
 
 class ScoutModal extends Component {
   constructor() {
@@ -20,7 +20,7 @@ class ScoutModal extends Component {
         this.props.actions.hideModal()
       } else {
         const _id = this.props.scout._id
-        fetch(`${SCOUT_URL}/${_id}`, {
+        fetch(`${origin}/scout/${_id}`, {
           method: 'PUT',
           body: JSON.stringify(data),
         }).then(() => {
@@ -32,7 +32,7 @@ class ScoutModal extends Component {
     } else {
       this.form.validateFieldsAndScroll((err) => {
         if (!err) {
-          fetch(SCOUT_URL, {
+          fetch(`${origin}/scout`, {
             method: 'POST',
             body: JSON.stringify(data),
           }).then(res => res.json())

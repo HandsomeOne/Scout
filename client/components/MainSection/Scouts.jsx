@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import $ from './style.css'
-import { SCOUT_URL } from '../../config'
+import { origin } from '../../config'
 
 class Scouts extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Scouts extends Component {
   componentDidMount() {
     const get = () => {
       setTimeout(get, 5 * 60000)
-      fetch(SCOUT_URL).then((res) => {
+      fetch(`${origin}/scout`).then((res) => {
         this.setState({ loading: false })
         return res.json()
       }).then(this.props.actions.getScout)
@@ -22,7 +22,7 @@ class Scouts extends Component {
     get()
   }
   del(id) {
-    fetch(`${SCOUT_URL}/${id}`, {
+    fetch(`${origin}/scout/${id}`, {
       method: 'DELETE',
     }).then(() => {
       message.success('删除成功')
