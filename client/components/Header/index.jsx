@@ -1,18 +1,20 @@
 import React from 'react'
 import { Menu } from 'antd'
+import { Link } from 'react-router'
 
-function Header() {
+export default function (props) {
   return (
     <Menu
+      {...props}
       mode="horizontal"
       theme="dark"
-      selectedKeys={['scout']}
     >
       <Menu.Item key="scout">
-        <a href="#/">管理监控条目</a>
+        <Link to="/">管理监控条目</Link>
+      </Menu.Item>
+      <Menu.Item key="settings">
+        <Link to="/settings">设置</Link>
       </Menu.Item>
     </Menu>
   )
 }
-
-export default Header

@@ -1,13 +1,13 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Header from './Header'
-import MainSection from './MainSection'
+import Header from '../components/Header'
+import MainSection from '../components/MainSection'
 import * as actions from '../actions'
 
 function App(props) {
   return (<div>
-    <Header />
+    <Header selectedKeys={['scout']} />
     <MainSection {...props} />
   </div>)
 }
