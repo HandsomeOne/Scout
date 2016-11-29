@@ -191,9 +191,9 @@ export default class TestCase extends Component {
         {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
       </Row>
 
-      <p style={{ height: 32, lineHeight: '32px' }}>
+      <div style={{ height: 32, lineHeight: '32px' }}>
         {this.getRequestOutput()}
-      </p>
+      </div>
 
       <Tooltip title={<code>body</code>}>
         <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
@@ -206,12 +206,12 @@ export default class TestCase extends Component {
         {this.state.requestResult.status === 'OK' ? runButton : <Tooltip title="请执行一次成功的请求">{runButton}</Tooltip>}
       </Item>
 
-      <p style={{ height: 32, lineHeight: '32px' }}>
+      <div style={{ height: 32, lineHeight: '32px' }}>
         {this.getTestOutput()}
         <a style={{ float: 'right' }} onClick={this.toggleConsole}>
           <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
         </a>
-      </p>
+      </div>
 
       <ul className={$.console} style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
         {this.state.testResult.logs.map((log, i) => (

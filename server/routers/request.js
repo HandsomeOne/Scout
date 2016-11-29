@@ -17,28 +17,28 @@ module.exports = function request(server) {
           body: data.body,
           headers: arrayToHeaders(data.headers),
         })
-          .then((_res) => {
-            statusCode = _res.status
-            statusText = _res.statusText
-            return _res[data.readType]()
+        .then((_res) => {
+          statusCode = _res.status
+          statusText = _res.statusText
+          return _res[data.readType]()
+        })
+        .then((body) => {
+          res.send({
+            status: 'OK',
+            responseTime: Date.now() - start,
+            statusCode,
+            statusText,
+            body,
+            beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
           })
-          .then((body) => {
-            res.send({
-              status: 'OK',
-              responseTime: Date.now() - start,
-              statusCode,
-              statusText,
-              body,
-              beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
-            })
+        })
+        .catch((err) => {
+          res.send({
+            status: 'Error',
+            name: err.name,
+            message: err.message,
           })
-          .catch((err) => {
-            res.send({
-              status: 'Error',
-              name: err.name,
-              message: err.message,
-            })
-          })
+        })
       } catch (err) {
         res.send({
           status: 'Error',
