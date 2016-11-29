@@ -40,6 +40,18 @@ const ScoutSchema = new mongoose.Schema({
 
 ScoutSchema.methods = {
   patrol() {
+    if (!this.isWorkTime()) {
+      this.state = states.INACTIVE
+      return
+    }
+
+    this._nextTime = this._nextTime || 0
+    if (this._nextTime > 0) {
+      this._nextTime -= 1
+      return
+    }
+    this._nextTime = this.interval - 1
+
     let statusCode
     const start = Date.now()
     fetch(this.URL, {
@@ -101,27 +113,29 @@ ScoutSchema.methods = {
   },
 
   alert(err) {
-    console.log(err.message)
-    if (this.state !== states.ERROR) {
-      this.state = states.ERROR
-      this.save()
-      if (this.recipients.length) {
-        fetch('http://should/be/configured', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            recipients: this.recipients,
-            title: this.name,
-            summary: err.message,
-            detail: '',
-          }),
-        }).then(res => res.text())
-          .then(console.log.bind(console))
-          .catch(console.log.bind(console))
-      }
+    this.state = states.ERROR
+    this.save()
+
+    this._errors = this._errors || 0
+
+    if (this._errors === this.tolerance && this.recipients.length) {
+      fetch('http://should/be/configured', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipients: this.recipients,
+          title: this.name,
+          summary: err.message,
+          detail: '',
+        }),
+      }).then(res => res.text())
+        .then(console.log.bind(console))
+        .catch(console.log.bind(console))
     }
+
+    this._errors += 1
   },
 }
 
