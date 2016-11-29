@@ -27,7 +27,9 @@ const ScoutSchema = new mongoose.Schema({
   headers: [[String]],
   ApdexTarget: { type: Number, default: 500, min: 100, get: floor, set: floor },
   interval: { type: Number, default: 5, min: 1, get: floor, set: floor },
+  _nextTime: { type: Number, default: 0 },
   tolerance: { type: Number, default: 0, min: 0, get: floor, set: floor },
+  _errors: { type: Number, default: 0 },
 
   readType: { type: String, enum: ['text', 'json'], default: 'text' },
   testCase: String,
@@ -43,12 +45,13 @@ ScoutSchema.methods = {
       return
     }
 
-    this._nextTime = this._nextTime || 0
     if (this._nextTime > 0) {
       this._nextTime -= 1
+      this.save()
       return
     }
     this._nextTime = this.interval - 1
+    this.save()
 
     let statusCode
     const start = Date.now()
@@ -114,8 +117,6 @@ ScoutSchema.methods = {
     this.state = states.ERROR
     this.save()
 
-    this._errors = this._errors || 0
-
     if (this._errors === this.tolerance &&
         this.recipients.length &&
         settings.alertURL) {
@@ -137,6 +138,7 @@ ScoutSchema.methods = {
     }
 
     this._errors += 1
+    this.save()
   },
 }
 
