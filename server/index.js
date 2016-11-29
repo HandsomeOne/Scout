@@ -19,3 +19,5 @@ server.get(/\/?.*/, restify.serveStatic({
 }))
 
 server.listen(3001)
+
+require('./models/scout').patrol()

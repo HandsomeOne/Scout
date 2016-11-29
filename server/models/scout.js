@@ -57,21 +57,21 @@ ScoutSchema.methods = {
       headers: arrayToHeaders(this.headers),
       body: this.body,
     })
-      .then((_res) => {
-        statusCode = _res.status
-        return _res[this.readType]()
+    .then((_res) => {
+      statusCode = _res.status
+      return _res[this.readType]()
+    })
+    .then((body) => {
+      new vm.Script(this.testCase).runInNewContext({
+        assert,
+        statusCode,
+        responseTime: Date.now() - start,
+        body,
+        console: { log() {} },
       })
-      .then((body) => {
-        new vm.Script(this.testCase).runInNewContext({
-          assert,
-          statusCode,
-          responseTime: Date.now() - start,
-          body,
-          console: { log() {} },
-        })
-        this.allClear()
-      })
-      .catch(this.alert.bind(this))
+      this.allClear()
+    })
+    .catch(this.alert.bind(this))
   },
 
   isWorkTime() {
@@ -130,12 +130,25 @@ ScoutSchema.methods = {
           errMessage: err.message,
           detail: '',
         }),
-      }).then(res => res.text())
-        .then(console.log.bind(console))
-        .catch(console.log.bind(console))
+      })
+      .then(res => res.text())
+      .then(console.log.bind(console))
+      .catch(console.log.bind(console))
     }
 
     this._errors += 1
+  },
+}
+
+ScoutSchema.statics = {
+  patrol() {
+    setInterval(() => {
+      this.find().then((scouts) => {
+        scouts.forEach((scout) => {
+          scout.patrol()
+        })
+      })
+    }, 60000)
   },
 }
 
