@@ -1,11 +1,8 @@
-const mongoose = require('mongoose')
 const fetch = require('isomorphic-fetch')
 const vm = require('vm')
 const assert = require('assert')
-const arrayToHeaders = require('./utils/arrayToHeaders')
-
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/scout')
+const arrayToHeaders = require('../utils/arrayToHeaders')
+const mongoose = require('./db')
 
 const states = {
   OK: 0,

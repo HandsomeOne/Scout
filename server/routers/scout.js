@@ -1,4 +1,4 @@
-const Scout = require('../scout')
+const Scout = require('../models/scout')
 
 module.exports = function crud(server) {
   server.post('/scout', (req, res) => {

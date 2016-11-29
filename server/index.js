@@ -7,7 +7,8 @@ server.use(restify.CORS({
   origins: ['http://localhost:3000'],
 }))
 
-require('./routers/crud')(server)
+require('./routers/scout')(server)
+require('./routers/setting')(server)
 require('./routers/request')(server)
 require('./routers/test')(server)
 require('./routers/clear')(server)
