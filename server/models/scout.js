@@ -3,6 +3,7 @@ const vm = require('vm')
 const assert = require('assert')
 const arrayToHeaders = require('../utils/arrayToHeaders')
 const mongoose = require('./db')
+const settings = require('./settings')
 
 const states = {
   OK: 0,
@@ -115,16 +116,18 @@ ScoutSchema.methods = {
 
     this._errors = this._errors || 0
 
-    if (this._errors === this.tolerance && this.recipients.length) {
-      fetch('http://should/be/configured', {
+    if (this._errors === this.tolerance &&
+        this.recipients.length &&
+        settings.alertURL) {
+      fetch(settings.alertURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           recipients: this.recipients,
-          title: this.name,
-          summary: err.message,
+          name: this.name,
+          errMessage: err.message,
           detail: '',
         }),
       }).then(res => res.text())

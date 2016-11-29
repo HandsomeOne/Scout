@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Form, Row, Col, Input } from 'antd'
+import { Form, Row, Col, Input, Button, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin } from '../../config'
 import $ from './style.css'
@@ -9,12 +9,23 @@ class Settings extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.submit = this.submit.bind(this)
   }
   componentDidMount() {
     fetch(`${origin}/settings`)
     .then(res => res.json())
     .then((settings) => {
       this.setState(settings)
+    })
+  }
+  submit() {
+    const data = this.props.form.getFieldsValue()
+    fetch(`${origin}/settings`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+    .then(() => {
+      message.success('更新成功')
     })
   }
   render() {
@@ -28,6 +39,12 @@ class Settings extends Component {
           initialValue: settings.alertURL,
         })(<PrefixedURL />)}
       </Item>
+
+      <Button
+        onClick={this.submit}
+        size="large"
+        type="primary"
+      >更新</Button>
     </Form>)
   }
 }
@@ -35,6 +52,7 @@ class Settings extends Component {
 Settings.propTypes = {
   form: T.shape({
     getFieldDecorator: T.func,
+    getFieldsValue: T.func,
   }),
 }
 

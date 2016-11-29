@@ -5,17 +5,17 @@ const protocols = ['http:', 'https:']
 function parse(value) {
   let protocol = 'http:'
   let url = value.trim()
-  let mayFound = true
+  let mayFind = true
 
   function find(_protocol) {
-    if (url.indexOf(_protocol) === 0) {
+    if (url.indexOf(`${_protocol}//`) === 0) {
       protocol = _protocol
       url = url.slice(_protocol.length + 2)
-      mayFound = true
+      mayFind = true
     }
   }
-  while (mayFound) {
-    mayFound = false
+  while (mayFind) {
+    mayFind = false
     protocols.forEach(find)
   }
   return { protocol, url }

@@ -24,7 +24,6 @@ class ScoutModal extends Component {
           body: JSON.stringify(data),
         }).then(() => {
           message.success('修改成功')
-          this.form.resetFields()
           this.props.actions.updateScout({ _id, data })
         })
       }
