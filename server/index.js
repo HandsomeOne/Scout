@@ -8,7 +8,7 @@ server.use(restify.CORS({
 }))
 
 require('./routers/scout')(server)
-require('./routers/setting')(server)
+require('./routers/settings')(server)
 require('./routers/request')(server)
 require('./routers/test')(server)
 require('./routers/clear')(server)
