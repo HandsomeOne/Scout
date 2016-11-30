@@ -37,6 +37,11 @@ export default class TestCase extends Component {
     this.test = this.test.bind(this)
     this.toggleConsole = this.toggleConsole.bind(this)
   }
+  componentDidMount() {
+    if (this.state.URL) {
+      this.request()
+    }
+  }
   getRequestOutput() {
     const result = this.state.requestResult
     switch (result.status) {

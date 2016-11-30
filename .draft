@@ -4,6 +4,8 @@ maybe: {
 }
 
 properties: {
+  ??presets
+
   tests: {
     with [??helpers]
   }
