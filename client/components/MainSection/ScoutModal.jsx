@@ -60,10 +60,7 @@ class ScoutModal extends Component {
         width={720}
         visible={this.props.visible}
         onOk={this.handleOk}
-        onCancel={() => {
-          this.props.actions.hideModal()
-          setTimeout(() => this.form.resetFields(), 100)
-        }}
+        onCancel={this.props.actions.hideModal}
       >
         <ScoutForm
           key={this.props.scout ? this.props.scout._id : this.state.newId}
