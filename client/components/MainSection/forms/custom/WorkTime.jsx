@@ -3,7 +3,7 @@ import { Cascader, Button, Row, Col } from 'antd'
 import WorkTimeChart from './WorkTimeChart'
 
 const minutes = new Array(12).fill().map((_, i) => ({
-  value: i,
+  value: i * 5,
   label: `${i < 2 ? '0' : ''}${i * 5}分`,
 }))
 const time = new Array(24).fill().map((_, i) => ({
