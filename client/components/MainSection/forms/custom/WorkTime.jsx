@@ -2,9 +2,9 @@ import React, { Component, PropTypes as T } from 'react'
 import { Cascader, Button, Row, Col } from 'antd'
 import WorkTimeChart from './WorkTimeChart'
 
-const minutes = new Array(60).fill().map((_, i) => ({
+const minutes = new Array(12).fill().map((_, i) => ({
   value: i,
-  label: `${i < 10 ? '0' : ''}${i}分`,
+  label: `${i < 2 ? '0' : ''}${i * 5}分`,
 }))
 const time = new Array(24).fill().map((_, i) => ({
   value: i,

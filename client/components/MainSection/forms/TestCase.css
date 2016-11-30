@@ -13,6 +13,7 @@
   position: absolute !important;
   bottom: 16px;
   right: 16px;
+  z-index: 3001;
 }
 
 .console {
