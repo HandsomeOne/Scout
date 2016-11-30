@@ -1,9 +1,9 @@
-th {
-  white-space: nowrap;
+.scout tr {
+  animation: new 1s ease-out;
 }
-
-textarea {
-  resize: none;
+@keyframes new {
+  from { background: #faf4b2 }
+  to { background: #fff }
 }
 
 .icon {

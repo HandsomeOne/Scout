@@ -8,6 +8,9 @@ import { origin } from '../../config'
 class ScoutModal extends Component {
   constructor() {
     super()
+    this.state = {
+      newId: 0,
+    }
     this.handleOk = this.handleOk.bind(this)
   }
   handleOk() {
@@ -22,7 +25,9 @@ class ScoutModal extends Component {
         fetch(`${origin}/scout/${_id}`, {
           method: 'PUT',
           body: JSON.stringify(data),
-        }).then(() => {
+        })
+        .then(() => {
+          this.setState({ newId: this.state.newId + 1 })
           message.success('修改成功')
           this.props.actions.updateScout({ _id, data })
         })
@@ -33,12 +38,14 @@ class ScoutModal extends Component {
           fetch(`${origin}/scout`, {
             method: 'POST',
             body: JSON.stringify(data),
-          }).then(res => res.json())
-            .then((json) => {
-              message.success('添加成功')
-              this.form.resetFields()
-              this.props.actions.addScout(json)
-            })
+          })
+          .then(res => res.json())
+          .then((json) => {
+            this.setState({ newId: this.state.newId + 1 })
+            message.success('添加成功')
+            this.form.resetFields()
+            this.props.actions.addScout(json)
+          })
         }
       })
     }
@@ -59,7 +66,7 @@ class ScoutModal extends Component {
         }}
       >
         <ScoutForm
-          key={this.props.scout && this.props.scout._id}
+          key={this.props.scout ? this.props.scout._id : this.state.newId}
           ref={(c) => { this.form = c }}
           scout={this.props.scout}
           allTags={this.props.allTags}

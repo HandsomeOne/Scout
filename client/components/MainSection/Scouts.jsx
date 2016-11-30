@@ -13,7 +13,8 @@ class Scouts extends Component {
   }
   componentDidMount() {
     const get = () => {
-      setTimeout(get, 5 * 60000)
+      setTimeout(get, 60000)
+      this.setState({ loading: true })
       fetch(`${origin}/scout`).then((res) => {
         this.setState({ loading: false })
         return res.json()
@@ -102,6 +103,7 @@ class Scouts extends Component {
       },
     ]
     return (<Table
+      className={$.scout}
       columns={columns}
       footer={() => <div style={{ textAlign: 'right' }}>
         <Button type="primary" size="large" onClick={this.props.actions.willAddScout}>

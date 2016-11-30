@@ -114,13 +114,15 @@ export default class TestCase extends Component {
         headers: this.state.headers,
         readType: this.state.readType,
       }),
-    }).then(res => res.json())
-      .then((requestResult) => {
-        this.setState({
-          isRequesting: false,
-          requestResult,
-        })
+    })
+    .then(res => res.json())
+    .then((requestResult) => {
+      this.setState({
+        isRequesting: false,
+        requestTime: Date.now(),
+        requestResult,
       })
+    })
   }
   test() {
     this.setState({ isTesting: true })
@@ -132,13 +134,15 @@ export default class TestCase extends Component {
         body: this.state.requestResult.body,
         testCase: this.props.form.getFieldValue('testCase'),
       }),
-    }).then(res => res.json())
-      .then((testResult) => {
-        this.setState({
-          isTesting: false,
-          testResult,
-        })
+    })
+    .then(res => res.json())
+    .then((testResult) => {
+      this.setState({
+        isTesting: false,
+        testTime: Date.now(),
+        testResult,
       })
+    })
   }
   toggleConsole() {
     this.setState({
@@ -191,7 +195,11 @@ export default class TestCase extends Component {
         {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
       </Row>
 
-      <div style={{ height: 32, lineHeight: '32px' }}>
+      <div
+        style={{ height: 32, lineHeight: '32px' }}
+        key={this.state.requestTime}
+        className={$.fadein}
+      >
         {this.getRequestOutput()}
       </div>
 
@@ -207,7 +215,9 @@ export default class TestCase extends Component {
       </Item>
 
       <div style={{ height: 32, lineHeight: '32px' }}>
-        {this.getTestOutput()}
+        <span key={this.state.testTime} className={$.fadein}>
+          {this.getTestOutput()}
+        </span>
         <a style={{ float: 'right' }} onClick={this.toggleConsole}>
           <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
         </a>

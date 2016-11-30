@@ -43,3 +43,11 @@
 :global .CodeMirror pre {
   font-variant-ligatures: normal;
 }
+
+.fadein {
+  animation: fadein 0.3s ease-out;
+}
+@keyframes fadein {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
