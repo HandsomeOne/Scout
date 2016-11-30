@@ -42,6 +42,7 @@ ScoutSchema.methods = {
   patrol() {
     if (!this.isWorkTime()) {
       this.state = states.INACTIVE
+      this.save()
       return
     }
 
