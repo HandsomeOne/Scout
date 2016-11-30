@@ -143,7 +143,7 @@ ScoutSchema.methods = {
 }
 
 ScoutSchema.statics = {
-  patrol() {
+  patrolAll() {
     setInterval(() => {
       this.find().then((scouts) => {
         scouts.forEach((scout) => {
