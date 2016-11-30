@@ -3,8 +3,7 @@ const Settings = require('../models/settings')
 
 let settings = {}
 Settings.findOne().then((doc) => {
-  settings = doc || new Settings()
-  settings.save()
+  settings = doc
 })
 
 module.exports = function crud(server) {

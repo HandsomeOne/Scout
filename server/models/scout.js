@@ -3,7 +3,12 @@ const vm = require('vm')
 const assert = require('assert')
 const arrayToHeaders = require('../utils/arrayToHeaders')
 const mongoose = require('./db')
-const settings = require('./settings')
+const Settings = require('./settings')
+
+let settings = {}
+Settings.findOne().then((doc) => {
+  settings = doc
+})
 
 const states = {
   OK: 0,
@@ -34,7 +39,7 @@ const ScoutSchema = new mongoose.Schema({
   readType: { type: String, enum: ['text', 'json'], default: 'text' },
   testCase: String,
 
-  state: { type: Number, default: states.OK },
+  state: { type: Number, default: states.INACTIVE },
   workTime: [[[Number]]],
 })
 
@@ -111,6 +116,7 @@ ScoutSchema.methods = {
 
   allClear() {
     this.state = states.OK
+    this._errors = 0
     this.save()
   },
 

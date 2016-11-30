@@ -4,4 +4,11 @@ const SettingsSchema = new mongoose.Schema({
   alertURL: String,
 })
 
-module.exports = mongoose.model('Settings', SettingsSchema)
+const Settings = mongoose.model('Settings', SettingsSchema)
+Settings.findOne().then((doc) => {
+  if (!doc) {
+    new Settings().save()
+  }
+})
+
+module.exports = Settings

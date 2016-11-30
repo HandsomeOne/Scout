@@ -48,7 +48,7 @@ class Scouts extends Component {
         style={{ color: C.yellow }}
       />,
       [states.INACTIVE]: <Icon
-        type="poweroff"
+        type="pause"
         className={$.state}
         style={{ color: C.grey }}
       />,
