@@ -1,7 +1,7 @@
 const fetch = require('isomorphic-fetch')
 const getSettings = require('../models/getSettings')
 
-module.exports = function crud(server) {
+module.exports = (server) => {
   server.put('/settings', (req, res) => {
     let doc = ''
     req.on('data', (chunk) => { doc += chunk })

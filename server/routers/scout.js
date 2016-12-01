@@ -1,6 +1,6 @@
-const Scout = require('../models/scout')
+const Scout = require('../models/Scout')
 
-module.exports = function crud(server) {
+module.exports = (server) => {
   server.post('/scout', (req, res) => {
     let doc = ''
     req.on('data', (chunk) => { doc += chunk })

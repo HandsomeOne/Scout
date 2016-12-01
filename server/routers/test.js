@@ -2,7 +2,7 @@ const vm = require('vm')
 const assert = require('assert')
 const inspect = require('util').inspect
 
-module.exports = function test(server) {
+module.exports = (server) => {
   server.post('/test', (req, res) => {
     let data = ''
     req.on('data', (chunk) => { data += chunk })

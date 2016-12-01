@@ -1,7 +1,7 @@
-const Scout = require('../models/scout')
+const Scout = require('../models/Scout')
 
-module.exports = function clear(server) {
-  server.get('/clear', (_, res) => {
+module.exports = (server) => {
+  server.get('/__clear', (_, res) => {
     Scout.remove({}).then(() => {
       res.status(204)
       res.end()

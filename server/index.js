@@ -11,7 +11,8 @@ require('./routers/scout')(server)
 require('./routers/settings')(server)
 require('./routers/request')(server)
 require('./routers/test')(server)
-require('./routers/clear')(server)
+require('./routers/__clear')(server)
+require('./routers/__patrol')(server)
 
 server.get(/\/?.*/, restify.serveStatic({
   directory: path.join(__dirname, '../static'),
@@ -20,4 +21,4 @@ server.get(/\/?.*/, restify.serveStatic({
 
 server.listen(3001)
 
-require('./models/scout').patrolAll()
+require('./models/Scout').patrolAll()

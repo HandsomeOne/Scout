@@ -2,7 +2,7 @@ const fetch = require('isomorphic-fetch')
 const inspect = require('util').inspect
 const arrayToHeaders = require('../utils/arrayToHeaders')
 
-module.exports = function request(server) {
+module.exports = (server) => {
   server.post('/request', (req, res) => {
     let data = ''
     req.on('data', (chunk) => { data += chunk })
