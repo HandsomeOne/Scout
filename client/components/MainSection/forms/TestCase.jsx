@@ -45,11 +45,13 @@ export default class TestCase extends Component {
   }
   getRequestOutput() {
     const result = this.state.requestResult
-    switch (result.status) {
-      case 'OK':
-        return (
+    let output
+    if (result.status === 'OK') {
+      output = [
+        <Tooltip title={<code>statusCode</code>}>
           <span
             style={{
+              float: 'left',
               color: [
                 C.grey,
                 C.blue,
@@ -59,34 +61,34 @@ export default class TestCase extends Component {
                 C.magenta,
               ][Math.floor(result.statusCode / 100)],
             }}
-          >
-            <Tooltip title={<code>statusCode</code>}>
-              <span>{result.statusCode}</span>
-            </Tooltip> {result.statusText}
-            <Tooltip title={<code>responseTime</code>}>
-              <span
-                style={{
-                  float: 'right',
-                  color: (() => {
-                    const ratio = result.responseTime / (this.state.ApdexTarget || 500)
-                    if (ratio <= 1) {
-                      return C.green
-                    }
-                    if (ratio <= 4) {
-                      return C.yellow
-                    }
-                    return C.red
-                  })(),
-                }}
-              >{result.responseTime}ms</span>
-            </Tooltip>
-          </span>
-        )
-      case 'Error':
-        return <span style={{ color: C.red }}>{result.name}: {result.message}</span>
-      default:
-        return ''
+          >{result.statusCode} {result.statusText}</span>
+        </Tooltip>,
+        <Tooltip title={<code>responseTime</code>}>
+          <span
+            style={{
+              float: 'right',
+              color: (() => {
+                const ratio = result.responseTime / (this.state.ApdexTarget || 500)
+                if (ratio <= 1) {
+                  return C.green
+                }
+                if (ratio <= 4) {
+                  return C.yellow
+                }
+                return C.red
+              })(),
+            }}
+          >{result.responseTime}ms</span>
+        </Tooltip>,
+      ]
+    } else if (result.status === 'Error') {
+      output = <span style={{ color: C.red }}>{result.name}: {result.message}</span>
     }
+    return (<div
+      style={{ height: 32 }}
+      key={this.state.requestTime}
+      className={classnames($.fadein, $.line)}
+    >{output}</div>)
   }
   getTestOutput() {
     const result = this.state.testResult
@@ -201,13 +203,7 @@ export default class TestCase extends Component {
         {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
       </Row>
 
-      <div
-        style={{ height: 32 }}
-        key={this.state.requestTime}
-        className={classnames($.fadein, $.line)}
-      >
-        {this.getRequestOutput()}
-      </div>
+      {this.getRequestOutput()}
 
       <Tooltip title={<code>body</code>}>
         <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
