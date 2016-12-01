@@ -3,12 +3,7 @@ const vm = require('vm')
 const assert = require('assert')
 const arrayToHeaders = require('../utils/arrayToHeaders')
 const mongoose = require('./db')
-const Settings = require('./settings')
-
-let settings = {}
-Settings.findOne().then((doc) => {
-  settings = doc
-})
+const getSettings = require('./getSettings')
 
 const states = {
   OK: 0,
@@ -124,6 +119,7 @@ ScoutSchema.methods = {
     this.state = states.ERROR
     this.save()
 
+    const settings = getSettings()
     if (this._errors === this.tolerance &&
         this.recipients.length &&
         settings.alertURL) {

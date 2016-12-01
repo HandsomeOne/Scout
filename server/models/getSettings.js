@@ -5,10 +5,13 @@ const SettingsSchema = new mongoose.Schema({
 })
 
 const Settings = mongoose.model('Settings', SettingsSchema)
+let settings = new Settings()
 Settings.findOne().then((doc) => {
   if (!doc) {
-    new Settings().save()
+    settings.save()
+  } else {
+    settings = doc
   }
 })
 
-module.exports = Settings
+module.exports = () => settings

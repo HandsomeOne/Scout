@@ -1,10 +1,5 @@
 const fetch = require('isomorphic-fetch')
-const Settings = require('../models/settings')
-
-let settings = {}
-Settings.findOne().then((doc) => {
-  settings = doc
-})
+const getSettings = require('../models/getSettings')
 
 module.exports = function crud(server) {
   server.put('/settings', (req, res) => {
@@ -12,6 +7,7 @@ module.exports = function crud(server) {
     req.on('data', (chunk) => { doc += chunk })
     req.on('end', () => {
       doc = JSON.parse(doc)
+      const settings = getSettings()
       Object.assign(settings, doc)
       settings.save()
       res.status(204)
@@ -19,7 +15,7 @@ module.exports = function crud(server) {
     })
   })
   server.get('/settings', (req, res) => {
-    res.send(settings)
+    res.send(getSettings())
   })
 
   server.post('/settings/test', (req, res) => {
