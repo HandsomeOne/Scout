@@ -1,3 +1,24 @@
+.line {
+  line-height: 32px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.flexline {
+  height: 32px;
+  line-height: 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexline a {
+  width: 80px;
+  text-align: right;
+  flex-basis: 80px;
+  flex-shrink: 0;
+}
+
 .pre {
   height: 200px;
   overflow: auto;

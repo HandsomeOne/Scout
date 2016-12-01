@@ -1,6 +1,7 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Form, Select, Button, Row, Col, Icon, Tooltip } from 'antd'
 import { ansi_to_html as __toHtml } from 'ansi_up'
+import classnames from 'classnames'
 import CodeEditor from './custom/CodeEditor'
 import { origin, colors as C } from '../../../config'
 import $ from './TestCase.css'
@@ -184,7 +185,7 @@ export default class TestCase extends Component {
 
     return (<Form>
       <Row type="flex" justify="space-between" align="top">
-        <Col span={16} style={{ lineHeight: '32px' }}>
+        <Col span={16} className={$.line}>
           <b>{this.state.method}</b> {this.state.URL}
         </Col>
         <Col span={4}>
@@ -201,9 +202,9 @@ export default class TestCase extends Component {
       </Row>
 
       <div
-        style={{ height: 32, lineHeight: '32px' }}
+        style={{ height: 32 }}
         key={this.state.requestTime}
-        className={$.fadein}
+        className={classnames($.fadein, $.line)}
       >
         {this.getRequestOutput()}
       </div>
@@ -219,11 +220,11 @@ export default class TestCase extends Component {
         {this.state.requestResult.status === 'OK' ? runButton : <Tooltip title="请执行一次成功的请求">{runButton}</Tooltip>}
       </Item>
 
-      <div style={{ height: 32, lineHeight: '32px' }}>
-        <span key={this.state.testTime} className={$.fadein}>
+      <div className={$.flexline}>
+        <span key={this.state.testTime} className={classnames($.fadein, $.line)}>
           {this.getTestOutput()}
         </span>
-        <a style={{ float: 'right' }} onClick={this.toggleConsole}>
+        <a onClick={this.toggleConsole}>
           <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
         </a>
       </div>

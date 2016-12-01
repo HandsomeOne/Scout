@@ -34,7 +34,7 @@
     "babel-plugin-import": "^1.0.1",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
-    "classnames": "^2.2.3",
+    "classnames": "^2.2.5",
     "css-loader": "^0.26.0",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
