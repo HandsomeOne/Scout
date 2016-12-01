@@ -48,7 +48,7 @@ export default class TestCase extends Component {
     let output
     if (result.status === 'OK') {
       output = [
-        <Tooltip title={<code>statusCode</code>}>
+        <Tooltip key="statusCode" title={<code>statusCode</code>}>
           <span
             style={{
               float: 'left',
@@ -63,7 +63,7 @@ export default class TestCase extends Component {
             }}
           >{result.statusCode} {result.statusText}</span>
         </Tooltip>,
-        <Tooltip title={<code>responseTime</code>}>
+        <Tooltip key="responseTime" title={<code>responseTime</code>}>
           <span
             style={{
               float: 'right',

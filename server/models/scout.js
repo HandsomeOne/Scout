@@ -5,11 +5,6 @@ const arrayToHeaders = require('../utils/arrayToHeaders')
 const mongoose = require('./db')
 const getSettings = require('./getSettings')
 
-const states = {
-  OK: 0,
-  ERROR: 1,
-  INACTIVE: 2,
-}
 const { floor } = Math
 const ScoutSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -34,18 +29,19 @@ const ScoutSchema = new mongoose.Schema({
   readType: { type: String, enum: ['text', 'json'], default: 'text' },
   testCase: String,
 
-  state: { type: Number, default: states.INACTIVE },
+  snapshots: [{
+    timestamp: { type: Date, default: Date.now },
+    status: { type: 'String', enum: ['OK', 'Error', 'Idle'] },
+    statusCode: Number,
+    responseTime: Number,
+    errMessage: String,
+    body: String,
+  }],
   workTime: [[[Number]]],
 })
 
 ScoutSchema.methods = {
   patrol() {
-    if (!this.isWorkTime()) {
-      this.state = states.INACTIVE
-      this.save()
-      return
-    }
-
     if (this._nextTime > 0) {
       this._nextTime -= 1
       this.save()
@@ -54,7 +50,17 @@ ScoutSchema.methods = {
     this._nextTime = this.interval - 1
     this.save()
 
+    if (!this.isWorkTime()) {
+      this.snapshots.push({
+        status: 'Idle',
+      })
+      this.save()
+      return
+    }
+
     let statusCode
+    let responseTime
+    let body
     const start = Date.now()
     fetch(this.URL, {
       method: this.method,
@@ -63,19 +69,38 @@ ScoutSchema.methods = {
     })
     .then((_res) => {
       statusCode = _res.status
+      responseTime = Date.now() - start
       return _res[this.readType]()
     })
-    .then((body) => {
+    .then((_body) => {
+      body = _body
       new vm.Script(this.testCase).runInNewContext({
         assert,
         statusCode,
-        responseTime: Date.now() - start,
+        responseTime,
         body,
         console: { log() {} },
       })
-      this.allClear()
+
+      this._errors = 0
+      this.snapshots.push({
+        status: 'OK',
+        statusCode,
+        responseTime,
+      })
+      this.save()
     })
-    .catch(this.alert.bind(this))
+    .catch((err) => {
+      this.snapshots.push({
+        status: 'Error',
+        statusCode,
+        responseTime,
+        errMessage: err.message,
+        body,
+      })
+      this.save()
+      this.alert(err)
+    })
   },
 
   isWorkTime() {
@@ -109,16 +134,7 @@ ScoutSchema.methods = {
     })
   },
 
-  allClear() {
-    this.state = states.OK
-    this._errors = 0
-    this.save()
-  },
-
   alert(err) {
-    this.state = states.ERROR
-    this.save()
-
     const settings = getSettings()
     if (this._errors === this.tolerance &&
         this.recipients.length &&

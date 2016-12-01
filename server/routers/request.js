@@ -11,6 +11,7 @@ module.exports = (server) => {
       try {
         let statusCode
         let statusText
+        let responseTime
         const start = Date.now()
         fetch(data.URL, {
           method: data.method,
@@ -20,14 +21,15 @@ module.exports = (server) => {
         .then((_res) => {
           statusCode = _res.status
           statusText = _res.statusText
+          responseTime = Date.now() - start
           return _res[data.readType]()
         })
         .then((body) => {
           res.send({
             status: 'OK',
-            responseTime: Date.now() - start,
             statusCode,
             statusText,
+            responseTime,
             body,
             beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
           })
