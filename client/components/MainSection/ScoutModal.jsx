@@ -53,17 +53,11 @@ class ScoutModal extends Component {
           method: 'PUT',
           body: JSON.stringify(data),
         })
-        .then(() => {
+        .then(res => res.json())
+        .then((json) => {
           this.props.setScouts(
             this.props.scouts.map(scout => (
-              scout.id === this.props.activeId ? {
-                id: scout.id,
-                name: data.name,
-                tags: data.tags,
-                recipients: data.recipients,
-                URL: data.URL,
-                status: scout.status,
-              } : scout
+              scout.id === this.props.activeId ? json : scout
             )),
           )
           this.props.closeModal()

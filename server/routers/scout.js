@@ -49,9 +49,10 @@ module.exports = (server) => {
     req.on('data', (chunk) => { doc += chunk })
     req.on('end', () => {
       doc = JSON.parse(doc)
-      Scout.findByIdAndUpdate(req.params.id, doc).then(() => {
-        res.status(204)
-        res.end()
+      Scout.findById(req.params.id).then((scout) => {
+        Object.assign(scout, doc)
+        scout.save()
+        res.send(extract(scout))
       }).catch((err) => {
         res.send(err.toString())
       })
