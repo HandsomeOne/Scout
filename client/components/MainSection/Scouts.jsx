@@ -34,26 +34,25 @@ export default class Scouts extends Component {
     })
   }
   render() {
-    const icons = {
-      OK: <Icon
-        type="check"
-        style={{ color: C.green }}
-      />,
-      Error: <Icon
-        type="exclamation"
-        style={{ color: C.yellow }}
-      />,
-      Idle: <Icon
-        type="pause"
-        style={{ color: C.grey }}
-      />,
-    }
     const columns = [
       {
         title: '　',
         dataIndex: 'status',
         width: 50,
-        render: status => icons[status || 'OK'],
+        render: status => ({
+          OK: <Icon
+            type="check"
+            style={{ color: C.green }}
+          />,
+          Error: <Icon
+            type="exclamation"
+            style={{ color: C.yellow }}
+          />,
+          Idle: <Icon
+            type="pause"
+            style={{ color: C.grey }}
+          />,
+        }[status || 'Idle']),
         className: $.icon,
       },
       {
