@@ -69,7 +69,7 @@ export default class Scouts extends Component {
         dataIndex: 'Apdex',
         className: $.Apdex,
         render: (Apdex) => {
-          if (!Apdex) {
+          if (typeof Apdex !== 'number') {
             return <span style={{ color: C.grey }}>0.000</span>
           }
           if (Apdex >= 0.8) {
