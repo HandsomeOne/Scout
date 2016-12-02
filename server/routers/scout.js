@@ -12,6 +12,23 @@ function extract(scout) {
       null,
   }
 }
+function extractForm(scout) {
+  return {
+    name: scout.name,
+    tags: scout.tags,
+    method: scout.method,
+    URL: scout.URL,
+    body: scout.body,
+    recipients: scout.recipients,
+    headers: scout.headers,
+    ApdexTarget: scout.ApdexTarget,
+    interval: scout.interval,
+    tolerance: scout.tolerance,
+    readType: scout.readType,
+    testCase: scout.testCase,
+    workTime: scout.workTime,
+  }
+}
 
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
@@ -48,7 +65,7 @@ module.exports = (server) => {
   })
   server.get('/scout/:id', (req, res) => {
     Scout.findById(req.params.id).then((scout) => {
-      res.send(scout)
+      res.send(extractForm(scout))
     }).catch((err) => {
       res.send(err.toString())
     })
