@@ -41,5 +41,14 @@
     "style-loader": "^0.13.0",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
-  }
+  },
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HandsomeOne/Scout.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HandsomeOne/Scout/issues"
+  },
+  "homepage": "https://github.com/HandsomeOne/Scout#readme"
 }
