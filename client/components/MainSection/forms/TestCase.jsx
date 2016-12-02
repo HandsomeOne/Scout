@@ -75,7 +75,7 @@ export default class TestCase extends Component {
                 if (ratio <= 4) {
                   return C.yellow
                 }
-                return C.red
+                return C.orange
               })(),
             }}
           >{result.responseTime}ms</span>

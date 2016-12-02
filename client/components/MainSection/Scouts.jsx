@@ -59,10 +59,15 @@ export default class Scouts extends Component {
         title: '名称',
         dataIndex: 'name',
         render: (name, record) =>
-          <p>
-            <b>{name}</b><br />
-            <span style={{ color: C.grey }}>{record.URL}</span>
-          </p>,
+          <div>
+            <p>
+              <span className={$.name}>{name}</span>
+              {record.tags.map(tag => (
+                <Tag key={tag} style={{ color: '#989898' }}>{tag}</Tag>
+              ))}
+            </p>
+            <p style={{ color: C.grey }}>{record.URL}</p>
+          </div>,
       },
       {
         title: 'Apdex',
@@ -80,13 +85,6 @@ export default class Scouts extends Component {
           }
           return <span style={{ color: C.orange }}>{Apdex.toFixed(3)}</span>
         },
-      },
-      {
-        title: '标签',
-        width: 150,
-        dataIndex: 'tags',
-        render: tags =>
-          tags.map(tag => <Tag key={tag}>{tag}</Tag>),
       },
       {
         dataIndex: 'edit',

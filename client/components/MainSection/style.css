@@ -16,3 +16,9 @@ td.Apdex {
   font-weight: bold;
   font-size: 1.5em;
 }
+
+.name {
+  margin-right: 8px;
+  font-weight: bold;
+  font-size: 1.25em;
+}
