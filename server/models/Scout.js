@@ -22,16 +22,15 @@ const ScoutSchema = new mongoose.Schema({
   headers: [[String]],
   ApdexTarget: { type: Number, default: 500, min: 100, get: floor, set: floor },
   interval: { type: Number, default: 5, min: 1, get: floor, set: floor },
-  _nextTime: { type: Number, default: 0 },
+  nextPatrol: { type: Number, default: 0 },
   tolerance: { type: Number, default: 0, min: 0, get: floor, set: floor },
-  _errors: { type: Number, default: 0 },
 
   readType: { type: String, enum: ['text', 'json'], default: 'text' },
   testCase: String,
 
   snapshots: [new mongoose.Schema({
     timestamp: { type: Date, default: Date.now },
-    status: { type: 'String', enum: ['OK', 'Error', 'Idle'] },
+    status: { type: 'String', enum: ['OK', 'Error', 'Idle'], required: true },
     statusCode: Number,
     responseTime: Number,
     errMessage: String,
@@ -42,12 +41,12 @@ const ScoutSchema = new mongoose.Schema({
 
 ScoutSchema.methods = {
   patrol() {
-    if (this._nextTime > 0) {
-      this._nextTime -= 1
+    if (this.nextPatrol > 0) {
+      this.nextPatrol -= 1
       this.save()
       return
     }
-    this._nextTime = this.interval - 1
+    this.nextPatrol = this.interval - 1
     this.save()
 
     if (!this.isWorkTime()) {
@@ -82,7 +81,6 @@ ScoutSchema.methods = {
         console: { log() {} },
       })
 
-      this._errors = 0
       this.snapshots.push({
         status: 'OK',
         statusCode,
@@ -91,6 +89,8 @@ ScoutSchema.methods = {
       this.save()
     })
     .catch((err) => {
+      this.alert(err)
+
       this.snapshots.push({
         status: 'Error',
         statusCode,
@@ -99,7 +99,6 @@ ScoutSchema.methods = {
         body,
       })
       this.save()
-      this.alert(err)
     })
   },
 
@@ -135,8 +134,18 @@ ScoutSchema.methods = {
   },
 
   alert(err) {
+    let errors = 0
+    for (let i = this.snapshots.length - 1; i >= 0; i -= 1) {
+      const { status } = this.snapshots[i]
+      if (status === 'Error') {
+        errors += 1
+      } else if (status === 'OK') {
+        break
+      }
+    }
     const settings = getSettings()
-    if (this._errors === this.tolerance &&
+
+    if (errors === this.tolerance &&
         this.recipients.length &&
         settings.alertURL) {
       fetch(settings.alertURL, {
@@ -156,7 +165,6 @@ ScoutSchema.methods = {
       .catch(console.log.bind(console))
     }
 
-    this._errors += 1
     this.save()
   },
 }
