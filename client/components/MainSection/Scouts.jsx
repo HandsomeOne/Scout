@@ -66,6 +66,23 @@ export default class Scouts extends Component {
           </p>,
       },
       {
+        title: 'Apdex',
+        dataIndex: 'Apdex',
+        className: $.Apdex,
+        render: (Apdex) => {
+          if (!Apdex) {
+            return <span style={{ color: C.grey }}>0.000</span>
+          }
+          if (Apdex >= 0.8) {
+            return <span style={{ color: C.green }}>{Apdex.toFixed(3)}</span>
+          }
+          if (Apdex >= 0.6) {
+            return <span style={{ color: C.yellow }}>{Apdex.toFixed(3)}</span>
+          }
+          return <span style={{ color: C.orange }}>{Apdex.toFixed(3)}</span>
+        },
+      },
+      {
         title: '标签',
         width: 150,
         dataIndex: 'tags',

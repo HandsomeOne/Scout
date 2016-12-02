@@ -10,6 +10,7 @@ function extract(scout) {
     status: scout.snapshots.length ?
       scout.snapshots.pop().status :
       null,
+    Apdex: scout.getApdex(),
   }
 }
 function extractForm(scout) {
