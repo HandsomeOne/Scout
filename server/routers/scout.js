@@ -8,8 +8,8 @@ function extract(scout) {
     recipients: scout.recipients,
     URL: scout.URL,
     status: scout.snapshots.length ?
-            scout.snapshots.pop().status :
-            null,
+      scout.snapshots.pop().status :
+      null,
   }
 }
 
@@ -31,8 +31,9 @@ module.exports = (server) => {
     req.on('data', (chunk) => { doc += chunk })
     req.on('end', () => {
       doc = JSON.parse(doc)
-      Scout.findByIdAndUpdate(req.params.id, doc).then((scout) => {
-        res.send(extract(scout))
+      Scout.findByIdAndUpdate(req.params.id, doc).then(() => {
+        res.status(204)
+        res.end()
       }).catch((err) => {
         res.send(err.toString())
       })
