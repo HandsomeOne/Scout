@@ -10,20 +10,30 @@ class ScoutModal extends Component {
     this.state = {
       newId: 0,
       scout: {},
+      isVisible: false,
     }
     this.handleOk = this.handleOk.bind(this)
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.activeId !== this.props.activeId) {
+    if (nextProps.isOpen && !this.props.isOpen) {
       if (nextProps.activeId) {
         fetch(`${origin}/scout/${nextProps.activeId}`)
         .then(res => res.json())
         .then((scout) => {
-          this.setState({ scout })
+          this.setState({
+            scout,
+            isVisible: true,
+          })
         })
       } else {
-        this.setState({ scout: {} })
+        this.setState({
+          scout: {},
+          isVisible: true,
+        })
       }
+    }
+    if (!nextProps.isOpen && this.props.isOpen) {
+      this.setState({ isVisible: false })
     }
   }
   handleOk() {
@@ -58,9 +68,9 @@ class ScoutModal extends Component {
           })
           .then(res => res.json())
           .then((json) => {
-            this.props.closeModal()
             this.props.setScouts([json].concat(this.props.scouts))
             this.setState({ newId: this.state.newId + 1 })
+            this.props.closeModal()
             message.success('添加成功')
           })
         }
@@ -75,7 +85,7 @@ class ScoutModal extends Component {
         maskClosable={false}
         title={this.props.activeId ? `编辑${scout.name}` : '添加监控'}
         width={720}
-        visible={this.props.isOpen}
+        visible={this.state.isVisible}
         onOk={this.handleOk}
         onCancel={this.props.closeModal}
       >
