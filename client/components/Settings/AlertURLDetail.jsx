@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Row, Icon, Select, Button } from 'antd'
+import { Row, Select, Button } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin, colors as C } from '../../config'
 import $ from './style.css'

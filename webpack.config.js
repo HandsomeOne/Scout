@@ -23,16 +23,10 @@ module.exports = {
     html: './index.html',
     vendor: [
       'codemirror',
-      'immutable',
       'isomorphic-fetch',
       'react',
       'react-dom',
-      'react-redux',
       'react-router',
-      'react-router-redux',
-      'redux',
-      'redux-actions',
-      'redux-promise',
     ],
   },
   output: {

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Modal, message } from 'antd'
 import fetch from 'isomorphic-fetch'
-import { fromJS } from 'immutable'
 import ScoutForm from './ScoutForm'
 import { origin } from '../../config'
 
@@ -10,28 +9,40 @@ class ScoutModal extends Component {
     super()
     this.state = {
       newId: 0,
+      scout: {},
     }
     this.handleOk = this.handleOk.bind(this)
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeId !== this.props.activeId) {
+      if (nextProps.activeId) {
+        fetch(`${origin}/scout/${nextProps.activeId}`)
+        .then(res => res.json())
+        .then((scout) => {
+          this.setState({ scout })
+        })
+      } else {
+        this.setState({ scout: {} })
+      }
+    }
+  }
   handleOk() {
     const data = this.form.getFieldsValue()
-    if (this.props.scout) {
-      if (fromJS(data).filter(v => v).isSubset(fromJS(this.props.scout))) {
-        message.info('未改动')
-        this.form.resetFields()
-        this.props.actions.hideModal()
-      } else {
-        const _id = this.props.scout._id
-        fetch(`${origin}/scout/${_id}`, {
-          method: 'PUT',
-          body: JSON.stringify(data),
-        })
-        .then(() => {
-          this.setState({ newId: this.state.newId + 1 })
-          message.success('修改成功')
-          this.props.actions.updateScout({ _id, data })
-        })
-      }
+    if (this.props.activeId) {
+      fetch(`${origin}/scout/${this.props.activeId}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      })
+      .then(res => res.json())
+      .then((json) => {
+        this.props.setScouts(
+          this.props.scouts.map(scout => (
+            scout.id === this.props.activeId ? json : scout
+          )),
+        )
+        this.props.closeModal()
+        message.success('修改成功')
+      })
     } else {
       this.form.validateFieldsAndScroll((err) => {
         if (!err) {
@@ -41,10 +52,10 @@ class ScoutModal extends Component {
           })
           .then(res => res.json())
           .then((json) => {
+            this.props.closeModal()
+            this.props.setScouts([json].concat(this.props.scouts))
             this.setState({ newId: this.state.newId + 1 })
             message.success('添加成功')
-            this.form.resetFields()
-            this.props.actions.addScout(json)
           })
         }
       })
@@ -52,20 +63,20 @@ class ScoutModal extends Component {
   }
 
   render() {
-    const scout = this.props.scout
+    const { scout } = this.state
     return (
       <Modal
         maskClosable={false}
-        title={scout ? `编辑${scout.name}` : '添加监控'}
+        title={this.props.activeId ? `编辑${scout.name}` : '添加监控'}
         width={720}
-        visible={this.props.visible}
+        visible={this.props.isOpen}
         onOk={this.handleOk}
-        onCancel={this.props.actions.hideModal}
+        onCancel={this.props.closeModal}
       >
         <ScoutForm
-          key={this.props.scout ? this.props.scout._id : this.state.newId}
+          key={this.props.activeId || this.state.newId}
           ref={(c) => { this.form = c }}
-          scout={this.props.scout}
+          scout={scout}
           allTags={this.props.allTags}
           allRecipients={this.props.allRecipients}
         />
@@ -75,17 +86,15 @@ class ScoutModal extends Component {
 }
 
 ScoutModal.propTypes = {
-  scout: T.shape({
-    _id: T.string,
-  }),
-  actions: T.shape({
-    hideModal: T.func,
-    updateScout: T.func,
-    addScout: T.func,
-  }),
-  visible: T.bool,
+  scouts: T.arrayOf(T.shape({
+    id: T.string,
+  })),
+  setScouts: T.func,
+  activeId: T.string,
+  isOpen: T.bool,
   allTags: T.arrayOf(T.string),
   allRecipients: T.arrayOf(T.string),
+  closeModal: T.func,
 }
 
 export default ScoutModal

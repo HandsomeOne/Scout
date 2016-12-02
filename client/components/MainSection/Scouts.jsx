@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
 
-class Scouts extends Component {
+export default class Scouts extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,52 +13,47 @@ class Scouts extends Component {
   }
   componentDidMount() {
     const get = () => {
-      setTimeout(get, 60000)
       this.setState({ loading: true })
-      fetch(`${origin}/scout`).then((res) => {
+      fetch(`${origin}/scouts`)
+      .then(res => res.json())
+      .then((scouts) => {
+        this.props.setScouts(scouts.reverse())
         this.setState({ loading: false })
-        return res.json()
-      }).then(this.props.actions.getScout)
+      })
+      setTimeout(get, 60000)
     }
     get()
   }
-  del(id) {
+  delScout(id) {
     fetch(`${origin}/scout/${id}`, {
       method: 'DELETE',
-    }).then(() => {
+    })
+    .then(() => {
       message.success('删除成功')
-      this.props.actions.delScout(id)
+      this.props.setScouts(this.props.scouts.filter(scout => scout.id !== id))
     })
   }
   render() {
-    const states = {
-      OK: 0,
-      ERROR: 1,
-      INACTIVE: 2,
-    }
     const icons = {
-      [states.OK]: <Icon
+      OK: <Icon
         type="check"
-        className={$.state}
         style={{ color: C.green }}
       />,
-      [states.ERROR]: <Icon
+      Error: <Icon
         type="exclamation"
-        className={$.state}
         style={{ color: C.yellow }}
       />,
-      [states.INACTIVE]: <Icon
+      Idle: <Icon
         type="pause"
-        className={$.state}
         style={{ color: C.grey }}
       />,
     }
     const columns = [
       {
         title: '　',
-        dataIndex: 'state',
+        dataIndex: 'status',
         width: 50,
-        render: text => icons[text || states.OK],
+        render: status => icons[status || 'OK'],
         className: $.icon,
       },
       {
@@ -83,7 +78,7 @@ class Scouts extends Component {
         fixed: 'right',
         className: $.icon,
         render: (text, record) =>
-          <a onClick={() => this.props.actions.willUpdateScout(record._id)}>
+          <a onClick={() => this.props.openModal(record.id)}>
             <Icon type="edit" />
           </a>,
       },
@@ -96,7 +91,7 @@ class Scouts extends Component {
           <Popconfirm
             title="确定删除？"
             placement="topRight"
-            onConfirm={() => this.del(record._id)}
+            onConfirm={() => this.delScout(record.id)}
           >
             <a><Icon type="delete" style={{ color: C.red }} /></a>
           </Popconfirm>,
@@ -106,11 +101,11 @@ class Scouts extends Component {
       className={$.scout}
       columns={columns}
       footer={() => <div style={{ textAlign: 'right' }}>
-        <Button type="primary" size="large" onClick={this.props.actions.willAddScout}>
+        <Button type="primary" size="large" onClick={() => { this.props.openModal() }}>
           <Icon type="plus" />添加
         </Button>
       </div>}
-      rowKey="_id"
+      rowKey="id"
       dataSource={this.props.scouts}
       loading={this.state.loading}
     />)
@@ -118,13 +113,10 @@ class Scouts extends Component {
 }
 
 Scouts.propTypes = {
-  scouts: T.arrayOf(T.shape()),
-  actions: T.shape({
-    getScout: T.func,
-    delScout: T.func,
-    willUpdateScout: T.func,
-    willAddScout: T.func,
-  }),
+  scouts: T.arrayOf(T.shape({
+    id: T.string,
+  })),
+  setScouts: T.func,
+  openModal: T.func,
 }
 
-export default Scouts
