@@ -4,6 +4,12 @@ import fetch from 'isomorphic-fetch'
 import ScoutForm from './ScoutForm'
 import { origin } from '../../config'
 
+function isSubsetOf(set) {
+  return Object.keys(this).every(key => (
+    JSON.stringify(this[key]) === JSON.stringify(set[key])
+  ))
+}
+
 class ScoutModal extends Component {
   constructor() {
     super()
@@ -39,26 +45,31 @@ class ScoutModal extends Component {
   handleOk() {
     const data = this.form.getFieldsValue()
     if (this.props.activeId) {
-      fetch(`${origin}/scout/${this.props.activeId}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
-      })
-      .then(() => {
-        this.props.setScouts(
-          this.props.scouts.map(scout => (
-            scout.id === this.props.activeId ? {
-              id: scout.id,
-              name: data.name,
-              tags: data.tags,
-              recipients: data.recipients,
-              URL: data.URL,
-              status: scout.status,
-            } : scout
-          )),
-        )
+      if (isSubsetOf.call(data, this.state.scout)) {
         this.props.closeModal()
-        message.success('修改成功')
-      })
+        message.info('未修改')
+      } else {
+        fetch(`${origin}/scout/${this.props.activeId}`, {
+          method: 'PUT',
+          body: JSON.stringify(data),
+        })
+        .then(() => {
+          this.props.setScouts(
+            this.props.scouts.map(scout => (
+              scout.id === this.props.activeId ? {
+                id: scout.id,
+                name: data.name,
+                tags: data.tags,
+                recipients: data.recipients,
+                URL: data.URL,
+                status: scout.status,
+              } : scout
+            )),
+          )
+          this.props.closeModal()
+          message.success('修改成功')
+        })
+      }
     } else {
       this.form.validateFieldsAndScroll((err) => {
         if (!err) {
