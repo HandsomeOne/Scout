@@ -8,9 +8,9 @@ function extract(scout) {
     recipients: scout.recipients,
     URL: scout.URL,
     status: scout.snapshots.length ?
-      scout.snapshots.pop().status :
-      null,
-    Apdex: scout.getApdex(),
+      scout.snapshots[scout.snapshots.length - 1].status :
+      undefined,
+    Apdex: scout.getApdex() || undefined,
   }
 }
 function extractForm(scout) {

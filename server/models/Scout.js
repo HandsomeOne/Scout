@@ -28,14 +28,15 @@ const ScoutSchema = new mongoose.Schema({
   readType: { type: String, enum: ['text', 'json'], default: 'text' },
   testCase: String,
 
-  snapshots: [new mongoose.Schema({
+  snapshots: [{
+    _id: false,
     timestamp: { type: Date, default: Date.now },
     status: { type: 'String', enum: ['OK', 'Error', 'Idle'], required: true },
     statusCode: Number,
     responseTime: Number,
     errMessage: String,
     body: String,
-  }, { _id: false })],
+  }],
   workTime: [[[Number]]],
 })
 
