@@ -187,8 +187,6 @@ ScoutSchema.methods = {
       .then(console.log.bind(console))
       .catch(console.log.bind(console))
     }
-
-    this.save()
   },
 }
 
