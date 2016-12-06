@@ -41,13 +41,13 @@ const ScoutSchema = new mongoose.Schema({
 })
 
 ScoutSchema.methods = {
-  getApdex() {
+  getApdex(duration = 24 * 60 * 60 * 1000, step = 6) {
     let total = 0
     let satisfied = 0
     let tolerating = 0
-    for (let i = this.snapshots.length - 1; i >= 0; i -= 1) {
+    for (let i = this.snapshots.length - 1; i >= 0; i -= step) {
       const { responseTime, timestamp } = this.snapshots[i]
-      if (timestamp <= Date.now() - (24 * 60 * 60 * 1000)) {
+      if (timestamp.getTime() <= Date.now() - duration) {
         break
       }
       if (responseTime) {

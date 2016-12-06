@@ -10,7 +10,7 @@ function extract(scout) {
     status: scout.snapshots.length ?
       scout.snapshots[scout.snapshots.length - 1].status :
       undefined,
-    Apdex: scout.getApdex() || undefined,
+    Apdex: scout.getApdex(),
   }
 }
 function extractForm(scout) {
