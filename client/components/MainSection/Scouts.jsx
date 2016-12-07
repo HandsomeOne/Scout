@@ -60,13 +60,13 @@ export default class Scouts extends Component {
         dataIndex: 'name',
         render: (name, record) =>
           <div>
-            <p>
+            <div>
               <span className={$.name}>{name}</span>
               {record.tags.map(tag => (
                 <Tag key={tag} style={{ color: '#989898' }}>{tag}</Tag>
               ))}
-            </p>
-            <p style={{ color: C.grey }}>{record.URL}</p>
+            </div>
+            <div style={{ color: C.grey }}>{record.URL}</div>
           </div>,
       },
       {

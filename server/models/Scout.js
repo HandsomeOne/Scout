@@ -41,28 +41,6 @@ const ScoutSchema = new mongoose.Schema({
 })
 
 ScoutSchema.methods = {
-  getApdex(duration = 24 * 60 * 60 * 1000, step = 6) {
-    let total = 0
-    let satisfied = 0
-    let tolerating = 0
-    for (let i = this.snapshots.length - 1; i >= 0; i -= step) {
-      const { responseTime, timestamp } = this.snapshots[i]
-      if (timestamp.getTime() <= Date.now() - duration) {
-        break
-      }
-      if (responseTime) {
-        total += 1
-        const ratio = responseTime / this.ApdexTarget
-        if (ratio <= 1) {
-          satisfied += 1
-        } else if (ratio <= 4) {
-          tolerating += 1
-        }
-      }
-    }
-    return (satisfied + (tolerating / 2)) / total
-  },
-
   patrol() {
     if (this.nextPatrol > 0) {
       this.nextPatrol -= 1
