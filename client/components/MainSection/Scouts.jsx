@@ -66,7 +66,10 @@ export default class Scouts extends Component {
                 <Tag key={tag} style={{ color: '#989898' }}>{tag}</Tag>
               ))}
             </div>
-            <div style={{ color: C.grey }}>{record.URL}</div>
+            <div
+              className={$.longtext}
+              style={{ color: C.grey, maxWidth: 400 }}
+            >{record.URL}</div>
           </div>,
       },
       {
@@ -84,6 +87,13 @@ export default class Scouts extends Component {
             return <span style={{ color: C.yellow }}>{Apdex.toFixed(3)}</span>
           }
           return <span style={{ color: C.orange }}>{Apdex.toFixed(3)}</span>
+        },
+      },
+      {
+        title: '历史',
+        dataIndex: 'history',
+        render: (history) => {
+          return JSON.stringify(history)
         },
       },
       {

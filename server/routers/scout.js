@@ -4,14 +4,15 @@ function getApdex(scout, duration = 24 * 60 * 60 * 1000, step = 6) {
   let total = 0
   let satisfied = 0
   let tolerating = 0
-  for (let i = scout.snapshots.length - 1; i >= 0; i -= step) {
-    const { responseTime, timestamp } = scout.snapshots[i]
+  const { snapshots, ApdexTarget } = scout
+  for (let i = snapshots.length - 1; i >= 0; i -= step) {
+    const { responseTime, timestamp } = snapshots[i]
     if (timestamp.getTime() <= Date.now() - duration) {
       break
     }
     if (responseTime) {
       total += 1
-      const ratio = responseTime / scout.ApdexTarget
+      const ratio = responseTime / ApdexTarget
       if (ratio <= 1) {
         satisfied += 1
       } else if (ratio <= 4) {
@@ -21,11 +22,40 @@ function getApdex(scout, duration = 24 * 60 * 60 * 1000, step = 6) {
   }
   return (satisfied + (tolerating / 2)) / total
 }
+function getHistory(scout) {
+  const { snapshots } = scout
+  const data = []
+  for (let i = 0; i < 24; i += 1) {
+    data[i] = {}
+  }
+
+  function getHourDiff(a, b) {
+    const msPerHour = 1000 * 60 * 60
+    return Math.floor(a / msPerHour) - Math.floor(b / msPerHour)
+  }
+
+  const latest = Date.now()
+  if (snapshots.length) {
+    for (let i = scout.snapshots.length - 1; i >= 0; i -= 1) {
+      const { status, timestamp } = scout.snapshots[i]
+      const diff = getHourDiff(latest, timestamp)
+      if (diff >= 24) {
+        break
+      }
+      data[diff][status] = (data[diff][status] || 0) + 1
+    }
+  }
+  return {
+    latest,
+    data,
+  }
+}
+
 function extract(scout) {
   return {
-/* eslint-disable no-underscore-dangle */
+    /* eslint-disable no-underscore-dangle */
     id: scout._id,
-/* eslint-enable no-underscore-dangle */
+    /* eslint-enable no-underscore-dangle */
     name: scout.name,
     tags: scout.tags,
     recipients: scout.recipients,
@@ -34,6 +64,7 @@ function extract(scout) {
       scout.snapshots[scout.snapshots.length - 1].status :
       null,
     Apdex: getApdex(scout),
+    history: getHistory(scout),
   }
 }
 function extractForm(scout) {
