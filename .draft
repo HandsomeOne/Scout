@@ -1,5 +1,4 @@
 maybe: {
-  Paste cURL
   Weekly reports
 }
 
@@ -8,9 +7,5 @@ properties: {
 
   tests: {
     with [??helpers]
-  }
-
-> status: {
-
   }
 }
