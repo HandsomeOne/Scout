@@ -87,53 +87,56 @@ function extractForm(scout) {
 
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
-    let doc = ''
-    req.on('data', (chunk) => { doc += chunk })
-    req.on('end', () => {
-      doc = JSON.parse(doc)
-      Scout.create(doc).then((scout) => {
-        res.status(201)
-        res.send(extract(scout))
-      }).catch((err) => {
-        res.send(err.toString())
-      })
+    Scout.create(req.body).then((scout) => {
+      res.status(201)
+      res.send(extract(scout))
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
     })
   })
-  server.put('/scout/:id', (req, res) => {
-    let doc = ''
-    req.on('data', (chunk) => { doc += chunk })
-    req.on('end', () => {
-      doc = JSON.parse(doc)
-      Scout.findById(req.params.id).then((scout) => {
-        Object.assign(scout, doc)
-        scout.save()
-        res.status(201)
-        res.send(extract(scout))
-      }).catch((err) => {
-        res.send(err.toString())
-      })
+  server.patch('/scout/:id', (req, res) => {
+    Scout.findById(req.params.id)
+    .then(scout => scout.update(req.body))
+    .then(() => {
+      res.status(204)
+      res.end()
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
     })
   })
   server.get('/scouts', (req, res) => {
-    Scout.find().lean().then((scouts) => {
+    Scout.find().lean()
+    .then((scouts) => {
       res.send(scouts.map(extract))
-    }).catch((err) => {
-      res.send(err.toString())
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
     })
   })
   server.get('/scout/:id', (req, res) => {
-    Scout.findById(req.params.id).lean().then((scout) => {
+    Scout.findById(req.params.id).lean()
+    .then((scout) => {
       res.send(extractForm(scout))
-    }).catch((err) => {
-      res.send(err.toString())
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
     })
   })
   server.del('/scout/:id', (req, res) => {
-    Scout.findByIdAndRemove(req.params.id).then(() => {
+    Scout.findByIdAndRemove(req.params.id)
+    .then(() => {
       res.status(204)
       res.end()
-    }).catch((err) => {
-      res.send(err.toString())
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
     })
   })
 }

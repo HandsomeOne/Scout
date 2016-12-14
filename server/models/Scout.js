@@ -151,9 +151,7 @@ ScoutSchema.methods = {
         settings.alertURL) {
       fetch(settings.alertURL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           recipients: this.recipients,
           name: this.name,

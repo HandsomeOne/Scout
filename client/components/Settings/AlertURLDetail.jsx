@@ -46,6 +46,7 @@ export default class Settings extends Component {
 
     fetch(`${origin}/settings/test`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         alertURL: this.props.alertURL,
         recipients: this.state.recipients,

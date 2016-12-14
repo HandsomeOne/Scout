@@ -50,14 +50,14 @@ class ScoutModal extends Component {
         message.info('未修改')
       } else {
         fetch(`${origin}/scout/${this.props.activeId}`, {
-          method: 'PUT',
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         })
-        .then(res => res.json())
-        .then((json) => {
+        .then(() => {
           this.props.setScouts(
             this.props.scouts.map(scout => (
-              scout.id === this.props.activeId ? json : scout
+              scout.id === this.props.activeId ? Object.assign(scout, data) : scout
             )),
           )
           this.props.closeModal()
@@ -69,6 +69,7 @@ class ScoutModal extends Component {
         if (!err) {
           fetch(`${origin}/scout`, {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
           })
           .then(res => res.json())

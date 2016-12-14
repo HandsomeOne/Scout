@@ -26,7 +26,8 @@ class Settings extends Component {
   submit() {
     const data = this.props.form.getFieldsValue()
     fetch(`${origin}/settings`, {
-      method: 'PUT',
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
     .then(() => {

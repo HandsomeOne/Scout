@@ -5,8 +5,6 @@ module.exports = (server) => {
     Scout.remove({}).then(() => {
       res.status(204)
       res.end()
-    }).catch((err) => {
-      res.send(err)
     })
   })
 }

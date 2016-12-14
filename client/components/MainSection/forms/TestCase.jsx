@@ -115,6 +115,7 @@ export default class TestCase extends Component {
     this.setState({ isRequesting: true })
     fetch(`${origin}/request`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         method: this.state.method,
         URL: this.state.URL,
@@ -136,6 +137,7 @@ export default class TestCase extends Component {
     this.setState({ isTesting: true })
     fetch(`${origin}/test`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         statusCode: this.state.requestResult.statusCode,
         responseTime: this.state.requestResult.responseTime,
