@@ -18,9 +18,10 @@ module.exports = (server) => {
   })
 
   server.post('/settings/test', (req, res) => {
-    try {
-      let statusCode
-      let statusText
+    let statusCode
+    let statusText
+    Promise.resolve()
+    .then(() => (
       fetch(req.params.alertURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -31,33 +32,26 @@ module.exports = (server) => {
           detail: '',
         }),
       })
-      .then((_res) => {
-        statusCode = _res.status
-        statusText = _res.statusText
-        return _res.text()
+    ))
+    .then((_res) => {
+      statusCode = _res.status
+      statusText = _res.statusText
+      return _res.text()
+    })
+    .then((body) => {
+      res.send({
+        status: 'OK',
+        statusCode,
+        statusText,
+        body,
       })
-      .then((body) => {
-        res.send({
-          status: 'OK',
-          statusCode,
-          statusText,
-          body,
-        })
-      })
-      .catch((err) => {
-        res.send({
-          status: 'Error',
-          name: err.name,
-          message: err.message,
-        })
-      })
-    } catch (err) {
-      res.status(500)
+    })
+    .catch((err) => {
       res.send({
         status: 'Error',
         name: err.name,
         message: err.message,
       })
-    }
+    })
   })
 }
