@@ -1,7 +1,5 @@
 module.exports = function arrayToHeaders(array = []) {
-  const result = {}
-  array.forEach(([key, value]) => {
-    if (key) { result[key] = value }
-  })
-  return result
+  return array.reduce((headers, [key, value]) => (
+    Object.assign(headers, { [key]: value })
+  ), {})
 }
