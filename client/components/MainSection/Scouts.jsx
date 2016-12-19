@@ -3,6 +3,7 @@ import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
+import HistoryChart from './HistoryChart'
 
 export default class Scouts extends Component {
   constructor(props) {
@@ -73,6 +74,12 @@ export default class Scouts extends Component {
           </div>,
       },
       {
+        title: '历史',
+        dataIndex: 'history',
+        width: 300,
+        render: history => <HistoryChart {...history} />,
+      },
+      {
         title: 'Apdex',
         dataIndex: 'Apdex',
         className: $.Apdex,
@@ -87,13 +94,6 @@ export default class Scouts extends Component {
             return <span style={{ color: C.yellow }}>{Apdex.toFixed(3)}</span>
           }
           return <span style={{ color: C.orange }}>{Apdex.toFixed(3)}</span>
-        },
-      },
-      {
-        title: '历史',
-        dataIndex: 'history',
-        render: (history) => {
-          return JSON.stringify(history)
         },
       },
       {
@@ -143,4 +143,3 @@ Scouts.propTypes = {
   setScouts: T.func,
   openModal: T.func,
 }
-
