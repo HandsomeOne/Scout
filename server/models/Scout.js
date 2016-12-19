@@ -168,12 +168,13 @@ ScoutSchema.methods = {
 
 ScoutSchema.statics = {
   patrolAll() {
-    setInterval(() => {
+    setTimeout(() => {
       this.find().then((scouts) => {
         scouts.forEach((scout) => {
           scout.patrol()
         })
       })
+      this.patrolAll()
     }, 60000)
   },
 }
