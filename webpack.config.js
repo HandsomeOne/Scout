@@ -22,7 +22,7 @@ module.exports = {
     jsx: './index.jsx',
     html: './index.html',
     vendor: [
-      'codemirror',
+      'd3',
       'isomorphic-fetch',
       'react',
       'react-dom',

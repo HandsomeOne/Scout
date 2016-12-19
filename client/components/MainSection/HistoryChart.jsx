@@ -1,26 +1,18 @@
 import React, { PropTypes as T } from 'react'
+import { interpolateWarm } from 'd3'
 import { Tooltip } from 'antd'
-import { colors as C } from '../../config'
 import $ from './HistoryChart.css'
 
 function getColor(x) {
-  if (x < 0.6) {
-    return C.red
-  }
-  if (x < 0.8) {
-    return C.orange
-  }
-  if (x < 1) {
-    return C.yellow
-  }
-  return C.green
+  return interpolateWarm(x)
 }
 
 export default function HistoryChart({ latest, data }) {
   return (
     <div>{
       data.map(({ OK = 0, Error = 0, Idle = 0 }, i) => {
-        const total = OK + Error + Idle || Infinity
+        const paddedIdle = (OK + Error + Idle === 0) ? 1 : Idle
+        const total = OK + Error + paddedIdle
         const health = (OK + Idle) / total
 
         const time = new Date(latest - (i * 60 * 60 * 1000))
@@ -34,13 +26,12 @@ export default function HistoryChart({ latest, data }) {
           </div>
         )
         return (
-          <Tooltip placement="left" title={tip} key={i}>
-            <div className={$.bar}>
+          <Tooltip title={tip} key={i}>
+            <div className={$.bar} style={{ opacity: 1 - (paddedIdle / total) }}>
               <div
                 style={{
                   backgroundColor: getColor(health),
                   height: `${health * 100}%`,
-                  opacity: 1 - (Idle / total),
                 }}
               />
             </div>
