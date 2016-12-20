@@ -1,6 +1,7 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import fetch from 'isomorphic-fetch'
+import { interpolateWarm } from 'd3'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
 import HistoryChart from './HistoryChart'
@@ -85,15 +86,9 @@ export default class Scouts extends Component {
         className: $.Apdex,
         render: (Apdex) => {
           if (typeof Apdex !== 'number') {
-            return <span style={{ color: C.grey }}>0.000</span>
+            return <span style={{ color: C.grey }}>NaN</span>
           }
-          if (Apdex >= 0.8) {
-            return <span style={{ color: C.green }}>{Apdex.toFixed(3)}</span>
-          }
-          if (Apdex >= 0.6) {
-            return <span style={{ color: C.yellow }}>{Apdex.toFixed(3)}</span>
-          }
-          return <span style={{ color: C.orange }}>{Apdex.toFixed(3)}</span>
+          return <span style={{ color: interpolateWarm(Apdex) }}>{Apdex.toFixed(2)}</span>
         },
       },
       {

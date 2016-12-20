@@ -5,20 +5,24 @@
   width: 6px;
   border-radius: 3px;
   padding: 3px 0;
-  margin: -3px 0;
   margin: 0 1px;
   transition: box-shadow .2s;
   display: inline-block;
-  position: relative;
   box-sizing: content-box;
 }
 .bar:hover {
   box-shadow: 0 0 2px #108EE9;
 }
 .bar > div {
+  position: relative;
+  height: 100%;
+}
+.bar > div > div {
   border-radius: 3px;
   padding: 3px 0;
+  margin: -3px 0;
   position: absolute;
   bottom: 0;
+  box-sizing: content-box;
   width: 100%;
 }

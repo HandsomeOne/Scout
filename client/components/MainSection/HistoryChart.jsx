@@ -28,12 +28,14 @@ export default function HistoryChart({ latest, data }) {
         return (
           <Tooltip title={tip} key={i}>
             <div className={$.bar} style={{ opacity: 1 - (paddedIdle / total) }}>
-              <div
-                style={{
-                  backgroundColor: getColor(health),
-                  height: `${health * 100}%`,
-                }}
-              />
+              <div>
+                <div
+                  style={{
+                    backgroundColor: getColor(health),
+                    height: `${health * 100}%`,
+                  }}
+                />
+              </div>
             </div>
           </Tooltip>
         )
