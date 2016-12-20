@@ -1,20 +1,23 @@
 .bar {
   overflow: hidden;
-  height: 48px;
+  height: 50px;
   background-color: #f3f3f3;
   width: 6px;
-  border-radius: 4px;
-  border: 1px solid white;
-  transition: border-color .2s;
+  border-radius: 3px;
+  padding: 3px 0;
+  margin: -3px 0;
+  margin: 0 1px;
+  transition: box-shadow .2s;
   display: inline-block;
   position: relative;
   box-sizing: content-box;
 }
 .bar:hover {
-  border-color: #108EE9;
+  box-shadow: 0 0 2px #108EE9;
 }
 .bar > div {
-  border-radius: 4px;
+  border-radius: 3px;
+  padding: 3px 0;
   position: absolute;
   bottom: 0;
   width: 100%;
