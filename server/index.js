@@ -12,8 +12,6 @@ require('./routes/scout')(server)
 require('./routes/settings')(server)
 require('./routes/request')(server)
 require('./routes/test')(server)
-require('./routes/__clear')(server)
-require('./routes/__patrol')(server)
 
 server.get(/\/?.*/, restify.serveStatic({
   directory: path.join(__dirname, '../static'),

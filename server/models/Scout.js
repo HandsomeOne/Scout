@@ -47,8 +47,8 @@ ScoutSchema.methods = {
       this.save()
       return
     }
+
     this.nextPatrol = this.interval - 1
-    this.save()
 
     if (!this.isWorkTime()) {
       this.snapshots.push({
@@ -57,6 +57,8 @@ ScoutSchema.methods = {
       this.save()
       return
     }
+
+    this.save()
 
     let statusCode
     let responseTime
@@ -166,16 +168,24 @@ ScoutSchema.methods = {
   },
 }
 
+let scouts
 ScoutSchema.statics = {
+  refresh() {
+    return this.find().then((result) => {
+      scouts = result
+    })
+  },
+
   patrolAll() {
-    setTimeout(() => {
-      this.find().then((scouts) => {
+    const p = scouts ? Promise.resolve() : this.refresh()
+    p.then(() => {
+      setTimeout(() => {
         scouts.forEach((scout) => {
           scout.patrol()
         })
-      })
-      this.patrolAll()
-    }, 60000)
+        this.patrolAll()
+      }, 60000)
+    })
   },
 }
 

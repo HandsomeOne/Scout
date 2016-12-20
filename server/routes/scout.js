@@ -88,6 +88,7 @@ function extractForm(scout) {
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
     Scout.create(req.body).then((scout) => {
+      Scout.refresh()
       res.status(201)
       res.send(extract(scout))
     })
@@ -100,6 +101,7 @@ module.exports = (server) => {
     Scout.findById(req.params.id)
     .then(scout => scout.update(req.body))
     .then(() => {
+      Scout.refresh()
       res.status(204)
       res.end()
     })
@@ -131,6 +133,7 @@ module.exports = (server) => {
   server.del('/scout/:id', (req, res) => {
     Scout.findByIdAndRemove(req.params.id)
     .then(() => {
+      Scout.refresh()
       res.status(204)
       res.end()
     })
