@@ -146,25 +146,26 @@ ScoutSchema.methods = {
         break
       }
     }
-    const settings = getSettings()
 
-    if (errors === this.tolerance &&
-        this.recipients.length &&
-        settings.alertURL) {
-      fetch(settings.alertURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipients: this.recipients,
-          name: this.name,
-          errMessage: err.message,
-          detail: '',
-        }),
-      })
-      .then(res => res.text())
-      .then(console.log.bind(console))
-      .catch(console.log.bind(console))
-    }
+    getSettings().then((settings) => {
+      if (errors === this.tolerance &&
+          this.recipients.length &&
+          settings.alertURL) {
+        fetch(settings.alertURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipients: this.recipients,
+            name: this.name,
+            errMessage: err.message,
+            detail: '',
+          }),
+        })
+        .then(res => res.text())
+        .then(console.log.bind(console))
+        .catch(console.log.bind(console))
+      }
+    })
   },
 }
 

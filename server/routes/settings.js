@@ -3,7 +3,8 @@ const getSettings = require('../models/getSettings')
 
 module.exports = (server) => {
   server.patch('/settings', (req, res) => {
-    getSettings().update(req.body)
+    getSettings()
+    .then(settings => settings.update(req.body))
     .then(() => {
       res.status(204)
       res.end()
@@ -14,7 +15,7 @@ module.exports = (server) => {
     })
   })
   server.get('/settings', (req, res) => {
-    res.send(getSettings())
+    getSettings().then(settings => res.send(settings))
   })
 
   server.post('/settings/test', (req, res) => {

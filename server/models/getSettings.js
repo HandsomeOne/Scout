@@ -1,17 +1,3 @@
-const mongoose = require('./db')
+const Settings = require('./Settings')
 
-const SettingsSchema = new mongoose.Schema({
-  alertURL: String,
-})
-
-const Settings = mongoose.model('Settings', SettingsSchema)
-let settings = new Settings()
-Settings.findOne().then((doc) => {
-  if (!doc) {
-    settings.save()
-  } else {
-    settings = doc
-  }
-})
-
-module.exports = () => settings
+module.exports = () => Settings.findOne().then(doc => doc || new Settings().save())
