@@ -91,7 +91,7 @@ function patrol(scout) {
   })
   .then((_body) => {
     body = _body
-    new vm.Script(scout.testCase).runInNewContext({
+    scout.script.runInNewContext({
       assert,
       statusCode,
       responseTime,
@@ -145,6 +145,7 @@ function update(result) {
       scout.nextPatrol = Math.floor(Math.random() * scout.interval)
       scout.errors = 0
     }
+    scout.script = new vm.Script(scout.testCase)
   })
 }
 
