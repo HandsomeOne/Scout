@@ -54,10 +54,11 @@ class ScoutModal extends Component {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         })
-        .then(() => {
+        .then(res => res.json())
+        .then((json) => {
           this.props.setScouts(
             this.props.scouts.map(scout => (
-              scout.id === this.props.activeId ? Object.assign(scout, data) : scout
+              scout.id === this.props.activeId ? Object.assign(scout, json) : scout
             )),
           )
           this.props.closeModal()
