@@ -1,4 +1,5 @@
 const Scout = require('../models/Scout')
+const { refresh } = require('../actions/patrol')
 
 function getApdex(scout, duration = 24 * 60 * 60 * 1000, step = 6) {
   let total = 0
@@ -53,9 +54,7 @@ function getHistory(scout) {
 
 function extract(scout) {
   return {
-    /* eslint-disable no-underscore-dangle */
     id: scout._id,
-    /* eslint-enable no-underscore-dangle */
     name: scout.name,
     tags: scout.tags,
     recipients: scout.recipients,
@@ -88,7 +87,7 @@ function extractForm(scout) {
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
     Scout.create(req.body).then((scout) => {
-      Scout.refresh()
+      refresh()
       res.status(201)
       res.send(extract(scout))
     })
@@ -101,7 +100,7 @@ module.exports = (server) => {
     Scout.findById(req.params.id)
     .then(scout => scout.update(req.body))
     .then(() => {
-      Scout.refresh()
+      refresh()
       res.status(204)
       res.end()
     })
@@ -133,7 +132,7 @@ module.exports = (server) => {
   server.del('/scout/:id', (req, res) => {
     Scout.findByIdAndRemove(req.params.id)
     .then(() => {
-      Scout.refresh()
+      refresh()
       res.status(204)
       res.end()
     })
