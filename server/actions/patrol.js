@@ -115,7 +115,6 @@ function patrol(scout) {
         body,
       } },
     }).exec()
-    .catch(console.log.bind(console))
 
     alert(scout, err)
     scout.errors += 1
