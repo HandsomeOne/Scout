@@ -22,9 +22,12 @@ export default class Scouts extends Component {
         this.props.setScouts(scouts.reverse())
         this.setState({ loading: false })
       })
-      setTimeout(get, 60000)
+      this.timeout = setTimeout(get, 60000)
     }
     get()
+  }
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
   delScout(id) {
     fetch(`${origin}/scout/${id}`, {
