@@ -29,7 +29,7 @@ const ScoutSchema = new mongoose.Schema({
     statusCode: Number,
     responseTime: Number,
     errMessage: String,
-    body: String,
+    body: mongoose.Schema.Types.Mixed,
   }],
   workTime: [[[Number]]],
 })
