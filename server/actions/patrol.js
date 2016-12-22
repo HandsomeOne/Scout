@@ -50,9 +50,6 @@ function alert(scout, err) {
             detail: '',
           }),
         })
-        .then(res => res.text())
-        .then(console.log.bind(console))
-        .catch(console.log.bind(console))
       }
     })
   }
@@ -86,10 +83,10 @@ function patrol(scout) {
   })
   .then((res) => {
     statusCode = res.status
-    responseTime = Date.now() - start
     return res[scout.readType]()
   })
   .then((_body) => {
+    responseTime = Date.now() - start
     body = _body
     scout.script.runInNewContext({
       assert,
@@ -109,7 +106,6 @@ function patrol(scout) {
     scout.errors = 0
   })
   .catch((err) => {
-    alert(scout, err)
     Scout.findByIdAndUpdate(scout._id, {
       $push: { snapshots: {
         status: 'Error',
@@ -119,6 +115,9 @@ function patrol(scout) {
         body,
       } },
     }).exec()
+    .catch(console.log.bind(console))
+
+    alert(scout, err)
     scout.errors += 1
   })
 }
