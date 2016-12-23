@@ -1,22 +1,19 @@
 const Scout = require('../models/Scout')
 const { refresh } = require('../actions/patrol')
+const cut = require('../utils/cut')
 
-function getApdex(scout, duration = 24 * 60 * 60 * 1000) {
+function getApdex(scout, since = 24 * 60) {
   let total = 0
   let satisfied = 0
   let tolerating = 0
   const { snapshots, ApdexTarget } = scout
-  for (let i = snapshots.length - 1; i >= 0; i -= 1) {
-    const { responseTime, timestamp } = snapshots[i]
-    if (timestamp.getTime() <= Date.now() - duration) {
-      break
-    }
+  for (const snapshot of cut(snapshots, since)) {
+    const { responseTime } = snapshot
     if (responseTime) {
       total += 1
-      const ratio = responseTime / ApdexTarget
-      if (ratio <= 1) {
+      if (responseTime <= ApdexTarget) {
         satisfied += 1
-      } else if (ratio <= 4) {
+      } else if (responseTime <= ApdexTarget * 4) {
         tolerating += 1
       }
     }

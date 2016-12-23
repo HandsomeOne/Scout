@@ -9,6 +9,12 @@
     "react/no-danger": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "no-restricted-syntax": [
+      "error",
+      "WithStatement",
+      "ForInStatement",
+      "LabeledStatement"
+    ]
   }
 }
