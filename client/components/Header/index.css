@@ -1,0 +1,8 @@
+.menu {
+  background-color: #323232;
+  overflow: auto;
+}
+.menu :global(.ant-menu) {
+  background-color: transparent;
+  float: right;
+}

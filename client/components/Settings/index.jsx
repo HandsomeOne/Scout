@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import { origin } from '../../config'
 import $ from './style.css'
 import AlertURLDetail from './AlertURLDetail'
-import PrefixedURL from '../MainSection/forms/custom/PrefixedURL'
+import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
 
 class Settings extends Component {
   constructor(props) {

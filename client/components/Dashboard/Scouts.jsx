@@ -64,7 +64,7 @@ export default class Scouts extends Component {
       {
         title: '名称',
         dataIndex: 'name',
-        render: (name, record) =>
+        render: (name, record) => (
           <div>
             <div>
               <span className={$.name}>{name}</span>
@@ -76,10 +76,11 @@ export default class Scouts extends Component {
               className={$.longtext}
               style={{ color: C.grey, maxWidth: 400 }}
             >{record.URL}</div>
-          </div>,
+          </div>
+        ),
       },
       {
-        title: '历史',
+        title: '过去 24 小时的健康度',
         dataIndex: 'history',
         width: 300,
         render: history => <HistoryChart {...history} />,
@@ -102,34 +103,38 @@ export default class Scouts extends Component {
         width: 50,
         fixed: 'right',
         className: $.icon,
-        render: (text, record) =>
+        render: (text, record) => (
           <a onClick={() => this.props.openModal(record.id)}>
             <Icon type="edit" />
-          </a>,
+          </a>
+        ),
       },
       {
         dataIndex: 'delete',
         width: 50,
         fixed: 'right',
         className: $.icon,
-        render: (text, record) =>
+        render: (text, record) => (
           <Popconfirm
             title="确定删除？"
             placement="topRight"
             onConfirm={() => this.delScout(record.id)}
           >
             <a><Icon type="delete" style={{ color: C.red }} /></a>
-          </Popconfirm>,
+          </Popconfirm>
+        ),
       },
     ]
     return (<Table
       className={$.scout}
       columns={columns}
-      footer={() => <div style={{ textAlign: 'right' }}>
-        <Button type="primary" size="large" onClick={() => { this.props.openModal() }}>
-          <Icon type="plus" />添加
-        </Button>
-      </div>}
+      footer={() => (
+        <div style={{ textAlign: 'right' }}>
+          <Button type="primary" size="large" onClick={() => { this.props.openModal() }}>
+            <Icon type="plus" />添加
+          </Button>
+        </div>
+      )}
       rowKey="id"
       dataSource={this.props.scouts}
       loading={this.state.loading}
