@@ -9,6 +9,7 @@ server.use(restify.CORS({
 }))
 
 require('./routes/scout')(server)
+require('./routes/stats')(server)
 require('./routes/settings')(server)
 require('./routes/request')(server)
 require('./routes/test')(server)
