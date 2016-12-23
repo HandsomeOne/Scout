@@ -59,6 +59,7 @@ function extract(scout) {
     tags: scout.tags,
     recipients: scout.recipients,
     URL: scout.URL,
+    ApdexTarget: scout.ApdexTarget,
     status: scout.snapshots.length ?
       scout.snapshots[scout.snapshots.length - 1].status :
       null,

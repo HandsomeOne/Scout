@@ -5,6 +5,7 @@ import { interpolateWarm } from 'd3'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
 import HistoryChart from './HistoryChart'
+import formatTinyTime from '../../utils/formatTinyTime'
 
 export default class Scouts extends Component {
   constructor(props) {
@@ -87,12 +88,14 @@ export default class Scouts extends Component {
         title: 'Apdex',
         dataIndex: 'Apdex',
         className: $.Apdex,
-        render: (Apdex) => {
-          if (typeof Apdex !== 'number') {
-            return <span style={{ color: C.grey }}>NaN</span>
-          }
-          return <span style={{ color: interpolateWarm(Apdex) }}>{Apdex.toFixed(2)}</span>
-        },
+        render: (Apdex, record) => (
+          <div>
+            { typeof Apdex !== 'number' ?
+              <span style={{ color: C.grey }}>NaN</span> :
+              <span style={{ color: interpolateWarm(Apdex) }}>{Apdex.toFixed(2)}</span> }
+            <div className={$.ApdexTarget}>~{formatTinyTime(record.ApdexTarget)}</div>
+          </div>
+        ),
       },
       {
         dataIndex: 'edit',

@@ -2,10 +2,7 @@ import React, { PropTypes as T } from 'react'
 import { Form, InputNumber, Row, Col, Slider } from 'antd'
 import HTTPHeaders from './custom/HTTPHeaders'
 import WorkTime from './custom/WorkTime'
-
-function formatTime(time) {
-  return time < 1000 ? `${time}ms` : `${time / 1000}s`
-}
+import formatTinyTime from '../../../utils/formatTinyTime'
 
 export default function AdvancedForm(props) {
   const { scout = Object.create(null), form } = props
@@ -34,7 +31,7 @@ export default function AdvancedForm(props) {
         <Item label="Apdex 目标响应时间">
           {getFieldDecorator('ApdexTarget', {
             initialValue: scout.ApdexTarget || 500,
-          })(<Slider min={100} max={2000} step={100} tipFormatter={formatTime} />)}
+          })(<Slider min={100} max={2000} step={100} tipFormatter={formatTinyTime} />)}
         </Item>
       </Col>
     </Row>
