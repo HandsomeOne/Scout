@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import { interpolateWarm } from 'd3'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
-import HistoryChart from './HistoryChart'
+import HealthChart from './HealthChart'
 import formatTinyTime from '../../utils/formatTinyTime'
 
 export default class Scouts extends Component {
@@ -81,9 +81,11 @@ export default class Scouts extends Component {
       },
       {
         title: '过去 24 小时的健康度',
-        dataIndex: 'history',
+        dataIndex: 'statuses',
         width: 300,
-        render: history => <HistoryChart {...history} />,
+        render: (statuses, record) => (
+          <HealthChart now={record.now} statuses={statuses} />
+        ),
       },
       {
         title: 'Apdex',

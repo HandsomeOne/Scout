@@ -1,40 +1,16 @@
 const Scout = require('../models/Scout')
 const { refresh } = require('../actions/patrol')
 const cut = require('../utils/cut')
+const cutAndFold = require('../utils/cutAndFold')
 const getStats = require('../utils/getStats')
-
-function getHistory(scout) {
-  const { snapshots } = scout
-  const data = []
-  for (let i = 0; i < 24; i += 1) {
-    data[i] = {}
-  }
-
-  function getHourDiff(a, b) {
-    const msPerHour = 1000 * 60 * 60
-    return Math.floor(a / msPerHour) - Math.floor(b / msPerHour)
-  }
-
-  const latest = Date.now()
-  if (snapshots.length) {
-    for (let i = scout.snapshots.length - 1; i >= 0; i -= 1) {
-      const { status, timestamp } = scout.snapshots[i]
-      const diff = getHourDiff(latest, timestamp)
-      if (diff >= 24) {
-        break
-      }
-      data[diff][status] = (data[diff][status] || 0) + 1
-    }
-  }
-  return {
-    latest,
-    data,
-  }
-}
+const { getStatuses } = require('../utils/getFoldedStats')
 
 function extract(scout) {
-  const snapshots = cut(scout.snapshots, 24 * 60)
-  const stats = getStats(snapshots, scout.ApdexTarget)
+  const { snapshots } = scout
+  const now = Date.now()
+  const cutSnapshots = cut(snapshots, 24 * 60, now)
+  const foldedSnapshots = cutAndFold(snapshots, 24 * 60, 60, now)
+
   return {
     id: scout._id,
     name: scout.name,
@@ -42,13 +18,15 @@ function extract(scout) {
     recipients: scout.recipients,
     URL: scout.URL,
     ApdexTarget: scout.ApdexTarget,
-    status: scout.snapshots.length ?
-      scout.snapshots[scout.snapshots.length - 1].status :
+    status: snapshots.length ?
+      snapshots[snapshots.length - 1].status :
       null,
-    Apdex: stats.Apdex,
-    history: getHistory(scout),
+    now,
+    Apdex: getStats(cutSnapshots, scout.ApdexTarget).Apdex,
+    statuses: getStatuses(foldedSnapshots),
   }
 }
+
 function extractForm(scout) {
   return {
     name: scout.name,

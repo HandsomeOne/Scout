@@ -1,25 +1,24 @@
 import React, { PropTypes as T } from 'react'
 import { interpolateWarm } from 'd3'
 import { Tooltip } from 'antd'
-import $ from './HistoryChart.css'
+import $ from './HealthChart.css'
 
 function getColor(x) {
   return interpolateWarm(x)
 }
 
-export default function HistoryChart({ latest, data }) {
+export default function HealthChart({ now, statuses }) {
   return (
     <div>{
-      data.map(({ OK = 0, Error = 0, Idle = 0 }, i) => {
-        const paddedIdle = (OK + Error + Idle === 0) ? 1 : Idle
-        const total = OK + Error + paddedIdle
-        const health = (OK + Idle) / total
+      statuses.map(({ OK = 0, Error = 0, Idle = 0 }, i) => {
+        const total = OK + Error + Idle
+        const health = total ? (OK + Idle) / total : 0
 
-        const time = new Date(latest - (i * 60 * 60 * 1000))
+        const time = new Date(now - ((i + 0.5) * 60 * 60 * 1000))
         const tip = (
           <div>
-            {time.getDate() === new Date().getDate() || '昨日'}
-            {time.getHours()}点
+            {time.getDate() === new Date().getDate() || '昨日 '}
+            {time.getHours()}:{time.getMinutes()} 左右
             <br />OK: {OK}
             <br />Error: {Error}
             <br />Idle: {Idle}
@@ -27,7 +26,7 @@ export default function HistoryChart({ latest, data }) {
         )
         return (
           <Tooltip title={tip} key={i}>
-            <div className={$.bar} style={{ opacity: 1 - (paddedIdle / total) }}>
+            <div className={$.bar} style={{ opacity: total ? 1 - (Idle / total) : 0 }}>
               <div>
                 <div
                   style={{
@@ -44,9 +43,9 @@ export default function HistoryChart({ latest, data }) {
   )
 }
 
-HistoryChart.propTypes = {
-  latest: T.number,
-  data: T.arrayOf(T.shape({
+HealthChart.propTypes = {
+  now: T.number,
+  statuses: T.arrayOf(T.shape({
     OK: T.number,
     Error: T.number,
     Idle: T.number,
