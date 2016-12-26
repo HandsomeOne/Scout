@@ -5,6 +5,8 @@ module.exports = function* cut(snapshots, since, now = Date.now()) {
     if (now - timestamp >= milliseconds) {
       return
     }
-    yield snapshots[i]
+    if (now >= timestamp) {
+      yield snapshots[i]
+    }
   }
 }
