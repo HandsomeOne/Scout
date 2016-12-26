@@ -1,6 +1,6 @@
 import React, { PropTypes as T } from 'react'
 import { interpolateWarm } from 'd3'
-import { Tooltip } from 'antd'
+import { Tooltip, Badge } from 'antd'
 import $ from './HealthChart.css'
 
 function getColor(x) {
@@ -19,9 +19,10 @@ export default function HealthChart({ now, statuses }) {
           <div>
             {time.getDate() === new Date().getDate() || '昨日 '}
             {time.getHours()}:{time.getMinutes()} 左右
-            <br />OK: {OK}
-            <br />Error: {Error}
-            <br />Idle: {Idle}
+
+            <br /><Badge status="success" />{OK}
+            <br /><Badge status="error" />{Error}
+            <br /><Badge status="default" />{Idle}
           </div>
         )
         return (
