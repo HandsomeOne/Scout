@@ -2,6 +2,7 @@ const restify = require('restify')
 const path = require('path')
 
 const server = restify.createServer()
+server.use(restify.queryParser())
 server.use(restify.bodyParser())
 server.use(restify.gzipResponse())
 server.use(restify.CORS({

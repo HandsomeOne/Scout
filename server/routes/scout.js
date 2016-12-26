@@ -1,25 +1,8 @@
 const Scout = require('../models/Scout')
 const { refresh } = require('../actions/patrol')
 const cut = require('../utils/cut')
+const getStats = require('../utils/getStats')
 
-function getApdex(scout, since = 24 * 60) {
-  let total = 0
-  let satisfied = 0
-  let tolerating = 0
-  const { snapshots, ApdexTarget } = scout
-  for (const snapshot of cut(snapshots, since)) {
-    const { responseTime } = snapshot
-    if (responseTime) {
-      total += 1
-      if (responseTime <= ApdexTarget) {
-        satisfied += 1
-      } else if (responseTime <= ApdexTarget * 4) {
-        tolerating += 1
-      }
-    }
-  }
-  return (satisfied + (tolerating / 2)) / total
-}
 function getHistory(scout) {
   const { snapshots } = scout
   const data = []
@@ -50,6 +33,8 @@ function getHistory(scout) {
 }
 
 function extract(scout) {
+  const snapshots = cut(scout.snapshots, 24 * 60)
+  const stats = getStats(snapshots, scout.ApdexTarget)
   return {
     id: scout._id,
     name: scout.name,
@@ -60,7 +45,7 @@ function extract(scout) {
     status: scout.snapshots.length ?
       scout.snapshots[scout.snapshots.length - 1].status :
       null,
-    Apdex: getApdex(scout),
+    Apdex: stats.Apdex,
     history: getHistory(scout),
   }
 }
