@@ -106,14 +106,17 @@ function patrol(scout) {
     scout.errors = 0
   })
   .catch((err) => {
+    const snapshot = {
+      status: 'Error',
+      statusCode,
+      responseTime,
+      errMessage: err.message,
+    }
+    if (scout.errors === 0) {
+      snapshot.body = body
+    }
     Scout.findByIdAndUpdate(scout._id, {
-      $push: { snapshots: {
-        status: 'Error',
-        statusCode,
-        responseTime,
-        errMessage: err.message,
-        body,
-      } },
+      $push: { snapshots: snapshot },
     }).exec()
 
     alert(scout, err)
