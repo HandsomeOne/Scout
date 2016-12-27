@@ -2,11 +2,11 @@
   display: flex;
   font-size: 16px;
   text-align: center;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #e9e9e9;
   & > div {
     flex: 1;
     padding: 8px;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #e9e9e9;
     & > :last-child {
       border-right-width: 0;
     }

@@ -7,15 +7,16 @@ const postcss = require('postcss')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const plugins = [
-  new ExtractTextPlugin('bundle.css'),
   new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
   new webpack.EnvironmentPlugin(['NODE_ENV']),
 ]
 
 if (process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false },
-  }))
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false },
+    }),
+    new ExtractTextPlugin('bundle.css'))
 } else {
   plugins.push(new webpack.HotModuleReplacementPlugin())
 }
@@ -46,7 +47,9 @@ module.exports = {
       {
         test: /\.css$/,
         include: /client/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader'),
+        loader: process.env.NODE_ENV === 'production' ?
+          ExtractTextPlugin.extract('style-loader', 'css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader') :
+          'style-loader!css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader',
       },
       {
         test: /\.css$/,
