@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
 
-export default class MainSection extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,22 +36,18 @@ export default class MainSection extends Component {
           openModal={this.openModal}
         />
         <ScoutModal
-          allTags={
-            [...this.state.scouts.reduce((tags, scout) => {
-              scout.tags.forEach((tag) => {
-                tags.add(tag)
-              })
-              return tags
-            }, new Set())]
-          }
-          allRecipients={
-            [...this.state.scouts.reduce((recipients, scout) => {
-              scout.recipients.forEach((tag) => {
-                recipients.add(tag)
-              })
-              return recipients
-            }, new Set())]
-          }
+          allTags={[...this.state.scouts.reduce((tags, scout) => {
+            scout.tags.forEach((tag) => {
+              tags.add(tag)
+            })
+            return tags
+          }, new Set())]}
+          allRecipients={[...this.state.scouts.reduce((recipients, scout) => {
+            scout.recipients.forEach((tag) => {
+              recipients.add(tag)
+            })
+            return recipients
+          }, new Set())]}
           scouts={this.state.scouts}
           setScouts={this.setScouts}
           activeId={this.state.activeId}

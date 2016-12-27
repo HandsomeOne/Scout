@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
+import { Link } from 'react-router'
 import fetch from 'isomorphic-fetch'
 import { interpolateWarm } from 'd3'
 import $ from './style.css'
@@ -67,7 +68,7 @@ export default class Scouts extends Component {
         render: (name, record) => (
           <div>
             <div>
-              <span className={$.name}>{name}</span>
+              <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
               {record.tags.map(tag => (
                 <Tag key={tag} style={{ color: '#989898' }}>{tag}</Tag>
               ))}
