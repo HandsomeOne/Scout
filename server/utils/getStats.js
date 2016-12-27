@@ -1,6 +1,5 @@
 module.exports = function getStats(snapshots, ApdexTarget) {
   const stats = {
-    ApdexTarget,
     OK: 0,
     Error: 0,
     Idle: 0,

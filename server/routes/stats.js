@@ -13,7 +13,11 @@ module.exports = (server) => {
     Scout.findById(req.params.id).lean()
     .then((scout) => {
       const snapshots = cut(scout.snapshots, req.params.since)
-      res.send(getStats(snapshots, scout.ApdexTarget))
+      const stats = getStats(snapshots, scout.ApdexTarget)
+      stats.ApdexTarget = scout.ApdexTarget
+      stats.name = scout.name
+      stats.URL = scout.URL
+      res.send(stats)
     })
   })
 }
