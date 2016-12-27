@@ -1,8 +1,13 @@
 .overview {
   display: flex;
-  font-size: 16px;
+  font-size: 24px;
   text-align: center;
   border-bottom: 1px solid #e9e9e9;
+  h6 {
+    font-weight: normal;
+    color: #989898;
+    font-size: 12px;
+  }
   & > div {
     flex: 1;
     padding: 8px;
