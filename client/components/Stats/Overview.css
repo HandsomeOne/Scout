@@ -3,13 +3,12 @@
   font-size: 16px;
   text-align: center;
   border-bottom: 1px solid #ccc;
-}
-
-.overview > div {
-  flex: 1;
-  padding: 8px;
-  border-right: 1px solid #ccc;
-}
-.overview > div:last-child {
-  border-right-width: 0;
+  & > div {
+    flex: 1;
+    padding: 8px;
+    border-right: 1px solid #ccc;
+    & > :last-child {
+      border-right-width: 0;
+    }
+  }
 }

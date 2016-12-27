@@ -10,13 +10,12 @@
   line-height: 32px;
   display: flex;
   justify-content: space-between;
-}
-
-.flexline a {
-  width: 80px;
-  text-align: right;
-  flex-basis: 80px;
-  flex-shrink: 0;
+  a {
+    width: 80px;
+    text-align: right;
+    flex-basis: 80px;
+    flex-shrink: 0;
+  }
 }
 
 .pre {
@@ -43,28 +42,25 @@
   border-radius: 4px;
   background-color: #323232;
   color: #ccc;
+  li {
+    min-height: 19px;
+    padding: 0 16px;
+    border-bottom: 1px solid #666;
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
 }
 
-.console li {
-  min-height: 19px;
-  padding: 0 16px;
-  border-bottom: 1px solid #666;
-}
-
-.console li pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-:global .CodeMirror {
+:global(.CodeMirror) {
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   line-height: 1.5;
   height: 150px !important;
-}
-
-:global .CodeMirror pre {
-  font-variant-ligatures: normal;
+  pre {
+    font-variant-ligatures: normal;
+  }
 }
 
 .fadein {

@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Form, Icon, Button, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin } from '../../config'
-import $ from './style.css'
+import $ from './index.css'
 import AlertURLDetail from './AlertURLDetail'
 import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
 

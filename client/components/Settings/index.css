@@ -1,0 +1,23 @@
+.settings {
+  max-width: 720px;
+  margin: 80px auto 0;
+}
+
+.alerturldetail {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 32px;
+  p {
+    margin-bottom: 16px;
+  }
+  .row {
+    flex-wrap: nowrap;
+    button {
+      margin-left: 16px;
+    }
+  }
+  .body {
+    white-space: pre;
+  }
+}

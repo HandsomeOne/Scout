@@ -31,16 +31,15 @@
   display: flex;
   justify-content: space-between;
   padding: 0 13px;
-}
-
-.lines > div {
-  height: 100%;
-  width: 1px;
-  background-color: #ececec;
+  & > div {
+    height: 100%;
+    width: 1px;
+    background-color: #ececec;
+  }
 }
 
 .time {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   display: relative;
   z-index: 99;

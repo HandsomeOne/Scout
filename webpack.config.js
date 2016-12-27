@@ -2,8 +2,12 @@
 const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const path = require('path')
+const precss = require('precss')
+const postcss = require('postcss')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const plugins = [
+  new ExtractTextPlugin('bundle.css'),
   new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
   new webpack.EnvironmentPlugin(['NODE_ENV']),
 ]
@@ -42,11 +46,7 @@ module.exports = {
       {
         test: /\.css$/,
         include: /client/,
-        loaders: [
-          'style-loader',
-          'css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]',
-          'postcss-loader',
-        ],
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader'),
       },
       {
         test: /\.css$/,
@@ -63,7 +63,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
-  postcss: [autoprefixer()],
+  postcss: [postcss(precss), autoprefixer()],
   plugins,
   devServer: {
     contentBase: './client',

@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Row, Select, Button } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin, colors as C } from '../../config'
-import $ from './style.css'
+import $ from './index.css'
 
 export default class Settings extends Component {
   constructor(props) {
