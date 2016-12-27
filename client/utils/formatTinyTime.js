@@ -1,4 +1,3 @@
-export default (milliseconds) => {
-  const rounded = Math.round(milliseconds)
-  return milliseconds < 1000 ? `${rounded}ms` : `${rounded / 1000}s`
-}
+export default ms => (
+  ms < 1000 ? `${ms.toFixed(0)}ms` : `${(ms / 1000).toFixed(2)}s`
+)
