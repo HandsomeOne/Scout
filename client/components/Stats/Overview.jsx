@@ -44,7 +44,7 @@ export default class Overview extends Component {
             {formatTinyTime(meanResponseTime)}
           </div>
           <div>
-            <h6>错误数</h6>
+            <h6>异常数</h6>
             {Error}
           </div>
         </div>
