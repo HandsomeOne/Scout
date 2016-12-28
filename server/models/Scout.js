@@ -24,7 +24,7 @@ const ScoutSchema = new mongoose.Schema({
 
   snapshots: [{
     _id: false,
-    timestamp: { type: Date, default: Date.now },
+    time: { type: Date, default: Date.now },
     status: { type: 'String', enum: ['OK', 'Error', 'Idle'], required: true },
     statusCode: Number,
     responseTime: Number,

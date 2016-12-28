@@ -7,7 +7,7 @@ module.exports = function cutAndFold(snapshots, since = 1440, interval = 60, now
     result[i] = []
   }
   for (const snapshot of cutSnapshots) {
-    const diff = (now - snapshot.timestamp) / 1000 / 60
+    const diff = (now - snapshot.time) / 1000 / 60
     result[Math.floor(diff / interval)].push(snapshot)
   }
   return result
