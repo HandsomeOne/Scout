@@ -2,6 +2,7 @@ const Scout = require('../models/Scout')
 const cut = require('../utils/cut')
 const cutAndFold = require('../utils/cutAndFold')
 const getStats = require('../utils/getStats')
+const getErrorLog = require('../utils/getErrorLog')
 const { getStatuses } = require('../utils/getFoldedStats')
 
 module.exports = (server) => {
@@ -29,6 +30,14 @@ module.exports = (server) => {
       const snapshots = cutAndFold(scout.snapshots, req.params.since, req.params.interval)
       const statuses = getStatuses(snapshots)
       res.send({ now, statuses })
+    })
+  })
+  server.get('/stats/errorlog/:id', (req, res) => {
+    Scout.findById(req.params.id).lean()
+    .then((scout) => {
+      const snapshots = cut(scout.snapshots, req.params.since)
+      const stats = getErrorLog(snapshots)
+      res.send(stats)
     })
   })
 }

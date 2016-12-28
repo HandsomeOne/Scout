@@ -9,6 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const plugins = [
   new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
   new webpack.EnvironmentPlugin(['NODE_ENV']),
+  new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /en/),
 ]
 
 if (process.env.NODE_ENV === 'production') {
@@ -29,6 +30,7 @@ module.exports = {
     vendor: [
       'd3',
       'isomorphic-fetch',
+      'moment',
       'react',
       'react-dom',
       'react-router',
