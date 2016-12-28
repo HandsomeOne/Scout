@@ -21,9 +21,9 @@ export default class Overview extends Component {
       URL,
       Apdex,
       ApdexTarget,
-      OK,
-      Error,
-      Idle,
+      OK = 0,
+      Error = 0,
+      Idle = 0,
       meanResponseTime,
     } = this.state
     const total = OK + Error + Idle

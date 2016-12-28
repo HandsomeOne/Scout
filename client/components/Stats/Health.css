@@ -1,0 +1,11 @@
+.bar:hover {
+  fill: brown;
+}
+
+.axisx path {
+  display: none;
+}
+
+.health {
+  text-align: center;
+}

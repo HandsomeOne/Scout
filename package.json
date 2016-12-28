@@ -17,6 +17,7 @@
     "codemirror": "^5.20.2",
     "d3": "^4.4.0",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.17.1",
     "mongoose": "^4.6.8",
     "react": "15.3.2",
     "react-codemirror": "^0.3.0",
