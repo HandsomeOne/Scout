@@ -9,6 +9,7 @@ module.exports = function getErrorLog(snapshots) {
       period.log = {
         statusCode: prev.statusCode,
         responseTime: prev.responseTime,
+        errName: prev.errName,
         errMessage: prev.errMessage,
         body: prev.body,
       }

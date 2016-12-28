@@ -28,6 +28,7 @@ const ScoutSchema = new mongoose.Schema({
     status: { type: 'String', enum: ['OK', 'Error', 'Idle'], required: true },
     statusCode: Number,
     responseTime: Number,
+    errName: String,
     errMessage: String,
     body: mongoose.Schema.Types.Mixed,
   }],

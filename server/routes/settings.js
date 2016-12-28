@@ -29,6 +29,7 @@ module.exports = (server) => {
         body: JSON.stringify({
           recipients: req.params.recipients,
           name: '测试接口',
+          errName: 'Error',
           errMessage: '这是一条测试错误信息',
           detail: '',
         }),

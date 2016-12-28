@@ -46,6 +46,7 @@ function alert(scout, err) {
           body: JSON.stringify({
             recipients: scout.recipients,
             name: scout.name,
+            errName: err.name,
             errMessage: err.message,
             detail: '',
           }),
@@ -110,6 +111,7 @@ function patrol(scout) {
       status: 'Error',
       statusCode,
       responseTime,
+      errName: err.name,
       errMessage: err.message,
     }
     if (scout.errors === 0) {

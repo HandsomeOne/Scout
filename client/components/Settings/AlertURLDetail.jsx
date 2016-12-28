@@ -72,6 +72,7 @@ export default class Settings extends Component {
           {JSON.stringify({
             recipients: this.state.recipients,
             name: '测试接口',
+            errName: 'Error',
             errMessage: '这是一条测试错误信息',
             detail: '',
           })}
