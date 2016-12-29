@@ -29,47 +29,47 @@ export default class ErrorLog extends Component {
     return (
       <div className={$.errorlog}>
         <h2>错误日志</h2>
-        <div className={$.timeline}>
-          <Timeline>{
-            logs.length ?
-            logs.map(log => (
-              <Item color="red" key={log.start}>
-                { log.num === 1 ? (
-                  <p>在 {moment(log.start).format('MM/DD HH:mm')}，
-                  捕获了 1 次异常。
-                  异常详情为：</p>
-                ) : (
-                  <p>从 {moment(log.start).format('MM/DD HH:mm')} 至 {moment(log.end).format('MM/DD HH:mm')}，
-                  连续捕获了 {log.num} 次异常。
-                  其中首次异常详情为：</p>
-                ) }
-                <table className={$.detail}><tbody>
-                  <tr>
-                    <td>HTTP 状态码</td>
-                    <td>{log.firstLog.statusCode}</td>
-                  </tr>
-                  <tr>
-                    <td>响应时间</td>
-                    <td>{formatTinyTime(log.firstLog.responseTime)}</td>
-                  </tr>
-                  <tr>
-                    <td>接口返回主体</td>
-                    <td>{JSON.stringify(log.firstLog.body)}</td>
-                  </tr>
-                  <tr>
-                    <td>错误类型</td>
-                    <td>{log.firstLog.errName}</td>
-                  </tr>
-                  <tr>
-                    <td>错误描述</td>
-                    <td>{log.firstLog.errMessage}</td>
-                  </tr>
-                </tbody></table>
-              </Item>
-            )) :
-            <Item>一切正常</Item>
-          }</Timeline>
-        </div>
+        <div className={$.timeline}>{
+          logs.length ? (
+            <Timeline>{
+              logs.map(log => (
+                <Item color="red" key={log.start}>
+                  { log.num === 1 ? (
+                    <p>在 {moment(log.start).format('MM/DD HH:mm')}，
+                    捕获了 1 次异常。
+                    异常详情为：</p>
+                  ) : (
+                    <p>从 {moment(log.start).format('MM/DD HH:mm')} 至 {moment(log.end).format('MM/DD HH:mm')}，
+                    连续捕获了 {log.num} 次异常。
+                    其中首次异常详情为：</p>
+                  ) }
+                  <table className={$.detail}><tbody>
+                    <tr>
+                      <td>HTTP 状态码</td>
+                      <td>{log.firstLog.statusCode}</td>
+                    </tr>
+                    <tr>
+                      <td>响应时间</td>
+                      <td>{formatTinyTime(log.firstLog.responseTime)}</td>
+                    </tr>
+                    <tr>
+                      <td>接口返回主体</td>
+                      <td>{log.firstLog.body}</td>
+                    </tr>
+                    <tr>
+                      <td>错误类型</td>
+                      <td>{log.firstLog.errName}</td>
+                    </tr>
+                    <tr>
+                      <td>错误描述</td>
+                      <td>{log.firstLog.errMessage}</td>
+                    </tr>
+                  </tbody></table>
+                </Item>
+              ))
+            }</Timeline>
+          ) : <p className={$.ok}>一切正常</p>
+        }</div>
       </div>
     )
   }

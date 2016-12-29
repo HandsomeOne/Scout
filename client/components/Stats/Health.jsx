@@ -20,7 +20,7 @@ export default class Health extends Component {
       })
 
       const svg = d3.select(this.svg)
-      const margin = { top: 20, right: 20, bottom: 30, left: 20 }
+      const margin = { top: 20, right: 20, bottom: 110, left: 20 }
       const width = +svg.attr('width') - margin.left - margin.right
       const height = +svg.attr('height') - margin.top - margin.bottom
 
@@ -55,7 +55,7 @@ export default class Health extends Component {
         <svg
           ref={(s) => { this.svg = s }}
           width="960"
-          height="320"
+          height="400"
         />
       </div>
     )

@@ -82,16 +82,17 @@ function patrol(scout) {
   })
   .then((res) => {
     statusCode = res.status
-    return res[scout.readType]()
+    return res.text()
   })
   .then((_body) => {
+    const isJSON = scout.readType === 'json'
     responseTime = Date.now() - start
     body = _body
     scout.script.runInNewContext({
       assert,
       statusCode,
       responseTime,
-      body,
+      body: isJSON ? JSON.parse(body) : body,
       console: { log() { } },
     })
 

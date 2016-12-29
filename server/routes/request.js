@@ -19,16 +19,19 @@ module.exports = (server) => {
       statusCode = _res.status
       statusText = _res.statusText
       responseTime = Date.now() - start
-      return _res[req.params.readType]()
+      return _res.text()
     })
-    .then((body) => {
+    .then((_body) => {
+      const isJSON = req.params.readType === 'json'
+      const body = isJSON ? JSON.parse(_body) : _body
+      const beautifiedBody = isJSON ? inspect(body, { colors: true }) : body
       res.send({
         status: 'OK',
         statusCode,
         statusText,
         responseTime,
         body,
-        beautifiedBody: typeof body === 'string' ? body : inspect(body, { colors: true }),
+        beautifiedBody,
       })
     })
     .catch((err) => {
