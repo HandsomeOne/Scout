@@ -47,7 +47,7 @@ function extractForm(scout) {
 
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
-    Scout.create(req.body).lean().then((scout) => {
+    Scout.create(req.body).then((scout) => {
       Squad.add(scout)
       res.status(201)
       res.send(extract(scout))
