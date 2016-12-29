@@ -44,18 +44,18 @@ export default class ErrorLog extends Component {
                     其中首次异常详情为：</p>
                   ) }
                   <table className={$.detail}><tbody>
-                    <tr>
+                    { log.firstLog.statusCode && <tr>
                       <td>HTTP 状态码</td>
                       <td>{log.firstLog.statusCode}</td>
-                    </tr>
-                    <tr>
+                    </tr> }
+                    { log.firstLog.responseTime && <tr>
                       <td>响应时间</td>
                       <td>{formatTinyTime(log.firstLog.responseTime)}</td>
-                    </tr>
-                    <tr>
+                    </tr> }
+                    { log.firstLog.body && <tr>
                       <td>接口返回主体</td>
                       <td>{log.firstLog.body}</td>
-                    </tr>
+                    </tr> }
                     <tr>
                       <td>错误类型</td>
                       <td>{log.firstLog.errName}</td>
