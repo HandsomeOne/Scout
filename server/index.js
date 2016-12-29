@@ -22,4 +22,4 @@ server.get(/\/?.*/, restify.serveStatic({
 
 server.listen(3001)
 
-require('./actions/patrol').patrolAll()
+require('./models/Squad').patrolAll()

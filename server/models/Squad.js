@@ -2,8 +2,8 @@ const fetch = require('isomorphic-fetch')
 const vm = require('vm')
 const assert = require('assert')
 const arrayToHeaders = require('../utils/arrayToHeaders')
-const getSettings = require('../models/getSettings')
-const Scout = require('../models/Scout')
+const getSettings = require('./getSettings')
+const Scout = require('./Scout')
 
 function isNowInWork(workTime) {
   if (!(workTime && workTime.length)) {
@@ -36,6 +36,9 @@ function isNowInWork(workTime) {
   })
 }
 
+const timeouts = {}
+const scoutMap = {}
+
 function alert(scout, err) {
   if (scout.errors === scout.tolerance && scout.recipients.length) {
     getSettings().then((settings) => {
@@ -57,12 +60,7 @@ function alert(scout, err) {
 }
 
 function patrol(scout) {
-  if (scout.nextPatrol > 0) {
-    scout.nextPatrol -= 1
-    return
-  }
-
-  scout.nextPatrol = scout.interval - 1
+  timeouts[scout._id] = setTimeout(scout.patrol, scout.interval * 60 * 1000)
 
   if (!isNowInWork(scout.workTime)) {
     Scout.findByIdAndUpdate(scout._id, {
@@ -126,47 +124,28 @@ function patrol(scout) {
   })
 }
 
-let scouts
-function update(result) {
-  const legacy = {}
-  if (scouts) {
-    scouts.forEach((scout) => {
-      legacy[scout._id] = {
-        nextPatrolRatio: scout.nextPatrol / scout.interval,
-        errors: scout.errors,
-      }
-    })
-  }
-
-  scouts = result
-  scouts.forEach((scout) => {
-    if (legacy[scout._id]) {
-      const { nextPatrolRatio, errors } = legacy[scout._id]
-      scout.nextPatrol = Math.floor(nextPatrolRatio * scout.interval)
-      scout.errors = errors
-    } else {
-      scout.nextPatrol = Math.floor(Math.random() * scout.interval)
-      scout.errors = 0
-    }
-    scout.script = new vm.Script(scout.testCase)
-  })
+function add(scout) {
+  scout.patrol = patrol.bind(null, scout)
+  scout.script = new vm.Script(scout.testCase)
+  timeouts[scout._id] = setTimeout(scout.patrol, Math.random() * scout.interval * 60 * 1000)
+  scoutMap[scout._id] = scout
 }
 
-function refresh() {
-  return Scout.find().select({
+exports.add = add
+exports.remove = function remove(id) {
+  clearTimeout(timeouts[id])
+  delete timeouts[id]
+  delete scoutMap[id]
+}
+exports.update = function update(id, patch) {
+  const scout = scoutMap[id]
+  Object.assign(scout, patch)
+  scout.script = new vm.Script(scout.testCase)
+}
+
+exports.patrolAll = function patrolAll() {
+  Scout.find().select({
     snapshots: 0,
-  }).lean().then(update)
+  }).lean()
+  .then((scouts) => { scouts.forEach(add) })
 }
-
-function patrolAll() {
-  const p = scouts ? Promise.resolve() : refresh()
-  p.then(() => {
-    setTimeout(() => {
-      scouts.forEach(patrol)
-      patrolAll()
-    }, 60000)
-  })
-}
-
-exports.refresh = refresh
-exports.patrolAll = patrolAll

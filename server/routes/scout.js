@@ -1,5 +1,5 @@
 const Scout = require('../models/Scout')
-const { refresh } = require('../actions/patrol')
+const Squad = require('../models/Squad')
 const cut = require('../utils/cut')
 const cutAndFold = require('../utils/cutAndFold')
 const getStats = require('../utils/getStats')
@@ -48,7 +48,7 @@ function extractForm(scout) {
 module.exports = (server) => {
   server.post('/scout', (req, res) => {
     Scout.create(req.body).lean().then((scout) => {
-      refresh()
+      Squad.add(scout)
       res.status(201)
       res.send(extract(scout))
     })
@@ -60,7 +60,7 @@ module.exports = (server) => {
   server.patch('/scout/:id', (req, res) => {
     Scout.findByIdAndUpdate(req.params.id, req.body).lean()
     .then((scout) => {
-      refresh()
+      Squad.update(req.params.id, req.body)
       res.send(extract(Object.assign(scout, req.body)))
     })
     .catch((err) => {
@@ -91,7 +91,7 @@ module.exports = (server) => {
   server.del('/scout/:id', (req, res) => {
     Scout.findByIdAndRemove(req.params.id)
     .then(() => {
-      refresh()
+      Squad.remove(req.params.id)
       res.status(204)
       res.end()
     })
