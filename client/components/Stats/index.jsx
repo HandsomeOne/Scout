@@ -1,6 +1,7 @@
 import React, { Component, PropTypes as T } from 'react'
 import Overview from './Overview'
 import Health from './Health'
+import ErrorLog from './ErrorLog'
 
 class Stats extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Stats extends Component {
       <div>
         <Overview id={this.props.params.id} since={this.state.since} />
         <Health id={this.props.params.id} since={this.state.since} interval={this.state.interval} />
+        <ErrorLog id={this.props.params.id} since={this.state.since} />
       </div>
     )
   }

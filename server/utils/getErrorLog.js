@@ -6,7 +6,7 @@ module.exports = function getErrorLog(snapshots) {
   function handleOK() {
     if (period.num) {
       period.start = prev.time.valueOf()
-      period.log = {
+      period.firstLog = {
         statusCode: prev.statusCode,
         responseTime: prev.responseTime,
         errName: prev.errName,
