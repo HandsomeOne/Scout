@@ -9,7 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const plugins = [
   new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
   new webpack.EnvironmentPlugin(['NODE_ENV']),
-  new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /en/),
+  new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /zh-cn/),
 ]
 
 if (process.env.NODE_ENV === 'production') {

@@ -5,6 +5,10 @@ import { origin } from '../../config'
 import $ from './ErrorLog.css'
 import formatTinyTime from '../../utils/formatTinyTime'
 
+function f(time) {
+  return moment(time).calendar().replace(/\s*(\d+)\s*/g, (match, $1) => ` ${$1} `)
+}
+
 export default class ErrorLog extends Component {
   constructor(props) {
     super(props)
@@ -13,6 +17,7 @@ export default class ErrorLog extends Component {
     }
   }
   componentDidMount() {
+    moment.locale('zh-cn')
     const { id, since } = this.props
     fetch(`${origin}/stats/errorlog/${id}?since=${since}`)
     .then(res => res.json())
@@ -35,15 +40,22 @@ export default class ErrorLog extends Component {
               logs.map(log => (
                 <Item color="red" key={log.start}>
                   { log.num === 1 ? (
-                    <p>在 {moment(log.start).format('MM/DD HH:mm')}，
-                    捕获了 1 次异常。
-                    异常详情为：</p>
+                    <p>在{f(log.start)}，
+                    捕获了 1 次异常。详情为：</p>
                   ) : (
-                    <p>从 {moment(log.start).format('MM/DD HH:mm')} 至 {moment(log.end).format('MM/DD HH:mm')}，
+                    <p>从{f(log.start)}至{f(log.end)}，
                     连续捕获了 {log.num} 次异常。
                     其中首次异常详情为：</p>
                   ) }
                   <table className={$.detail}><tbody>
+                    <tr>
+                      <td>错误类型</td>
+                      <td>{log.firstLog.errName}</td>
+                    </tr>
+                    <tr>
+                      <td>错误描述</td>
+                      <td>{log.firstLog.errMessage}</td>
+                    </tr>
                     { log.firstLog.statusCode && <tr>
                       <td>HTTP 状态码</td>
                       <td>{log.firstLog.statusCode}</td>
@@ -56,14 +68,6 @@ export default class ErrorLog extends Component {
                       <td>接口返回主体</td>
                       <td>{log.firstLog.body}</td>
                     </tr> }
-                    <tr>
-                      <td>错误类型</td>
-                      <td>{log.firstLog.errName}</td>
-                    </tr>
-                    <tr>
-                      <td>错误描述</td>
-                      <td>{log.firstLog.errMessage}</td>
-                    </tr>
                   </tbody></table>
                 </Item>
               ))
