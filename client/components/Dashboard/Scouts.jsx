@@ -2,11 +2,11 @@ import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import { Link } from 'react-router'
 import fetch from 'isomorphic-fetch'
-import { interpolateWarm } from 'd3'
 import $ from './style.css'
 import { origin, colors as C } from '../../config'
 import HealthChart from './HealthChart'
 import formatTinyTime from '../../utils/formatTinyTime'
+import healthToColor from '../../utils/healthToColor'
 
 export default class Scouts extends Component {
   constructor(props) {
@@ -96,7 +96,7 @@ export default class Scouts extends Component {
           <div>
             { typeof Apdex !== 'number' ?
               <span style={{ color: C.grey }}>NaN</span> :
-              <span style={{ color: interpolateWarm(Apdex) }}>{Apdex.toFixed(2)}</span> }
+              <span style={{ color: healthToColor(Apdex) }}>{Apdex.toFixed(2)}</span> }
             <div className={$.ApdexTarget}>~{formatTinyTime(record.ApdexTarget)}</div>
           </div>
         ),

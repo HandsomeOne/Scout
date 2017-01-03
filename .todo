@@ -12,4 +12,11 @@ properties: {
 
 settings/default values
 
-json parse error
+stats: {
+  apdex: time, bar
+  responseTime: dot? frequency?
+  statusCode: as apex
+  errName: as apex
+}
+
+almost done -> redux

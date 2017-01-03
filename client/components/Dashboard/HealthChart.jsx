@@ -1,8 +1,8 @@
 import React, { PropTypes as T } from 'react'
-import { interpolateWarm } from 'd3'
 import { Tooltip, Badge } from 'antd'
 import moment from 'moment'
 import $ from './HealthChart.css'
+import healthToColor from '../../utils/healthToColor'
 
 export default function HealthChart({ now, statuses }) {
   return (
@@ -28,7 +28,7 @@ export default function HealthChart({ now, statuses }) {
               <div>
                 <div
                   style={{
-                    backgroundColor: interpolateWarm(health),
+                    backgroundColor: healthToColor(health),
                     height: `${health * 100}%`,
                   }}
                 />

@@ -3,6 +3,7 @@ import * as d3 from 'd3'
 import moment from 'moment'
 import { origin } from '../../config'
 import $ from './Health.css'
+import healthToColor from '../../utils/healthToColor'
 
 export default class Health extends Component {
   componentDidMount() {
@@ -14,8 +15,9 @@ export default class Health extends Component {
         const total = OK + Error + Idle
         const time = moment(json.now - ((i + 0.5) * interval * 60 * 1000))
         return {
-          time: `${time.isSame(moment(), 'day') ? ' ' : '昨日 '}${time.format('HH:mm')}`,
+          time,
           health: total ? (OK + Idle) / total : 0,
+          idleRatio: total ? Idle / total : 1,
         }
       })
 
@@ -23,30 +25,29 @@ export default class Health extends Component {
       const margin = { top: 20, right: 20, bottom: 110, left: 20 }
       const width = +svg.attr('width') - margin.left - margin.right
       const height = +svg.attr('height') - margin.top - margin.bottom
+      const barWidth = width / 54
 
-      const x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
-      const y = d3.scaleLinear().rangeRound([height, 0])
+      const x = d3.scaleTime().domain([moment(json.now), moment(json.now).subtract(since, 'minutes')]).range([0, width])
+      const y = d3.scaleLinear().domain([0, 1]).range([0, height])
 
-      const g = svg.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`)
-
-      x.domain(data.map(d => d.time))
-      y.domain([0, d3.max(data, d => d.health)])
+      const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
 
       g.append('g')
       .attr('class', $.axisx)
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x))
 
-      g.selectAll(`.${$.bar}`)
+      g.selectAll('rect')
       .data(data)
       .enter().append('rect')
       .attr('class', $.bar)
-      .attr('fill', d => d3.interpolateWarm(d.health))
+      .attr('fill', d => healthToColor(d.health))
+      .attr('opacity', d => 1 - d.idleRatio)
       .attr('x', d => x(d.time))
-      .attr('y', d => y(d.health))
-      .attr('width', x.bandwidth())
-      .attr('height', d => height - y(d.health))
+      .attr('y', d => height - y(d.health) - barWidth)
+      .attr('width', barWidth)
+      .attr('rx', barWidth / 2)
+      .attr('height', d => y(d.health) + barWidth)
     })
   }
   render() {
