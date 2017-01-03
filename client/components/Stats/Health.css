@@ -20,6 +20,10 @@
   min-height: 34px;
 }
 
+.default {
+  color: #989898;
+}
+
 .arrow {
   left: 50%;
   margin-left: -5px;

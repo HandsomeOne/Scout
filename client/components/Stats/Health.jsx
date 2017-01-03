@@ -43,16 +43,16 @@ export default class Health extends Component {
       const tip = d3Tip()
       .attr('class', $.tip)
       .offset([-10, 0])
-      .html(d => `${d.time.isSame(moment(), 'day') ? '' : '昨日 '}
+      .html(d => `
+        ${d.time.isSame(moment(), 'day') ? '' : '昨日 '}
         ${d.time.format('HH:mm')} 左右
-        <br />OK：${d.OK}
-        ${
-          d.totalErrors ?
-          Object.keys(d.Errors).map(e => `<br />${e}：${d.Errors[e]}`).join('') :
-          '<br />Error：0'
-        }
-        <br />Idle：${d.Idle}
-        <div class="${$.arrow}">`)
+        ${d.OK + d.totalErrors + d.Idle ?
+         `${d.OK ? `<p>OK：${d.OK}</p>` : ''}
+          ${Object.keys(d.Errors).map(e => `<p>${e}：${d.Errors[e]}</p>`).join('')}
+          ${d.Idle ? `<p>Idle：${d.Idle}</p>` : ''}` :
+          `<p class="${$.default}">无数据</p>`}
+        <div class="${$.arrow}">
+      `)
 
       svg.call(tip)
 

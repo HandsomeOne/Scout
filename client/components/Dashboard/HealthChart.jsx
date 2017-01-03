@@ -19,16 +19,16 @@ export default function HealthChart({ now, statuses }) {
           <div>
             {time.isSame(moment(), 'day') || '昨日 '}
             {time.format('HH:mm')} 左右
-
-            <br /><Badge status="success" />OK：{OK}
             {
-              totalErrors ?
-              errors.map(e => (
-                <span key={e}><br /><Badge status="error" />{e}：{Errors[e]}</span>
-              )) :
-              <span><br /><Badge status="error" />Error：0</span>
+              total ? [
+                !!OK && <p><Badge status="success" />OK：{OK}</p>,
+                !!totalErrors && errors.map(e => (
+                  <p key={e}><Badge status="error" />{e}：{Errors[e]}</p>
+                )),
+                !!Idle && <p><Badge status="default" />Idle：{Idle}</p>,
+              ] :
+              <p className={$.default}>无数据</p>
             }
-            <br /><Badge status="default" />Idle：{Idle}
           </div>
         )
         return (
