@@ -12,12 +12,16 @@ export default class Health extends Component {
     fetch(`${origin}/stats/health/${id}?since=${since}&interval=${interval}`)
     .then(res => res.json())
     .then((json) => {
-      const data = json.statuses.map(({ OK = 0, Error = 0, Idle = 0 }, i) => {
-        const total = OK + Error + Idle
+      const data = json.statuses.map(({ OK = 0, Errors = {}, Idle = 0 }, i) => {
+        const errors = Object.keys(Errors)
+        const totalErrors = errors.reduce((p, e) => p + Errors[e], 0)
+
+        const total = OK + totalErrors + Idle
         const time = moment(json.now - ((i + 0.5) * interval * 60 * 1000))
         return {
           OK,
-          Error,
+          totalErrors,
+          Errors,
           Idle,
           time: moment(time),
           health: total ? (OK + Idle) / total : 0,
@@ -42,7 +46,11 @@ export default class Health extends Component {
       .html(d => `${d.time.isSame(moment(), 'day') ? '' : '昨日 '}
         ${d.time.format('HH:mm')} 左右
         <br />OK：${d.OK}
-        <br />Error：${d.Error}
+        ${
+          d.totalErrors ?
+          Object.keys(d.Errors).map(e => `<br />${e}：${d.Errors[e]}`).join('') :
+          '<br />Error：0'
+        }
         <br />Idle：${d.Idle}
         <div class="${$.arrow}">`)
 
