@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import * as d3 from 'd3'
+import d3Tip from 'd3-tip'
 import moment from 'moment'
 import { origin } from '../../config'
 import $ from './Health.css'
@@ -15,22 +16,37 @@ export default class Health extends Component {
         const total = OK + Error + Idle
         const time = moment(json.now - ((i + 0.5) * interval * 60 * 1000))
         return {
-          time,
+          OK,
+          Error,
+          Idle,
+          time: moment(time),
           health: total ? (OK + Idle) / total : 0,
           idleRatio: total ? Idle / total : 1,
         }
       })
 
       const svg = d3.select(this.svg)
-      const margin = { top: 20, right: 20, bottom: 110, left: 20 }
+      const margin = { top: 20, right: 20, bottom: 30, left: 20 }
       const width = +svg.attr('width') - margin.left - margin.right
       const height = +svg.attr('height') - margin.top - margin.bottom
-      const barWidth = width / 54
+      const barWidth = width / data.length / 1.1
 
       const x = d3.scaleTime().domain([moment(json.now), moment(json.now).subtract(since, 'minutes')]).range([0, width])
-      const y = d3.scaleLinear().domain([0, 1]).range([0, height])
+      const y = d3.scaleLinear().domain([0, 1]).range([0, height - barWidth])
 
       const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
+
+      const tip = d3Tip()
+      .attr('class', $.tip)
+      .offset([-10, 0])
+      .html(d => `${d.time.isSame(moment(), 'day') ? '' : '昨日 '}
+        ${d.time.format('HH:mm')} 左右
+        <br />OK：${d.OK}
+        <br />Error：${d.Error}
+        <br />Idle：${d.Idle}
+        <div class="${$.arrow}">`)
+
+      svg.call(tip)
 
       g.append('g')
       .attr('class', $.axisx)
@@ -48,6 +64,8 @@ export default class Health extends Component {
       .attr('width', barWidth)
       .attr('rx', barWidth / 2)
       .attr('height', d => y(d.health) + barWidth)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
     })
   }
   render() {
@@ -56,7 +74,7 @@ export default class Health extends Component {
         <svg
           ref={(s) => { this.svg = s }}
           width="960"
-          height="400"
+          height="320"
         />
       </div>
     )

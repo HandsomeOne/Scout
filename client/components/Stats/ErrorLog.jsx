@@ -4,10 +4,7 @@ import { Timeline } from 'antd'
 import { origin } from '../../config'
 import $ from './ErrorLog.css'
 import formatTinyTime from '../../utils/formatTinyTime'
-
-function f(time) {
-  return moment(time).calendar().replace(/\s*(\d+)\s*/g, (match, $1) => ` ${$1} `)
-}
+import calendar from '../../utils/calendar'
 
 export default class ErrorLog extends Component {
   constructor(props) {
@@ -40,10 +37,10 @@ export default class ErrorLog extends Component {
               logs.map(log => (
                 <Item color="red" key={log.start}>
                   { log.num === 1 ? (
-                    <p>在{f(log.start)}，
+                    <p>在{calendar(log.start)}，
                     捕获了 1 次异常。详情为：</p>
                   ) : (
-                    <p>从{f(log.start)}至{f(log.end)}，
+                    <p>从{calendar(log.start)}至{calendar(log.end)}，
                     连续捕获了 {log.num} 次异常。
                     其中首次异常详情为：</p>
                   ) }

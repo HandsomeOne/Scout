@@ -1501,6 +1501,12 @@ d3-timer@1, d3-timer@1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/d3-timer/download/d3-timer-1.0.3.tgz#7a308a10c8524778e6b32d1d6c1c329209ae0ebf"
 
+d3-tip@^0.7.1:
+  version "0.7.1"
+  resolved "http://registry.npm.taobao.org/d3-tip/download/d3-tip-0.7.1.tgz#78cbf554f67b720a70e3b0f191e14cffe68cdd79"
+  dependencies:
+    d3 "^4.2"
+
 d3-transition@1, d3-transition@1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/d3-transition/download/d3-transition-1.0.3.tgz#91dc986bddb30973639320a85db72ce4ab1a27bb"
@@ -1526,7 +1532,7 @@ d3-zoom@1.1.0:
     d3-selection "1"
     d3-transition "1"
 
-d3@^4.4.0:
+d3@^4.2, d3@^4.4.0:
   version "4.4.0"
   resolved "http://registry.npm.taobao.org/d3/download/d3-4.4.0.tgz#aec4ad0fd574304a909b012fac4783fbbcf9f096"
   dependencies:
