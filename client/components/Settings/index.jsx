@@ -45,29 +45,33 @@ class Settings extends Component {
     const settings = this.state
     const { getFieldValue } = this.props.form
 
-    return (<Form className={$.settings}>
-      <Item label="用于接收报警的 URL" style={{ marginBottom: 0 }}>
-        {getFieldDecorator('alertURL', {
-          initialValue: settings.alertURL,
-        })(<PrefixedURL />)}
-      </Item>
+    return (
+      <Form className={$.settings}>
+        <div>
+          <Item label="用于接收报警的 URL" style={{ marginBottom: 0 }}>
+            {getFieldDecorator('alertURL', {
+              initialValue: settings.alertURL,
+            })(<PrefixedURL />)}
+          </Item>
 
-      <p style={{ height: 32, lineHeight: '32px' }}>
-        <a style={{ float: 'right' }} onClick={this.toggleAlertURLDetail}>
-          <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} /> 详情
-        </a>
-      </p>
+          <p style={{ height: 32, lineHeight: '32px' }}>
+            <a style={{ float: 'right' }} onClick={this.toggleAlertURLDetail}>
+              <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} /> 详情
+            </a>
+          </p>
 
-      <div style={{ display: this.state.isAlertURLDetailVisible ? 'block' : 'none' }}>
-        <AlertURLDetail alertURL={getFieldValue('alertURL')} />
-      </div>
+          <div style={{ display: this.state.isAlertURLDetailVisible ? 'block' : 'none' }}>
+            <AlertURLDetail alertURL={getFieldValue('alertURL')} />
+          </div>
 
-      <Button
-        onClick={this.submit}
-        size="large"
-        type="primary"
-      >更新</Button>
-    </Form>)
+          <Button
+            onClick={this.submit}
+            size="large"
+            type="primary"
+          >更新</Button>
+        </div>
+      </Form>
+    )
   }
 }
 

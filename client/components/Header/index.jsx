@@ -1,12 +1,11 @@
 import React from 'react'
-import { Menu, Icon } from 'antd'
+import { Layout, Menu, Icon } from 'antd'
 import { Link } from 'react-router'
-import $ from './index.css'
 
 export default function (props) {
   return (
-    <div className={$.menu}>
-      <Menu {...props} mode="horizontal" theme="dark">
+    <Layout.Header>
+      <Menu {...props} mode="horizontal" theme="dark" style={{ lineHeight: '64px' }}>
         <Menu.Item key="dashboard">
           <Link to="/"><Icon type="bars" />仪表盘</Link>
         </Menu.Item>
@@ -14,6 +13,6 @@ export default function (props) {
           <Link to="/settings"><Icon type="setting" />设置</Link>
         </Menu.Item>
       </Menu>
-    </div>
+    </Layout.Header>
   )
 }

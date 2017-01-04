@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
 import union from '../../utils/union'
+import $ from './index.css'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class Dashboard extends Component {
   render() {
     const { scouts } = this.state
     return (
-      <div>
+      <div className={$.dashboard}>
         <Scouts
           scouts={this.state.scouts}
           setScouts={this.setScouts}

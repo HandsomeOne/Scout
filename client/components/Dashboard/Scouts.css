@@ -22,10 +22,17 @@ td.Apdex {
   color: #999;
 }
 
-.name {
-  margin-right: 8px;
-  font-weight: bold;
-  font-size: 1.25em;
+.firstline {
+  display: flex;
+  align-items: center;
+  .name {
+    margin-right: 8px;
+    font-size: 1.25em;
+  }
+  :global(.ant-tag) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .longtext {

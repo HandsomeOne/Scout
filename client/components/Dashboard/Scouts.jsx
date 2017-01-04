@@ -2,11 +2,11 @@ import React, { Component, PropTypes as T } from 'react'
 import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
 import { Link } from 'react-router'
 import fetch from 'isomorphic-fetch'
-import $ from './style.css'
 import { origin, colors as C } from '../../config'
 import HealthChart from './HealthChart'
 import formatTinyTime from '../../utils/formatTinyTime'
 import healthToColor from '../../utils/healthToColor'
+import $ from './Scouts.css'
 
 export default class Scouts extends Component {
   constructor(props) {
@@ -67,7 +67,7 @@ export default class Scouts extends Component {
         dataIndex: 'name',
         render: (name, record) => (
           <div>
-            <div>
+            <div className={$.firstline}>
               <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
               {record.tags.map(tag => (
                 <Tag key={tag} style={{ color: '#999' }}>{tag}</Tag>
