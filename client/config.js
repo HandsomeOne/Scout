@@ -4,13 +4,12 @@ export const origin =
     'http://localhost:3001'
 
 export const colors = {
-  grey: '#CCCCCC',
-  red: '#E01515',
-  green: '#60BE29',
-  blue: '#108EE9',
-  magenta: '#E9259E',
-  orange: '#FF6100',
-  purple: '#5E30B5',
-  yellow: '#FAC450',
-  cyan: '#01BAD2',
+  red: '#f04134',
+  green: '#00a854',
+  blue: '#108ee9',
+  pink: '#f5317f',
+  orange: '#f56a00',
+  purple: '#7265e6',
+  yellow: '#ffbf00',
+  cyan: '#00a2ae',
 }

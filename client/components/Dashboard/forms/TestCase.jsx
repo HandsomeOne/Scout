@@ -53,12 +53,12 @@ export default class TestCase extends Component {
             style={{
               float: 'left',
               color: [
-                C.grey,
+                C.cyan,
                 C.blue,
                 C.green,
                 C.yellow,
                 C.red,
-                C.magenta,
+                C.pink,
               ][Math.floor(result.statusCode / 100)],
             }}
           >{result.statusCode} {result.statusText}</span>

@@ -57,7 +57,7 @@ export default class Scouts extends Component {
           />,
           Idle: <Icon
             type="pause"
-            style={{ color: C.grey }}
+            style={{ color: '#999' }}
           />,
         }[status || 'Idle']),
         className: $.icon,
@@ -70,12 +70,12 @@ export default class Scouts extends Component {
             <div>
               <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
               {record.tags.map(tag => (
-                <Tag key={tag} style={{ color: '#989898' }}>{tag}</Tag>
+                <Tag key={tag} style={{ color: '#999' }}>{tag}</Tag>
               ))}
             </div>
             <div
               className={$.longtext}
-              style={{ color: C.grey, maxWidth: 400 }}
+              style={{ color: '#999', maxWidth: 400 }}
             >{record.URL}</div>
           </div>
         ),
@@ -95,7 +95,7 @@ export default class Scouts extends Component {
         render: (Apdex, record) => (
           <div>
             { typeof Apdex !== 'number' ?
-              <span style={{ color: C.grey }}>NaN</span> :
+              <span style={{ color: '#999' }}>NaN</span> :
               <span style={{ color: healthToColor(Apdex) }}>{Apdex.toFixed(2)}</span> }
             <div className={$.ApdexTarget}>~{formatTinyTime(record.ApdexTarget)}</div>
           </div>

@@ -23,12 +23,12 @@ export default class Settings extends Component {
           <span
             style={{
               color: [
-                C.grey,
+                C.cyan,
                 C.blue,
                 C.green,
                 C.yellow,
                 C.red,
-                C.magenta,
+                C.pink,
               ][Math.floor(result.statusCode / 100)],
             }}
           >

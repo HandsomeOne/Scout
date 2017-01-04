@@ -21,11 +21,11 @@ export default function HealthChart({ now, statuses }) {
             {time.format('HH:mm')} 左右
             {
               total ? [
-                !!OK && <p><Badge status="success" />OK：{OK}</p>,
+                !!OK && <p key="OK"><Badge status="success" />OK：{OK}</p>,
                 !!totalErrors && errors.map(e => (
                   <p key={e}><Badge status="error" />{e}：{Errors[e]}</p>
                 )),
-                !!Idle && <p><Badge status="default" />Idle：{Idle}</p>,
+                !!Idle && <p key="Idle"><Badge status="default" />Idle：{Idle}</p>,
               ] :
               <p className={$.default}>无数据</p>
             }
