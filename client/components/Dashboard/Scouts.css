@@ -4,7 +4,7 @@
   tr {
     animation: new 1s ease-out;
   }
-  td:first-child, th:first-child {
+  .summary {
     padding-left: 20px;
   }
   :global(.ant-pagination) {

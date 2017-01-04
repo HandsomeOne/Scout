@@ -8,12 +8,14 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      selectable: false,
       isModalOpen: false,
       scouts: [],
     }
     this.setScouts = this.setScouts.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
+    this.select = this.select.bind(this)
   }
   setScouts(scouts) {
     this.setState({ scouts })
@@ -29,16 +31,27 @@ export default class Dashboard extends Component {
       isModalOpen: false,
     })
   }
+  select() {
+    this.setState({ selectable: true })
+  }
   render() {
     const { scouts } = this.state
     return (
       <div>
-        <div style={{ textAlign: 'right', padding: 16 }}>
-          <Button type="primary" size="large" onClick={() => { this.openModal() }}>
-            <Icon type="plus" />添加
-          </Button>
+        <div style={{ padding: '16px 0' }}>
+          <Button
+            size="large"
+            onClick={this.select}
+          ><Icon type="select" />多选</Button>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => { this.openModal() }}
+            style={{ float: 'right' }}
+          ><Icon type="plus" />添加</Button>
         </div>
         <Scouts
+          selectable={this.state.selectable}
           scouts={this.state.scouts}
           setScouts={this.setScouts}
           openModal={this.openModal}

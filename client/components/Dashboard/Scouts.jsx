@@ -45,6 +45,7 @@ export default class Scouts extends Component {
       {
         title: '名称',
         dataIndex: 'name',
+        className: this.props.selectable ? '' : $.summary,
         render: (name, record) => (
           <div>
             <div className={$.firstline}>
@@ -134,6 +135,9 @@ export default class Scouts extends Component {
       rowKey="id"
       dataSource={this.props.scouts}
       loading={this.state.loading}
+      rowSelection={this.props.selectable ? {
+        type: 'checkbox',
+      } : null}
     />)
   }
 }
@@ -144,4 +148,5 @@ Scouts.propTypes = {
   })),
   setScouts: T.func,
   openModal: T.func,
+  selectable: T.bool,
 }
