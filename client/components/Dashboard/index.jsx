@@ -34,7 +34,7 @@ export default class Dashboard extends Component {
     return (
       <div>
         <div style={{ textAlign: 'right', padding: 16 }}>
-          <Button type="primary" size="large" onClick={this.openModal}>
+          <Button type="primary" size="large" onClick={() => { this.openModal() }}>
             <Icon type="plus" />添加
           </Button>
         </div>

@@ -4,6 +4,7 @@ import React from 'react'
 import Dashboard from './containers/Dashboard'
 import Settings from './containers/Settings'
 import Stats from './containers/Stats'
+import './index.css'
 
 ReactDOM.render(
   <Router history={hashHistory}>

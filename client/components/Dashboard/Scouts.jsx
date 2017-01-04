@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Table, Button, Icon, Popconfirm, Tag, message } from 'antd'
+import { Table, Icon, Popconfirm, Tag, message } from 'antd'
 import { Link } from 'react-router'
 import fetch from 'isomorphic-fetch'
 import { origin, colors as C } from '../../config'

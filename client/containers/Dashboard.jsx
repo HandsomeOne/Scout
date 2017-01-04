@@ -9,7 +9,7 @@ const { Content } = Layout
 export default () => (
   <Layout>
     <Header selectedKeys={['dashboard']} />
-    <Content className={$.content}>
+    <Content className={$.dashboard}>
       <Dashboard />
     </Content>
     <Footer />

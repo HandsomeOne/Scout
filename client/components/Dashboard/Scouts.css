@@ -1,4 +1,6 @@
 .scout {
+  background-color: #fff;
+  border-radius: 6px;
   tr {
     animation: new 1s ease-out;
   }
