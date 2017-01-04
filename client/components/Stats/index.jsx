@@ -2,7 +2,6 @@ import React, { Component, PropTypes as T } from 'react'
 import Overview from './Overview'
 import Health from './Health'
 import ErrorLog from './ErrorLog'
-import $ from './index.css'
 
 class Stats extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class Stats extends Component {
   }
   render() {
     return (
-      <div className={$.stats}>
+      <div>
         <Overview id={this.props.params.id} since={this.state.since} />
         <Health id={this.props.params.id} since={this.state.since} interval={this.state.interval} />
         <ErrorLog id={this.props.params.id} since={this.state.since} />

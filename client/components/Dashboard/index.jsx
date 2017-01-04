@@ -3,7 +3,6 @@ import { Button, Icon } from 'antd'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
 import union from '../../utils/union'
-import $ from './index.css'
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -33,7 +32,7 @@ export default class Dashboard extends Component {
   render() {
     const { scouts } = this.state
     return (
-      <div className={$.dashboard}>
+      <div>
         <div style={{ textAlign: 'right', padding: 16 }}>
           <Button type="primary" size="large" onClick={this.openModal}>
             <Icon type="plus" />添加

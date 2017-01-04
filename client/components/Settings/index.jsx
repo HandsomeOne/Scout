@@ -46,8 +46,8 @@ class Settings extends Component {
     const { getFieldValue } = this.props.form
 
     return (
-      <Form className={$.settings}>
-        <div>
+      <div>
+        <Form className={$.settings}>
           <Item label="用于接收报警的 URL" style={{ marginBottom: 0 }}>
             {getFieldDecorator('alertURL', {
               initialValue: settings.alertURL,
@@ -69,8 +69,8 @@ class Settings extends Component {
             size="large"
             type="primary"
           >更新</Button>
-        </div>
-      </Form>
+        </Form>
+      </div>
     )
   }
 }
