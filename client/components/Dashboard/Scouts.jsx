@@ -43,6 +43,24 @@ export default class Scouts extends Component {
   render() {
     const columns = [
       {
+        title: '名称',
+        dataIndex: 'name',
+        render: (name, record) => (
+          <div>
+            <div className={$.firstline}>
+              <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
+              {record.tags.map(tag => (
+                <Tag key={tag} style={{ color: '#999' }}>{tag}</Tag>
+              ))}
+            </div>
+            <div
+              className={$.longtext}
+              style={{ color: '#999', maxWidth: 400 }}
+            >{record.URL}</div>
+          </div>
+        ),
+      },
+      {
         title: '　',
         dataIndex: 'status',
         width: 50,
@@ -61,24 +79,6 @@ export default class Scouts extends Component {
           />,
         }[status || 'Idle']),
         className: $.icon,
-      },
-      {
-        title: '名称',
-        dataIndex: 'name',
-        render: (name, record) => (
-          <div>
-            <div className={$.firstline}>
-              <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
-              {record.tags.map(tag => (
-                <Tag key={tag} style={{ color: '#999' }}>{tag}</Tag>
-              ))}
-            </div>
-            <div
-              className={$.longtext}
-              style={{ color: '#999', maxWidth: 400 }}
-            >{record.URL}</div>
-          </div>
-        ),
       },
       {
         title: '过去 24 小时的健康度',
@@ -131,13 +131,6 @@ export default class Scouts extends Component {
     return (<Table
       className={$.scout}
       columns={columns}
-      footer={() => (
-        <div style={{ textAlign: 'right' }}>
-          <Button type="primary" size="large" onClick={() => { this.props.openModal() }}>
-            <Icon type="plus" />添加
-          </Button>
-        </div>
-      )}
       rowKey="id"
       dataSource={this.props.scouts}
       loading={this.state.loading}

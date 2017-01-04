@@ -1,5 +1,13 @@
-.scout tr {
-  animation: new 1s ease-out;
+.scout {
+  tr {
+    animation: new 1s ease-out;
+  }
+  td:first-child, th:first-child {
+    padding-left: 20px;
+  }
+  :global(.ant-pagination) {
+    margin-right: 16px;
+  }
 }
 @keyframes new {
   from { background: #faf4b2 }
@@ -24,10 +32,10 @@ td.Apdex {
 
 .firstline {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   .name {
     margin-right: 8px;
-    font-size: 1.25em;
+    font-size: 16px;
   }
   :global(.ant-tag) {
     margin-top: 0;

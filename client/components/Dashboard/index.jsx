@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Button, Icon } from 'antd'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
 import union from '../../utils/union'
@@ -33,6 +34,11 @@ export default class Dashboard extends Component {
     const { scouts } = this.state
     return (
       <div className={$.dashboard}>
+        <div style={{ textAlign: 'right', padding: 16 }}>
+          <Button type="primary" size="large" onClick={this.openModal}>
+            <Icon type="plus" />添加
+          </Button>
+        </div>
         <Scouts
           scouts={this.state.scouts}
           setScouts={this.setScouts}
