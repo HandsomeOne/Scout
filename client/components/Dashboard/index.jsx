@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Button, Icon } from 'antd'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
+import Controls from './Controls'
 import union from '../../utils/union'
 
 export default class Dashboard extends Component {
@@ -16,6 +16,7 @@ export default class Dashboard extends Component {
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.select = this.select.bind(this)
+    this.unselect = this.unselect.bind(this)
   }
   setScouts(scouts) {
     this.setState({ scouts })
@@ -34,22 +35,19 @@ export default class Dashboard extends Component {
   select() {
     this.setState({ selectable: true })
   }
+  unselect() {
+    this.setState({ selectable: false })
+  }
   render() {
     const { scouts } = this.state
     return (
       <div>
-        <div style={{ padding: '16px 0' }}>
-          <Button
-            size="large"
-            onClick={this.select}
-          ><Icon type="select" />多选</Button>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => { this.openModal() }}
-            style={{ float: 'right' }}
-          ><Icon type="plus" />添加</Button>
-        </div>
+        <Controls
+          selectable={this.state.selectable}
+          openModal={this.openModal}
+          select={this.select}
+          unselect={this.unselect}
+        />
         <Scouts
           selectable={this.state.selectable}
           scouts={this.state.scouts}
