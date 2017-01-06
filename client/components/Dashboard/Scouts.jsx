@@ -137,6 +137,8 @@ export default class Scouts extends Component {
       loading={this.state.loading}
       rowSelection={this.props.selectable ? {
         type: 'checkbox',
+        selectedRowKeys: this.props.selectedScouts,
+        onChange: this.props.onSelectChange,
       } : null}
     />)
   }
@@ -146,6 +148,8 @@ Scouts.propTypes = {
   scouts: T.arrayOf(T.shape({
     id: T.string,
   })),
+  selectedScouts: T.arrayOf(T.string),
+  onSelectChange: T.func,
   setScouts: T.func,
   openModal: T.func,
   selectable: T.bool,

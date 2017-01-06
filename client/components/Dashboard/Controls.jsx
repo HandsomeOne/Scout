@@ -17,6 +17,7 @@ export default function Controls(props) {
           size="large"
           onClick={props.unselect}
         ><Icon type="close" />取消</Button>
+        <span>已选择 {props.selectedScouts.length} 项</span>
       </div>
       <Button
         type="primary"
@@ -29,6 +30,7 @@ export default function Controls(props) {
 }
 
 Controls.propTypes = {
+  selectedScouts: T.arrayOf(T.string),
   selectable: T.bool,
   openModal: T.func,
   select: T.func,

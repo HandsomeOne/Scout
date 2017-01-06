@@ -11,12 +11,17 @@ export default class Dashboard extends Component {
       selectable: false,
       isModalOpen: false,
       scouts: [],
+      selectedScouts: [],
     }
+    this.onSelectChange = this.onSelectChange.bind(this)
     this.setScouts = this.setScouts.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.select = this.select.bind(this)
     this.unselect = this.unselect.bind(this)
+  }
+  onSelectChange(selectedScouts) {
+    this.setState({ selectedScouts })
   }
   setScouts(scouts) {
     this.setState({ scouts })
@@ -44,13 +49,16 @@ export default class Dashboard extends Component {
       <div>
         <Controls
           selectable={this.state.selectable}
+          selectedScouts={this.state.selectedScouts}
           openModal={this.openModal}
           select={this.select}
           unselect={this.unselect}
         />
         <Scouts
           selectable={this.state.selectable}
+          selectedScouts={this.state.selectedScouts}
           scouts={this.state.scouts}
+          onSelectChange={this.onSelectChange}
           setScouts={this.setScouts}
           openModal={this.openModal}
         />

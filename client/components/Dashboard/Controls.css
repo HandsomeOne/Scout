@@ -1,3 +1,5 @@
-.multi button {
-  margin-left: 16px;
+.multi {
+  & > * {
+    margin-left: 16px;
+  }
 }
