@@ -13,14 +13,28 @@ export default class OriginFilter extends Component {
     this.setState({ visible })
   }
   render() {
+    const scoutsWithOrigin = this.props.scouts.map(scout => ({
+      id: scout.id,
+      origin: new URL(scout.URL).origin,
+    }))
+    const allOrigins = [...new Set(scoutsWithOrigin.map(scout => scout.origin))]
     const menu = (
       <Menu>{
-        this.props.allOrigins.length ?
-        this.props.allOrigins.map(origin => (
-          <Menu.Item key={origin}>
-            <Checkbox>{origin}</Checkbox>
-          </Menu.Item>
-        )) :
+        allOrigins.length ?
+        allOrigins.map((origin) => {
+          const scouts = scoutsWithOrigin.filter(
+            scout => scout.origin === origin)
+          const selectedScouts = scouts.filter(
+            scout => this.props.selectedScouts.includes(scout.id))
+          return (
+            <Menu.Item key={origin}>
+              <Checkbox
+                checked={scouts.length === selectedScouts.length}
+                indeterminate={selectedScouts.length && selectedScouts.length < scouts.length}
+              >{origin}</Checkbox>
+            </Menu.Item>
+          )
+        }) :
         <Menu.Item key="none">无</Menu.Item>
       }</Menu>
     )
@@ -35,5 +49,6 @@ export default class OriginFilter extends Component {
 }
 
 OriginFilter.propTypes = {
-  allOrigins: T.arrayOf(T.string),
+  scouts: T.arrayOf(T.shape()),
+  selectedScouts: T.arrayOf(T.string),
 }

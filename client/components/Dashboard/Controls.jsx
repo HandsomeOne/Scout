@@ -20,8 +20,8 @@ export default function Controls(props) {
         className={$.multi}
         style={{ display: props.selectable ? 'inline-block' : 'none' }}
       >
-        <TagFilter allTags={props.allTags} />
-        <OriginFilter allOrigins={props.allOrigins} />
+        <TagFilter selectedScouts={props.selectedScouts} scouts={props.scouts} />
+        <OriginFilter selectedScouts={props.selectedScouts} scouts={props.scouts} />
         <span>已选择 {props.selectedScouts.length} 项</span>
       </div>
       <Button
@@ -35,9 +35,8 @@ export default function Controls(props) {
 }
 
 Controls.propTypes = {
+  scouts: T.arrayOf(T.shape()),
   selectedScouts: T.arrayOf(T.string),
-  allTags: T.arrayOf(T.string),
-  allOrigins: T.arrayOf(T.string),
   selectable: T.bool,
   openModal: T.func,
   select: T.func,

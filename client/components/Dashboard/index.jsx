@@ -45,15 +45,11 @@ export default class Dashboard extends Component {
   }
   render() {
     const { scouts } = this.state
-    const allTags = union(scouts.map(scout => scout.tags))
-    const allRecipients = union(scouts.map(scout => scout.recipients))
-    const allOrigins = [...new Set(scouts.map(scout => new URL(scout.URL).origin))]
     return (
       <div>
         <Controls
-          allTags={allTags}
-          allOrigins={allOrigins}
           selectable={this.state.selectable}
+          scouts={this.state.scouts}
           selectedScouts={this.state.selectedScouts}
           openModal={this.openModal}
           select={this.select}
@@ -68,8 +64,8 @@ export default class Dashboard extends Component {
           openModal={this.openModal}
         />
         <ScoutModal
-          allTags={allTags}
-          allRecipients={allRecipients}
+          allTags={union(scouts.map(scout => scout.tags))}
+          allRecipients={union(scouts.map(scout => scout.recipients))}
           scouts={this.state.scouts}
           setScouts={this.setScouts}
           activeId={this.state.activeId}

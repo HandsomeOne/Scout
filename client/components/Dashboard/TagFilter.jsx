@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Menu, Dropdown, Icon, Checkbox } from 'antd'
+import union from '../../utils/union'
 
 export default class TagFilter extends Component {
   constructor(props) {
@@ -13,14 +14,24 @@ export default class TagFilter extends Component {
     this.setState({ visible })
   }
   render() {
+    const allTags = union(this.props.scouts.map(scout => scout.tags))
     const menu = (
       <Menu>{
-        this.props.allTags.length ?
-        this.props.allTags.map(tag => (
-          <Menu.Item key={tag}>
-            <Checkbox>{tag}</Checkbox>
-          </Menu.Item>
-        )) :
+        allTags.length ?
+        allTags.map((tag) => {
+          const scouts = this.props.scouts.filter(
+            scout => scout.tags.includes(tag))
+          const selectedScouts = scouts.filter(
+            scout => this.props.selectedScouts.includes(scout.id))
+          return (
+            <Menu.Item key={tag}>
+              <Checkbox
+                checked={scouts.length === selectedScouts.length}
+                indeterminate={selectedScouts.length && selectedScouts.length < scouts.length}
+              >{tag}</Checkbox>
+            </Menu.Item>
+          )
+        }) :
         <Menu.Item key="none">无</Menu.Item>
       }</Menu>
     )
@@ -35,5 +46,6 @@ export default class TagFilter extends Component {
 }
 
 TagFilter.propTypes = {
-  allTags: T.arrayOf(T.string),
+  scouts: T.arrayOf(T.shape()),
+  selectedScouts: T.arrayOf(T.string),
 }
