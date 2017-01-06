@@ -13,14 +13,14 @@ export default class Dashboard extends Component {
       scouts: [],
       selectedScouts: [],
     }
-    this.onSelectChange = this.onSelectChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.setScouts = this.setScouts.bind(this)
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.select = this.select.bind(this)
     this.deselect = this.deselect.bind(this)
   }
-  onSelectChange(selectedScouts) {
+  handleSelectChange(selectedScouts) {
     this.setState({ selectedScouts })
   }
   setScouts(scouts) {
@@ -59,7 +59,7 @@ export default class Dashboard extends Component {
           selectable={this.state.selectable}
           selectedScouts={this.state.selectedScouts}
           scouts={this.state.scouts}
-          onSelectChange={this.onSelectChange}
+          handleSelectChange={this.handleSelectChange}
           setScouts={this.setScouts}
           openModal={this.openModal}
         />
