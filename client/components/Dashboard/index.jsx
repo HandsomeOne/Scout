@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.select = this.select.bind(this)
-    this.unselect = this.unselect.bind(this)
+    this.deselect = this.deselect.bind(this)
   }
   onSelectChange(selectedScouts) {
     this.setState({ selectedScouts })
@@ -40,19 +40,24 @@ export default class Dashboard extends Component {
   select() {
     this.setState({ selectable: true })
   }
-  unselect() {
+  deselect() {
     this.setState({ selectable: false })
   }
   render() {
     const { scouts } = this.state
+    const allTags = union(scouts.map(scout => scout.tags))
+    const allRecipients = union(scouts.map(scout => scout.recipients))
+    const allOrigins = [...new Set(scouts.map(scout => new URL(scout.URL).origin))]
     return (
       <div>
         <Controls
+          allTags={allTags}
+          allOrigins={allOrigins}
           selectable={this.state.selectable}
           selectedScouts={this.state.selectedScouts}
           openModal={this.openModal}
           select={this.select}
-          unselect={this.unselect}
+          deselect={this.deselect}
         />
         <Scouts
           selectable={this.state.selectable}
@@ -63,8 +68,8 @@ export default class Dashboard extends Component {
           openModal={this.openModal}
         />
         <ScoutModal
-          allTags={union(scouts.map(scout => scout.tags))}
-          allRecipients={union(scouts.map(scout => scout.recipients))}
+          allTags={allTags}
+          allRecipients={allRecipients}
           scouts={this.state.scouts}
           setScouts={this.setScouts}
           activeId={this.state.activeId}
