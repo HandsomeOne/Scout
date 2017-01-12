@@ -10,31 +10,37 @@ class MultiModal extends Component {
     this.handleOk = this.handleOk.bind(this)
   }
   handleOk() {
-    const data = this.form.getFieldsValue()
-    const patch = data.fields.reduce((c, p) => (
-      Object.assign(c, { [p]: data[p] })
-    ), Object.create(null))
-
     this.form.validateFieldsAndScroll((err) => {
       if (!err) {
-        fetch(`${origin}/scouts`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ids: this.props.selectedScouts,
-            patch,
-          }),
-        })
-        .then(res => res.json())
-        .then((json) => {
-          this.props.setScouts(
-            this.props.scouts.map(scout => (
-              this.props.selectedScouts.includes(scout.id) ?
-              Object.assign(scout, json.find(s => s.id === scout.id)) :
-              scout)))
+        const data = this.form.getFieldsValue()
+        const patch = data.fields.reduce((c, p) => (
+          Object.assign(c, { [p]: data[p] })
+        ), Object.create(null))
+
+        if (data.fields.length) {
+          fetch(`${origin}/scouts`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ids: this.props.selectedScouts,
+              patch,
+            }),
+          })
+          .then(res => res.json())
+          .then((json) => {
+            this.props.setScouts(
+              this.props.scouts.map(scout => (
+                this.props.selectedScouts.includes(scout.id) ?
+                Object.assign(scout, json.find(s => s.id === scout.id)) :
+                scout
+              )))
+            this.props.closeMultiModal()
+            message.success('修改成功')
+          })
+        } else {
           this.props.closeMultiModal()
-          message.success('修改成功')
-        })
+          message.info('未修改')
+        }
       }
     })
   }

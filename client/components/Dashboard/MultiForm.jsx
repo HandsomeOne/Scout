@@ -16,7 +16,7 @@ function MultiForm(props) {
       <Item label="需要修改的字段">
         {getFieldDecorator('fields', {
           initialValue: [],
-        })(<Select tags notFoundContent="空" required>
+        })(<Select tags notFoundContent="空">
           <Option key="tags">标签</Option>
           <Option key="recipients">报警接收人</Option>
           <Option key="interval">检测时间间隔/min</Option>

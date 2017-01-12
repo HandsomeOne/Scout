@@ -31,7 +31,11 @@ export default class Controls extends Component {
             size="large"
             type="primary"
             disabled={!this.props.selectedScouts.length}
-            onClick={this.props.openMultiModal}
+            onClick={
+              this.props.selectedScouts.length > 1 ?
+              this.props.openMultiModal :
+              () => { this.props.openModal(this.props.selectedScouts[0]) }
+            }
           ><Icon type="edit" />编辑</Button>
           <TagFilter
             scouts={this.props.scouts}
