@@ -9,9 +9,20 @@ export default class TagFilter extends Component {
       visible: false,
     }
     this.handleVisibleChange = this.handleVisibleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   handleVisibleChange(visible) {
     this.setState({ visible })
+  }
+  handleChange(tag, checked) {
+    const ids = this.props.scouts
+                .filter(scout => scout.tags.includes(tag))
+                .map(scout => scout.id)
+    if (checked) {
+      this.props.handleSelectChange([...new Set(this.props.selectedScouts.concat(ids))])
+    } else {
+      this.props.handleSelectChange(this.props.selectedScouts.filter(id => !ids.includes(id)))
+    }
   }
   render() {
     const allTags = union(this.props.scouts.map(scout => scout.tags))
@@ -26,6 +37,9 @@ export default class TagFilter extends Component {
           return (
             <Menu.Item key={tag}>
               <Checkbox
+                onChange={(e) => {
+                  this.handleChange(tag, e.target.checked)
+                }}
                 checked={scouts.length === selectedScouts.length}
                 indeterminate={selectedScouts.length && selectedScouts.length < scouts.length}
               >{tag}</Checkbox>
@@ -48,4 +62,5 @@ export default class TagFilter extends Component {
 TagFilter.propTypes = {
   scouts: T.arrayOf(T.shape()),
   selectedScouts: T.arrayOf(T.string),
+  handleSelectChange: T.func,
 }

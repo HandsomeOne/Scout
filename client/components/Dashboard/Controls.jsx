@@ -20,8 +20,19 @@ export default function Controls(props) {
         className={$.multi}
         style={{ display: props.selectable ? 'inline-block' : 'none' }}
       >
-        <TagFilter selectedScouts={props.selectedScouts} scouts={props.scouts} />
-        <OriginFilter selectedScouts={props.selectedScouts} scouts={props.scouts} />
+        <TagFilter
+          scouts={props.scouts}
+          selectedScouts={props.selectedScouts}
+          handleSelectChange={props.handleSelectChange}
+        />
+        <OriginFilter
+          scouts={props.scouts.map(scout => ({
+            id: scout.id,
+            origin: new URL(scout.URL).origin,
+          }))}
+          selectedScouts={props.selectedScouts}
+          handleSelectChange={props.handleSelectChange}
+        />
         <span>已选择 {props.selectedScouts.length} 项</span>
       </div>
       <Button
@@ -41,4 +52,5 @@ Controls.propTypes = {
   openModal: T.func,
   select: T.func,
   deselect: T.func,
+  handleSelectChange: T.func,
 }

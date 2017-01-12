@@ -20,11 +20,11 @@ export default class Dashboard extends Component {
     this.select = this.select.bind(this)
     this.deselect = this.deselect.bind(this)
   }
-  handleSelectChange(selectedScouts) {
-    this.setState({ selectedScouts })
-  }
   setScouts(scouts) {
     this.setState({ scouts })
+  }
+  handleSelectChange(selectedScouts) {
+    this.setState({ selectedScouts })
   }
   openModal(activeId) {
     this.setState({
@@ -52,6 +52,7 @@ export default class Dashboard extends Component {
           scouts={this.state.scouts}
           selectedScouts={this.state.selectedScouts}
           openModal={this.openModal}
+          handleSelectChange={this.handleSelectChange}
           select={this.select}
           deselect={this.deselect}
         />
