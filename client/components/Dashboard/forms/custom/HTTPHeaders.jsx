@@ -55,6 +55,7 @@ export default class HTTPHeaders extends Component {
         size="large"
         icon="plus"
         onClick={this.add}
+        disabled={this.props.disabled}
         style={{ width: '100%' }}
       >添加请求头</Button>
     </Group>)
@@ -64,6 +65,7 @@ export default class HTTPHeaders extends Component {
 HTTPHeaders.propTypes = {
   value: T.arrayOf(T.arrayOf(T.string)).isRequired,
   onChange: T.func.isRequired,
+  disabled: T.bool,
 }
 HTTPHeaders.defaultProps = {
   value: [],

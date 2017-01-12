@@ -109,9 +109,7 @@ class ScoutModal extends Component {
 }
 
 ScoutModal.propTypes = {
-  scouts: T.arrayOf(T.shape({
-    id: T.string,
-  })),
+  scouts: T.arrayOf(T.shape()),
   setScouts: T.func,
   activeId: T.string,
   isOpen: T.bool,

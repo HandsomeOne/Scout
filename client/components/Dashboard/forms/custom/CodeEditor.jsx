@@ -24,6 +24,7 @@ export default class CodeEditor extends Component {
       <Codemirror
         value={this.state.value}
         onChange={this.updateCode}
+        disabled={this.props.disabled}
         options={{
           mode: 'javascript',
           indentUnit: 2,
@@ -46,6 +47,7 @@ export default class CodeEditor extends Component {
 CodeEditor.propTypes = {
   value: T.string.isRequired,
   onChange: T.func.isRequired,
+  disabled: T.bool,
 }
 CodeEditor.defaultProps = {
   value: '',

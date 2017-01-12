@@ -68,16 +68,6 @@ module.exports = (server) => {
       res.end(err.toString())
     })
   })
-  server.get('/scouts', (req, res) => {
-    Scout.find().lean()
-    .then((scouts) => {
-      res.send(scouts.map(extract))
-    })
-    .catch((err) => {
-      res.status(500)
-      res.end(err.toString())
-    })
-  })
   server.get('/scout/:id', (req, res) => {
     Scout.findById(req.params.id).lean()
     .then((scout) => {
@@ -94,6 +84,34 @@ module.exports = (server) => {
       Squad.remove(req.params.id)
       res.status(204)
       res.end()
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
+    })
+  })
+
+  server.get('/scouts', (req, res) => {
+    Scout.find().lean()
+    .then((scouts) => {
+      res.send(scouts.map(extract))
+    })
+    .catch((err) => {
+      res.status(500)
+      res.end(err.toString())
+    })
+  })
+  server.patch('/scouts', (req, res) => {
+    const { ids, patch } = req.body
+    Scout.update({ _id: {
+      $in: ids,
+    } }, patch, { multi: true })
+    .then(() => Scout.find({ _id: {
+      $in: ids,
+    } }).lean())
+    .then((scouts) => {
+      ids.forEach((id) => { Squad.update(id, patch) })
+      res.send(scouts.map(scout => extract(Object.assign(scout, req.body))))
     })
     .catch((err) => {
       res.status(500)

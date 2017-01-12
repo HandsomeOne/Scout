@@ -59,6 +59,7 @@ export default class PrefixedURL extends Component {
     return (<Input
       size="large"
       addonBefore={protocol}
+      disabled={this.props.disabled}
       onChange={this.onChange}
       value={this.state.url}
     />)
@@ -68,6 +69,7 @@ export default class PrefixedURL extends Component {
 PrefixedURL.propTypes = {
   value: T.string.isRequired,
   onChange: T.func.isRequired,
+  disabled: T.bool,
 }
 PrefixedURL.defaultProps = {
   value: '',

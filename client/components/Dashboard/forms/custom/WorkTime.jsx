@@ -94,6 +94,7 @@ export default class WorkTime extends Component {
         type="dashed"
         size="large"
         icon="plus"
+        disabled={this.props.disabled}
         onClick={this.add}
         style={{ width: '100%' }}
       >添加时间段</Button>
@@ -104,6 +105,7 @@ export default class WorkTime extends Component {
 WorkTime.propTypes = {
   value: T.arrayOf(T.arrayOf(T.arrayOf(T.number))).isRequired,
   onChange: T.func.isRequired,
+  disabled: T.bool,
 }
 WorkTime.defaultProps = {
   value: [],
