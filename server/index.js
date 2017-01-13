@@ -19,7 +19,11 @@ server.get(/\/?.*/, restify.serveStatic({
   directory: path.join(__dirname, '../static'),
   default: 'index.html',
 }))
-
 server.listen(3001)
 
-require('./models/Squad').patrolAll()
+
+const Squad = require('./models/Squad')
+
+Squad.dispatchAll()
+Squad.removeOldIntels()
+setInterval(Squad.removeOldIntels, 24 * 60 * 60 * 1000)

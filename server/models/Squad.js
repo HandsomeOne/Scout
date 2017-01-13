@@ -144,9 +144,18 @@ exports.update = function update(id, patch) {
   scout.script = new vm.Script(scout.testCase)
 }
 
-exports.patrolAll = function patrolAll() {
+exports.dispatchAll = function dispatchAll() {
   Scout.find().select({
     snapshots: 0,
   }).lean()
   .then((scouts) => { scouts.forEach(add) })
+}
+
+exports.removeOldIntels = function removeOldIntels(since = 7) {
+  Scout.update({}, {
+    $pull: {
+      snapshots: {
+        time: {
+          $lt: Date.now() - (since * 24 * 60 * 60 * 1000) } } },
+  }, { multi: true }).exec()
 }
