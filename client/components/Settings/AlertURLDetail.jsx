@@ -91,6 +91,7 @@ export default class Settings extends Component {
             size="large"
             notFoundContent="空"
             onChange={this.update}
+            tokenSeparators={[',', ' ']}
           />
           <Button
             size="large"

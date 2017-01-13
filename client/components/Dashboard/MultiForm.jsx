@@ -16,7 +16,7 @@ function MultiForm(props) {
       <Item label="需要修改的字段">
         {getFieldDecorator('fields', {
           initialValue: [],
-        })(<Select tags notFoundContent="空">
+        })(<Select tags notFoundContent="空" tokenSeparators={[',', ' ']}>
           <Option key="tags">标签</Option>
           <Option key="recipients">报警接收人</Option>
           <Option key="interval">检测时间间隔/min</Option>
@@ -32,7 +32,12 @@ function MultiForm(props) {
           <Item label="标签">
             {getFieldDecorator('tags', {
               initialValue: [],
-            })(<Select tags notFoundContent="空" disabled={!fields.includes('tags')}>
+            })(<Select
+              tags
+              notFoundContent="空"
+              disabled={!fields.includes('tags')}
+              tokenSeparators={[',', ' ']}
+            >
               {props.allTags.map(tag => <Option key={tag}>{tag}</Option>)}
             </Select>)}
           </Item>
@@ -42,7 +47,12 @@ function MultiForm(props) {
           <Item label="报警接收人" >
             {getFieldDecorator('recipients', {
               initialValue: [],
-            })(<Select tags notFoundContent="空" disabled={!fields.includes('recipients')}>
+            })(<Select
+              tags
+              notFoundContent="空"
+              disabled={!fields.includes('recipients')}
+              tokenSeparators={[',', ' ']}
+            >
               {props.allRecipients.map(recipient => <Option key={recipient}>{recipient}</Option>)}
             </Select>)}
           </Item>
