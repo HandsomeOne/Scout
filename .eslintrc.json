@@ -7,9 +7,11 @@
     "semi": ["error", "never"],
     "new-cap": "off",
     "react/no-danger": "off",
+    "react/require-default-props": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "no-param-reassign": ["error", { "props": false }],
+    "no-template-curly-in-string": "off",
     "no-restricted-syntax": [
       "error",
       "WithStatement",

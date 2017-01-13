@@ -56,7 +56,7 @@ class Settings extends Component {
 
           <p style={{ height: 32, lineHeight: '32px' }}>
             <a style={{ float: 'right' }} onClick={this.toggleAlertURLDetail}>
-              <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} /> 详情
+              <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} /> 接口规格
             </a>
           </p>
 

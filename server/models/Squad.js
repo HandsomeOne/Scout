@@ -39,20 +39,21 @@ function isNowInWork(workTime) {
 const timeouts = {}
 const scoutMap = {}
 
-function alert(scout, err) {
+function alert(scout, snapshot) {
   if (scout.errors === scout.tolerance && scout.recipients.length) {
     getSettings().then((settings) => {
       if (settings.alertURL) {
         fetch(settings.alertURL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          body: JSON.stringify(Object.assign({
             recipients: scout.recipients,
             name: scout.name,
-            errName: err.name,
-            errMessage: err.message,
-            detail: '',
-          }),
+            URL: scout.URL,
+            readType: scout.readType,
+            testCase: scout.testCase,
+            now: Date.now(),
+          }, snapshot)),
         })
       }
     })
@@ -64,9 +65,7 @@ function patrol(scout) {
 
   if (!isNowInWork(scout.workTime)) {
     Scout.findByIdAndUpdate(scout._id, {
-      $push: { snapshots: {
-        status: 'Idle',
-      } },
+      $push: { snapshots: { status: 'Idle' } },
     }).exec()
     return
   }
@@ -120,7 +119,8 @@ function patrol(scout) {
       $push: { snapshots: snapshot },
     }).exec()
 
-    alert(scout, err)
+    snapshot.body = body
+    alert(scout, snapshot)
     scout.errors += 1
   })
 }

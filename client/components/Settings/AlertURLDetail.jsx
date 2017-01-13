@@ -2,7 +2,7 @@ import React, { Component, PropTypes as T } from 'react'
 import { Row, Select, Button } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin, colors as C } from '../../config'
-import $ from './index.css'
+import $ from './AlertURLDetail.css'
 
 export default class Settings extends Component {
   constructor(props) {
@@ -67,16 +67,23 @@ export default class Settings extends Component {
   render() {
     return (
       <div className={$.alerturldetail}>
-        <p>
-          POST {this.props.alertURL}<br />
+        <pre>
+          POST {this.props.alertURL}<br /><br />
           {JSON.stringify({
             recipients: this.state.recipients,
-            name: '测试接口',
-            errName: 'Error',
-            errMessage: '这是一条测试错误信息',
-            detail: '',
-          })}
-        </p>
+            name: '查询当前时间',
+            URL: 'https://your.server/your/api',
+            status: 'Error',
+            statusCode: 200,
+            responseTime: 53,
+            now: 1484292986935,
+            errName: 'AssertionError',
+            errMessage: '慢了123秒',
+            body: '{now:1484292863588}',
+            readType: 'json',
+            testCase: 'const latency = Date.now()-body.now\nassert(latency<60000, `慢了${latency/1000|0}秒`)',
+          }, true, 2)}
+        </pre>
         <Row type="flex" justify="space-between" className={$.row}>
           <Select
             placeholder="报警接收人"
@@ -91,14 +98,14 @@ export default class Settings extends Component {
             loading={this.state.isSending}
             onClick={this.send}
             disabled={!this.state.recipients.length}
-          >发送</Button>
+          >测试</Button>
         </Row>
 
         <div style={{ lineHeight: '32px' }}>
           {this.getRequestOutput()}
         </div>
 
-        <div className={$.body}>{this.state.result.body}</div>
+        <pre>{this.state.result.body}</pre>
       </div>
     )
   }

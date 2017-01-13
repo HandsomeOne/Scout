@@ -28,10 +28,17 @@ module.exports = (server) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           recipients: req.params.recipients,
-          name: '测试接口',
-          errName: 'Error',
-          errMessage: '这是一条测试错误信息',
-          detail: '',
+          name: '查询当前时间',
+          URL: 'https://your.server/your/api',
+          status: 'Error',
+          statusCode: 200,
+          responseTime: 53,
+          now: 1484292986935,
+          errName: 'AssertionError',
+          errMessage: '慢了123秒',
+          body: '{now:1484292863588}',
+          readType: 'json',
+          testCase: 'const latency = Date.now()-body.now\nassert(latency<60000, `慢了${latency/1000|0}秒`)',
         }),
       })
     ))
