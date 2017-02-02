@@ -6,6 +6,9 @@ const getSettings = require('./getSettings')
 const Scout = require('./Scout')
 const AlertLog = require('./AlertLog')
 
+const timeouts = {}
+const scoutMap = {}
+
 function isNowInWork(workTime) {
   if (!(workTime && workTime.length)) {
     return true
@@ -37,9 +40,6 @@ function isNowInWork(workTime) {
   })
 }
 
-const timeouts = {}
-const scoutMap = {}
-
 function alert(scout, snapshot) {
   if (scout.errors === scout.tolerance) {
     getSettings().then((settings) => {
@@ -53,11 +53,31 @@ function alert(scout, snapshot) {
           now: Date.now(),
         }, snapshot)
 
-        AlertLog.create(message)
+        let statusCode
         fetch(settings.alertURL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(message),
+        })
+        .then((res) => {
+          statusCode = res.status
+          return res.text()
+        })
+        .then((body) => {
+          AlertLog.create({
+            message,
+            status: 'OK',
+            body,
+            statusCode,
+          })
+        })
+        .catch((err) => {
+          AlertLog.create({
+            message,
+            status: 'Error',
+            statusCode,
+            errMessage: err.message,
+          })
         })
       }
     })
