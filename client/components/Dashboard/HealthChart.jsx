@@ -12,7 +12,8 @@ export default function HealthChart({ now, statuses }) {
         const totalErrors = errors.reduce((p, e) => p + Errors[e], 0)
 
         const total = OK + totalErrors + Idle
-        const health = total ? (OK + Idle) / total : 0
+        const validTotal = OK + totalErrors
+        const health = validTotal ? OK / validTotal : 0
 
         const time = moment(now - ((i + 0.5) * 60 * 60 * 1000))
         const tip = (
@@ -32,7 +33,7 @@ export default function HealthChart({ now, statuses }) {
           </div>
         )
         return (
-          <Tooltip title={tip} key={i}>
+          <Tooltip title={tip}>
             <div className={$.bar} style={{ opacity: total ? 1 - (Idle / total) : 0 }}>
               <div>
                 <div

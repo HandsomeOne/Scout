@@ -17,6 +17,7 @@ export default class Health extends Component {
         const totalErrors = errors.reduce((p, e) => p + Errors[e], 0)
 
         const total = OK + totalErrors + Idle
+        const validTotal = OK + totalErrors
         const time = moment(json.now - ((i + 0.5) * interval * 60 * 1000))
         return {
           OK,
@@ -24,7 +25,7 @@ export default class Health extends Component {
           Errors,
           Idle,
           time: moment(time),
-          health: total ? (OK + Idle) / total : 0,
+          health: validTotal ? OK / validTotal : 0,
           idleRatio: total ? Idle / total : 1,
         }
       })
