@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch'
 import { origin, colors as C } from '../../config'
 import $ from './AlertURLDetail.css'
 
-export default class Settings extends Component {
+export default class AlertURLDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -68,7 +68,8 @@ export default class Settings extends Component {
     return (
       <div className={$.alerturldetail}>
         <pre>
-          POST {this.props.alertURL}<br /><br />
+          POST {this.props.alertURL}<br />
+          Content-Type: application/json<br /><br />
           {JSON.stringify({
             recipients: this.state.recipients,
             name: '查询当前时间',
@@ -81,7 +82,7 @@ export default class Settings extends Component {
             errMessage: '慢了123秒',
             body: '{now:1484292863588}',
             readType: 'json',
-            testCase: 'const latency = Date.now()-body.now\nassert(latency<60000, `慢了${latency/1000|0}秒`)',
+            testCase: 'const d = Date.now() - body.now\nassert(d < 60000, `慢了${d/1000|0}秒`)',
           }, true, 2)}
         </pre>
         <Row type="flex" justify="space-between" className={$.row}>
@@ -98,7 +99,6 @@ export default class Settings extends Component {
             icon="rocket"
             loading={this.state.isSending}
             onClick={this.send}
-            disabled={!this.state.recipients.length}
           >测试</Button>
         </Row>
 
@@ -112,6 +112,6 @@ export default class Settings extends Component {
   }
 }
 
-Settings.propTypes = {
+AlertURLDetail.propTypes = {
   alertURL: T.string,
 }

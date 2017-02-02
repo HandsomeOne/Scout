@@ -38,7 +38,7 @@ module.exports = (server) => {
           errMessage: '慢了123秒',
           body: '{now:1484292863588}',
           readType: 'json',
-          testCase: 'const latency = Date.now()-body.now\nassert(latency<60000, `慢了${latency/1000|0}秒`)',
+          testCase: 'const d = Date.now() - body.now\nassert(d < 60000, `慢了${d/1000|0}秒`)',
         }),
       })
     ))
