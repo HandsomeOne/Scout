@@ -4,6 +4,7 @@ const assert = require('assert')
 const arrayToHeaders = require('../utils/arrayToHeaders')
 const getSettings = require('./getSettings')
 const Scout = require('./Scout')
+const AlertLog = require('./AlertLog')
 
 function isNowInWork(workTime) {
   if (!(workTime && workTime.length)) {
@@ -40,20 +41,23 @@ const timeouts = {}
 const scoutMap = {}
 
 function alert(scout, snapshot) {
-  if (scout.errors === scout.tolerance && scout.recipients.length) {
+  if (scout.errors === scout.tolerance) {
     getSettings().then((settings) => {
       if (settings.alertURL) {
+        const message = Object.assign({
+          recipients: scout.recipients,
+          name: scout.name,
+          URL: scout.URL,
+          readType: scout.readType,
+          testCase: scout.testCase,
+          now: Date.now(),
+        }, snapshot)
+
+        AlertLog.create(message)
         fetch(settings.alertURL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.assign({
-            recipients: scout.recipients,
-            name: scout.name,
-            URL: scout.URL,
-            readType: scout.readType,
-            testCase: scout.testCase,
-            now: Date.now(),
-          }, snapshot)),
+          body: JSON.stringify(message),
         })
       }
     })
@@ -128,6 +132,7 @@ function patrol(scout) {
 function add(scout) {
   scout.patrol = patrol.bind(null, scout)
   scout.script = new vm.Script(scout.testCase)
+  scout.errors = 0
   timeouts[scout._id] = setTimeout(scout.patrol, Math.random() * scout.interval * 60 * 1000)
   scoutMap[scout._id] = scout
 }
