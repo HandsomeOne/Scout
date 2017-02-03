@@ -1,7 +1,5 @@
 #!/bin/sh
-
-git reset --hard
-git pull
+git pull --force
 
 yarn
 yarn build-sh
