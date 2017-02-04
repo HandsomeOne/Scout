@@ -32,8 +32,7 @@ forever restart ./server
 ```
 
 ### 使用
-
-% 待补充 %
+见 [Wiki](https://github.com/HandsomeOne/Scout/wiki)。
 
 ### 参与开发
 ```sh
@@ -54,3 +53,5 @@ npm start
     - [ ] 响应时间
     - [ ] 状态码
     - [ ] 状态信息用饼状图实现
+- [ ] 表单验证
+- [ ] 分布式
