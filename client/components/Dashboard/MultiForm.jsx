@@ -18,7 +18,7 @@ function MultiForm(props) {
           initialValue: [],
         })(<Select tags notFoundContent="空" tokenSeparators={[',', ' ']}>
           <Option key="tags">标签</Option>
-          <Option key="recipients">报警接收人</Option>
+          <Option key="recipients">告警接收人</Option>
           <Option key="interval">检测时间间隔/min</Option>
           <Option key="tolerance">异常容忍次数</Option>
           <Option key="ApdexTarget">Apdex 目标响应时间</Option>
@@ -44,7 +44,7 @@ function MultiForm(props) {
         </Col>
 
         <Col span={16}>
-          <Item label="报警接收人" >
+          <Item label="告警接收人" >
             {getFieldDecorator('recipients', {
               initialValue: [],
             })(<Select

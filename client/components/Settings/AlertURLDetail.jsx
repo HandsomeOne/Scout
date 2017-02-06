@@ -87,7 +87,7 @@ export default class AlertURLDetail extends Component {
         </pre>
         <Row type="flex" justify="space-between" className={$.row}>
           <Select
-            placeholder="报警接收人"
+            placeholder="告警接收人"
             tags
             size="large"
             notFoundContent="空"

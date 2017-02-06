@@ -48,7 +48,7 @@ class Settings extends Component {
     return (
       <div>
         <Form className={$.settings}>
-          <Item label="用于接收报警的 URL" style={{ marginBottom: 0 }}>
+          <Item label="用于接收告警的 URL" style={{ marginBottom: 0 }}>
             {getFieldDecorator('alertURL', {
               initialValue: settings.alertURL,
             })(<PrefixedURL />)}

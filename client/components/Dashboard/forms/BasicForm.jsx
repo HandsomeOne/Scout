@@ -61,7 +61,7 @@ export default function BasicForm(props) {
       })(<Input type="textarea" rows={4} disabled={!hasBody} />)}
     </Item>
 
-    <Item label="报警接收人" >
+    <Item label="告警接收人" >
       {getFieldDecorator('recipients', {
         initialValue: scout.recipients,
       })(<Select tags notFoundContent="空" tokenSeparators={[',', ' ']}>
