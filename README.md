@@ -15,7 +15,6 @@ git clone https://github.com/HandsomeOne/Scout.git
 cd Scout
 npm install
 npm run build
-# if not Windows: npm run build-sh
 npm install -g forever
 forever start ./server
 ```
@@ -27,7 +26,6 @@ cd Scout
 git pull --force
 npm install
 npm run build
-# if not Windows: npm run build-sh
 forever restart ./server
 ```
 

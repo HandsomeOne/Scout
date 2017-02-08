@@ -2,5 +2,5 @@
 git pull --force
 
 yarn
-yarn build-sh
+yarn build
 forever restart ./server
