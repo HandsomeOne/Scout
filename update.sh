@@ -1,6 +1,5 @@
 #!/bin/sh
 git pull --force
-
-yarn
-yarn build
+npm install
+npm run build
 forever restart ./server

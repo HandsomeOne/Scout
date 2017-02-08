@@ -28,6 +28,11 @@ npm install
 npm run build
 forever restart ./server
 ```
+或者（linux 环境下）
+```sh
+cd Scout
+sh update.sh
+```
 
 ### 使用
 见 [Wiki](https://github.com/HandsomeOne/Scout/wiki)。
