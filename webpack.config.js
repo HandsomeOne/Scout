@@ -1,32 +1,33 @@
 /* eslint import/no-extraneous-dependencies: off */
 const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
-const path = require('path')
+const { resolve } = require('path')
 const precss = require('precss')
 const postcss = require('postcss')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const plugins = [
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-  new webpack.EnvironmentPlugin(['NODE_ENV']),
+  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
+  new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
   new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /zh-cn/),
+  new webpack.LoaderOptionsPlugin({
+    options: { postcss: [postcss(precss), autoprefixer()] },
+  }),
+  new webpack.HotModuleReplacementPlugin(),
 ]
-
 if (process.env.NODE_ENV === 'production') {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-    }),
-    new ExtractTextPlugin('bundle.css'))
-} else {
-  plugins.push(new webpack.HotModuleReplacementPlugin())
+  plugins.push(new webpack.optimize.UglifyJsPlugin())
 }
 
 module.exports = {
-  context: path.join(__dirname, './client'),
+  context: resolve(__dirname, 'client'),
   entry: {
-    jsx: './index.jsx',
-    html: './index.html',
+    main: [
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:3000',
+      'webpack/hot/only-dev-server',
+      './index.html',
+      './index.jsx',
+    ],
     vendor: [
       'd3',
       'isomorphic-fetch',
@@ -37,38 +38,52 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, './static'),
     filename: 'bundle.js',
+    path: resolve(__dirname, 'static'),
+    publicPath: '/',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.html$/,
-        loader: 'file?name=[name].[ext]',
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
       },
       {
         test: /\.css$/,
         include: /client/,
-        loader: process.env.NODE_ENV === 'production' ?
-          ExtractTextPlugin.extract('style-loader', 'css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader') :
-          'style-loader!css-loader?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss-loader',
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]___[hash:base64:5]',
+            },
+          },
+          'postcss-loader',
+        ],
       },
       {
         test: /\.css$/,
         exclude: /client/,
-        loader: 'style!css',
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel'],
+        loader: 'babel-loader',
       },
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
-  postcss: [postcss(precss), autoprefixer()],
   plugins,
   devServer: {
     contentBase: './client',
