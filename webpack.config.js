@@ -1,27 +1,30 @@
-/* eslint import/no-extraneous-dependencies: off */
 const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const { resolve } = require('path')
 const precss = require('precss')
-const postcss = require('postcss')
 
+const isProd = process.env.NODE_ENV === 'production'
 const plugins = [
-  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
-  new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
-  new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /zh-cn/),
-  new webpack.LoaderOptionsPlugin({
-    options: { postcss: [postcss(precss), autoprefixer()] },
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    filename: 'vendor.bundle.js',
   }),
-  new webpack.HotModuleReplacementPlugin(),
+  new webpack.EnvironmentPlugin({
+    NODE_ENV: 'development',
+  }),
+  new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /zh-cn/),
 ]
-if (process.env.NODE_ENV === 'production') {
-  plugins.push(new webpack.optimize.UglifyJsPlugin())
+if (!isProd) {
+  plugins.push(new webpack.HotModuleReplacementPlugin())
 }
 
 module.exports = {
   context: resolve(__dirname, 'client'),
   entry: {
-    main: [
+    main: isProd ? [
+      './index.html',
+      './index.jsx',
+    ] : [
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server',
@@ -63,7 +66,12 @@ module.exports = {
               localIdentName: '[local]___[hash:base64:5]',
             },
           },
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [precss, autoprefixer],
+            },
+          },
         ],
       },
       {
@@ -87,6 +95,7 @@ module.exports = {
   plugins,
   devServer: {
     contentBase: './client',
+    port: 3000,
     hot: true,
     inline: true,
   },
