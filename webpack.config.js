@@ -63,6 +63,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
+              sourceMap: !isProd,
               localIdentName: '[local]___[hash:base64:5]',
             },
           },
