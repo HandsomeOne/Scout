@@ -12,6 +12,9 @@ export default function (props) {
         <Menu.Item key="settings">
           <Link to="/settings"><Icon type="setting" />设置</Link>
         </Menu.Item>
+        <Menu.Item key="alertlog">
+          <Link to="/alertlog"><Icon type="exception" />告警记录</Link>
+        </Menu.Item>
       </Menu>
     </Layout.Header>
   )

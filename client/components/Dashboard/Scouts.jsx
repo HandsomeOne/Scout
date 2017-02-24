@@ -71,8 +71,8 @@ export default class Scouts extends Component {
             style={{ color: C.green }}
           />,
           Error: <Icon
-            type="exclamation"
-            style={{ color: C.yellow }}
+            type="exception"
+            style={{ color: C.orange }}
           />,
           Idle: <Icon
             type="pause"
