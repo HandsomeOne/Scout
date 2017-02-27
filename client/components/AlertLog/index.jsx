@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 import fetch from 'isomorphic-fetch'
 import moment from 'moment'
@@ -36,7 +37,7 @@ class AlertLog extends Component {
     this.fetch()
   }
 
-  fetch(page) {
+  fetch(page = 1) {
     this.setState({ loading: true })
     fetch(`${origin}/alertlogs?page=${page}&pageSize=${this.pageSize}`)
     .then(res => res.json())
@@ -74,12 +75,15 @@ class AlertLog extends Component {
       {
         title: '从属条目',
         dataIndex: 'message.name',
+        render: (name, record) => (
+          <Link to={`/stats/${record.scoutId}`}>{name}</Link>
+        ),
       },
       {
         title: '发送至',
         dataIndex: 'message.recipients',
         render: recipients => recipients.map(
-          recipient => <Tag>{recipient}</Tag>,
+          recipient => <Tag key={recipient}>{recipient}</Tag>,
         ),
       },
     ]

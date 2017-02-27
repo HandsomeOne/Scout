@@ -1,6 +1,7 @@
 const mongoose = require('./db')
 
 const AlertLogSchema = new mongoose.Schema({
+  scoutId: mongoose.Schema.Types.ObjectId,
   message: {
     recipients: [String],
     name: String,

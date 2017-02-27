@@ -65,6 +65,7 @@ function alert(scout, snapshot) {
         })
         .then((body) => {
           AlertLog.create({
+            scoutId: scout._id,
             message,
             status: 'OK',
             body,
@@ -73,6 +74,7 @@ function alert(scout, snapshot) {
         })
         .catch((err) => {
           AlertLog.create({
+            scoutId: scout._id,
             message,
             status: 'Error',
             statusCode,

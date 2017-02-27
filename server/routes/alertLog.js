@@ -3,6 +3,7 @@ const AlertLog = require('../models/AlertLog')
 function extract(alertlog) {
   alertlog.message.now = alertlog.message.now.valueOf()
   return {
+    scoutId: alertlog.scoutId,
     id: alertlog._id,
     status: alertlog.status,
     body: alertlog.body,
