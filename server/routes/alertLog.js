@@ -1,5 +1,16 @@
 const AlertLog = require('../models/AlertLog')
 
+function extract(alertlog) {
+  alertlog.message.now = alertlog.message.now.valueOf()
+  return {
+    id: alertlog._id,
+    status: alertlog.status,
+    body: alertlog.body,
+    statusCode: alertlog.statusCode,
+    time: alertlog.time.valueOf(),
+    message: alertlog.message,
+  }
+}
 module.exports = (server) => {
   server.get('/alertlogs', (req, res) => {
     const {
@@ -9,10 +20,10 @@ module.exports = (server) => {
     AlertLog.find()
     .sort({ time: -1 })
     .skip((page - 1) * pageSize)
-    .limit(pageSize)
+    .limit(+pageSize)
     .lean()
     .then((alertlogs) => {
-      res.send(alertlogs)
+      res.send(alertlogs.map(extract))
     })
     .catch((err) => {
       res.status(500)

@@ -6,9 +6,6 @@
 
   pre {
     margin-bottom: 16px;
-    word-break: break-all;
-    white-space: pre-wrap;
-
     &:last-child {
       margin-bottom: 0;
     }

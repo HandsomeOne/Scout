@@ -2,3 +2,8 @@ html, body {
   background-color: #ececec !important;
   min-width: 1200px;
 }
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
