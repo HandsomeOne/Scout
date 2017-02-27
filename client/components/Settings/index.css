@@ -1,3 +1,8 @@
+.container {
+  background-color: #fff;
+  border-radius: 0 0 6px 6px;
+}
+
 .settings {
   padding: 80px 0;
   max-width: 720px;

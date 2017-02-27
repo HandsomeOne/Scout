@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Icon } from 'antd'
-import { colors as C } from '../../config'
+import { colors as C } from '../config'
 
 const { Footer } = Layout
 export default () => (
