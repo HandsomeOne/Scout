@@ -15,7 +15,9 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment(\/|\\)locale$/, /zh-cn/),
 ]
 if (!isProd) {
-  plugins.push(new webpack.HotModuleReplacementPlugin())
+  plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin())
 }
 
 module.exports = {
@@ -56,7 +58,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: /client/,
+        exclude: /node_modules/,
         use: [
           'style-loader',
           {
@@ -77,7 +79,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: /client/,
+        include: /node_modules/,
         use: [
           'style-loader',
           'css-loader',
