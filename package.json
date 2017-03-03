@@ -6,7 +6,7 @@
     "start": "webpack-dev-server -d",
     "build": "cross-env NODE_ENV=production webpack -p"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "keywords": [],
   "author": "Zhou Qi <i@handsomeone.com>",
   "dependencies": {
