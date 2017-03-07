@@ -1,13 +1,14 @@
 # Scout
 可能是东半球最灵活的URL监控系统
 
-![demo](http://i.imgur.com/cNi98z1.png)
+![demo](https://i.imgur.com/xblcsIS.png)
 
 ### 环境需求
 ```
 Node.js v6+
 MongoDB v3+
 ```
+（应用处于开发阶段，低级版本未经测试）
 
 ### 安装与启动
 ```sh
@@ -16,9 +17,13 @@ cd Scout
 npm install
 npm run build
 npm install -g forever
-forever start ./server
+forever start ./server mongodb://username:password@host/database
+# MongoDB URI 格式参见 (https://docs.mongodb.com/manual/reference/connection-string/)
+# 若不传，默认为 `mongodb://localhost/scout`
 ```
-然后访问 http://localhost:3001/ 。
+然后访问 http://your-ip:3001/ 。
+
+### [使用指南](https://github.com/HandsomeOne/Scout/wiki)
 
 ### 升级
 ```sh
@@ -33,9 +38,6 @@ forever restart ./server
 cd Scout
 sh update.sh
 ```
-
-### 使用
-见 [Wiki](https://github.com/HandsomeOne/Scout/wiki)。
 
 ### 参与开发
 ```sh
