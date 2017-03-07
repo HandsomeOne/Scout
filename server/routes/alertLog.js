@@ -6,6 +6,7 @@ function extract(alertlog) {
     scoutId: alertlog.scoutId,
     id: alertlog._id,
     status: alertlog.status,
+    errMessage: alertlog.errMessage,
     body: alertlog.body,
     statusCode: alertlog.statusCode,
     time: alertlog.time.valueOf(),

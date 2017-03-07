@@ -14,11 +14,12 @@ export default function () {
         <Menu.Item key="dashboard">
           <NavLink to="/"><Icon type="bars" />仪表盘</NavLink>
         </Menu.Item>
-        <Menu.Item key="settings">
-          <NavLink to="/settings"><Icon type="setting" />设置</NavLink>
-        </Menu.Item>
         <Menu.Item key="alertlog">
           <NavLink to="/alertlog"><Icon type="exception" />告警记录</NavLink>
+        </Menu.Item>
+
+        <Menu.Item key="settings" style={{ float: 'right' }}>
+          <NavLink to="/settings"><Icon type="setting" />设置</NavLink>
         </Menu.Item>
       </Menu>
     </Layout.Header>

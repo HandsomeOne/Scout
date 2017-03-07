@@ -7,6 +7,7 @@ import { origin } from '../../config'
 import $ from './index.css'
 
 function renderHTTP(record) {
+  const isOK = record.status === 'OK'
   return (
     <div>
       请求体:
@@ -14,9 +15,10 @@ function renderHTTP(record) {
         JSON.stringify(record.message, null, 2)
       }</pre>
       <br />
-      返回体:
+      {isOK ? '返回体:' : '错误信息:'}
       <pre>{
-        record.body || <span className={$.default}>[空]</span>
+        (isOK ? record.body : record.errMessage) ||
+        <span className={$.default}>[空]</span>
       }</pre>
     </div>
   )
@@ -59,7 +61,11 @@ class AlertLog extends Component {
         width: 100,
         title: '状态',
         dataIndex: 'status',
-        render: (status, record) => `${status} / ${record.statusCode}`,
+        render: (status, record) => (
+          record.statusCode ?
+          `${status} / ${record.statusCode}` :
+          status
+        ),
       },
       {
         width: 100,
