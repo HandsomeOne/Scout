@@ -3,7 +3,7 @@ MAINTAINER i@handsomeone.com
 
 WORKDIR /app
 COPY . /app
-RUN yarn > /null && yarn build
+RUN yarn && yarn build
 
 EXPOSE 3001
 ENTRYPOINT ["node", "./server"]
