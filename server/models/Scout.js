@@ -1,6 +1,11 @@
 const mongoose = require('./db')
 
 const { floor } = Math
+/**
+ * @todo headers 应该是 [[String]]
+ * @todo workTime 应该是 [[[Number]]]
+ * @todo 为了 update 操作时不触发严格验证导致报错，所以暂时改为 Array
+ */
 const ScoutSchema = new mongoose.Schema({
   name: { type: String, required: true },
   tags: [String],
@@ -14,7 +19,7 @@ const ScoutSchema = new mongoose.Schema({
   body: String,
   recipients: [String],
 
-  headers: [[String]],
+  headers: Array,
   ApdexTarget: { type: Number, default: 500, min: 100, get: floor, set: floor },
   interval: { type: Number, default: 5, min: 1, get: floor, set: floor },
   tolerance: { type: Number, default: 0, min: 0, get: floor, set: floor },
@@ -32,7 +37,7 @@ const ScoutSchema = new mongoose.Schema({
     errMessage: String,
     body: String,
   }],
-  workTime: [[[Number]]],
+  workTime: Array,
 })
 
 module.exports = mongoose.model('Scout', ScoutSchema)
