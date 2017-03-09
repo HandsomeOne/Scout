@@ -41,49 +41,51 @@ function isNowInWork(workTime) {
 }
 
 function alert(scout, snapshot) {
-  if (scout.errors === scout.tolerance) {
-    getSettings().then((settings) => {
-      if (settings.alertURL) {
-        const message = Object.assign({
-          recipients: scout.recipients,
-          name: scout.name,
-          URL: scout.URL,
-          readType: scout.readType,
-          testCase: scout.testCase,
-          now: Date.now(),
-        }, snapshot)
+  getSettings().then((settings) => {
+    if (!settings.alertOnRecovery && scout.status === 'OK') {
+      return
+    }
 
-        let statusCode
-        fetch(settings.alertURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(message),
+    if (settings.alertURL) {
+      const message = Object.assign({
+        recipients: scout.recipients,
+        name: scout.name,
+        URL: scout.URL,
+        readType: scout.readType,
+        testCase: scout.testCase,
+        now: Date.now(),
+      }, snapshot)
+
+      let statusCode
+      fetch(settings.alertURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(message),
+      })
+      .then((res) => {
+        statusCode = res.status
+        return res.text()
+      })
+      .then((body) => {
+        AlertLog.create({
+          scoutId: scout._id,
+          message,
+          status: 'OK',
+          body,
+          statusCode,
         })
-        .then((res) => {
-          statusCode = res.status
-          return res.text()
+      })
+      .catch((err) => {
+        AlertLog.create({
+          scoutId: scout._id,
+          message,
+          status: 'Error',
+          statusCode,
+          errMessage: err.message,
         })
-        .then((body) => {
-          AlertLog.create({
-            scoutId: scout._id,
-            message,
-            status: 'OK',
-            body,
-            statusCode,
-          })
-        })
-        .catch((err) => {
-          AlertLog.create({
-            scoutId: scout._id,
-            message,
-            status: 'Error',
-            statusCode,
-            errMessage: err.message,
-          })
-        })
-      }
-    })
-  }
+      })
+    }
+  })
 }
 
 function patrol(scout) {
@@ -121,14 +123,19 @@ function patrol(scout) {
       console: { log() { } },
     })
 
+    const snapshot = {
+      status: 'OK',
+      statusCode,
+      responseTime,
+    }
     Scout.findByIdAndUpdate(scout._id, {
-      $push: { snapshots: {
-        status: 'OK',
-        statusCode,
-        responseTime,
-      } },
+      $push: { snapshots: snapshot },
     }).exec()
-    scout.errors = 0
+
+    if (scout.errors) {
+      alert(scout, snapshot)
+      scout.errors = 0
+    }
   })
   .catch((err) => {
     const snapshot = {
@@ -146,7 +153,9 @@ function patrol(scout) {
     }).exec()
 
     snapshot.body = body
-    alert(scout, snapshot)
+    if (scout.errors === scout.tolerance) {
+      alert(scout, snapshot)
+    }
     scout.errors += 1
   })
 }
