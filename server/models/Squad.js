@@ -143,7 +143,7 @@ function patrol(scout) {
       if (!settings.alertURL) return
 
       if (status === 'OK') {
-        if (settings.alertOnRecovery && scout.errors) {
+        if (settings.alertOnRecovery && scout.errors > scout.tolerance) {
           alert(scout, snapshot, settings.alertURL)
         }
         scout.errors = 0
