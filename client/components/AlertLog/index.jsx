@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 import fetch from 'isomorphic-fetch'
 import moment from 'moment'
-import { origin } from '../../config'
+import { origin, colors as C } from '../../config'
 import $ from './index.css'
 
 function renderHTTP(record) {
@@ -59,7 +59,7 @@ class AlertLog extends Component {
     const columns = [
       {
         width: 100,
-        title: '状态',
+        title: '告警接口状态',
         dataIndex: 'status',
         render: (status, record) => (
           record.statusCode ?
@@ -74,9 +74,15 @@ class AlertLog extends Component {
         render: time => moment(time).format('MM-DD HH:mm'),
       },
       {
-        title: '异常描述',
+        title: '描述',
         dataIndex: 'message',
-        render: message => `${message.errName}: ${message.errMessage}`,
+        render: message => (
+          message.status === 'Error' ?
+            <span style={{ color: C.red }}>
+              {message.errName}: {message.errMessage}
+            </span> :
+            <span style={{ color: C.green }}>恢复正常</span>
+        ),
       },
       {
         title: '从属条目',
