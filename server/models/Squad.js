@@ -40,51 +40,43 @@ function isNowInWork(workTime) {
   })
 }
 
-function alert(scout, snapshot) {
-  getSettings().then((settings) => {
-    if (!settings.alertOnRecovery && scout.status === 'OK') {
-      return
-    }
+function alert(scout, snapshot, alertURL) {
+  const message = Object.assign({
+    recipients: scout.recipients,
+    name: scout.name,
+    URL: scout.URL,
+    readType: scout.readType,
+    testCase: scout.testCase,
+    now: Date.now(),
+  }, snapshot)
 
-    if (settings.alertURL) {
-      const message = Object.assign({
-        recipients: scout.recipients,
-        name: scout.name,
-        URL: scout.URL,
-        readType: scout.readType,
-        testCase: scout.testCase,
-        now: Date.now(),
-      }, snapshot)
-
-      let statusCode
-      fetch(settings.alertURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(message),
-      })
-      .then((res) => {
-        statusCode = res.status
-        return res.text()
-      })
-      .then((body) => {
-        AlertLog.create({
-          scoutId: scout._id,
-          message,
-          status: 'OK',
-          body,
-          statusCode,
-        })
-      })
-      .catch((err) => {
-        AlertLog.create({
-          scoutId: scout._id,
-          message,
-          status: 'Error',
-          statusCode,
-          errMessage: err.message,
-        })
-      })
-    }
+  let statusCode
+  fetch(alertURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(message),
+  })
+  .then((res) => {
+    statusCode = res.status
+    return res.text()
+  })
+  .then((body) => {
+    AlertLog.create({
+      scoutId: scout._id,
+      message,
+      status: 'OK',
+      body,
+      statusCode,
+    })
+  })
+  .catch((err) => {
+    AlertLog.create({
+      scoutId: scout._id,
+      message,
+      status: 'Error',
+      statusCode,
+      errMessage: err.message,
+    })
   })
 }
 
@@ -123,40 +115,46 @@ function patrol(scout) {
       console: { log() { } },
     })
 
-    const snapshot = {
+    return {
       status: 'OK',
       statusCode,
       responseTime,
     }
-    Scout.findByIdAndUpdate(scout._id, {
-      $push: { snapshots: snapshot },
-    }).exec()
-
-    if (scout.errors) {
-      alert(scout, snapshot)
-      scout.errors = 0
-    }
   })
-  .catch((err) => {
-    const snapshot = {
+  .catch(err => (
+    {
       status: 'Error',
       statusCode,
       responseTime,
       errName: err.name,
       errMessage: err.message,
     }
-    if (scout.errors === 0) {
+  ))
+  .then((snapshot) => {
+    const { status } = snapshot
+    if (scout.errors === 0 && status === 'Error') {
       snapshot.body = body
     }
     Scout.findByIdAndUpdate(scout._id, {
       $push: { snapshots: snapshot },
     }).exec()
 
-    snapshot.body = body
-    if (scout.errors === scout.tolerance) {
-      alert(scout, snapshot)
-    }
-    scout.errors += 1
+    getSettings().then((settings) => {
+      if (!settings.alertURL) return
+
+      if (status === 'OK') {
+        if (settings.alertOnRecovery && scout.errors) {
+          alert(scout, snapshot, settings.alertURL)
+        }
+        scout.errors = 0
+      } else if (status === 'Error') {
+        snapshot.body = body
+        if (scout.errors === scout.tolerance) {
+          alert(scout, snapshot, settings.alertURL)
+        }
+        scout.errors += 1
+      }
+    })
   })
 }
 
