@@ -7,6 +7,7 @@ import HealthChart from './HealthChart'
 import formatTinyTime from '../../utils/formatTinyTime'
 import healthToColor from '../../utils/healthToColor'
 import $ from './Scouts.css'
+import randomColor from '../../utils/randomColor'
 
 export default class Scouts extends Component {
   constructor(props) {
@@ -50,19 +51,7 @@ export default class Scouts extends Component {
           <div>
             <div className={$.firstline}>
               <Link to={`/stats/${record.id}`} className={$.name}>{name}</Link>
-              {record.tags.map((tag) => {
-                const colors = [
-                  'pink',
-                  'red',
-                  'orange',
-                  'green',
-                  'cyan',
-                  'blue',
-                  'purple',
-                ]
-                const charCodeSum = tag.split('').reduce((sum, s) => sum + s.charCodeAt(), 0)
-                return <Tag key={tag} color={colors[charCodeSum % colors.length]}>{tag}</Tag>
-              })}
+              {record.tags.map(tag => <Tag key={tag} color={randomColor(tag)}>{tag}</Tag>)}
             </div>
             <div
               className={$.longtext}
