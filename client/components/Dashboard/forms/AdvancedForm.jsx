@@ -28,7 +28,7 @@ export default function AdvancedForm(props) {
       </Col>
 
       <Col span={12}>
-        <Item label="Apdex 目标响应时间">
+        <Item label="Apdex 目标响应时间" wrapperCol={{ span: 24 }}>
           {getFieldDecorator('ApdexTarget', {
             initialValue: scout.ApdexTarget || 500,
           })(<Slider min={100} max={2000} step={100} tipFormatter={formatTinyTime} />)}

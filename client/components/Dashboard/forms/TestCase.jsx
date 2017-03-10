@@ -6,7 +6,7 @@ import CodeEditor from './custom/CodeEditor'
 import { origin, colors as C } from '../../../config'
 import $ from './TestCase.css'
 
-function toHtml(s) {
+function toHtml(s = '') {
   return __toHtml(
     s.replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -211,7 +211,7 @@ export default class TestCase extends Component {
         <pre className={$.pre} dangerouslySetInnerHTML={{ __html: toHtml(this.state.requestResult.beautifiedBody || '') }} />
       </Tooltip>
 
-      <Item label="条件" style={{ marginBottom: 0 }}>
+      <Item label="条件" style={{ marginBottom: 0 }} wrapperCol={{ span: 24 }}>
         {getFieldDecorator('testCase', {
           initialValue: scout.testCase,
         })(<CodeEditor />)}
@@ -230,7 +230,7 @@ export default class TestCase extends Component {
       <ul className={$.console} style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
         {this.state.testResult.logs.map((log, i) => (
           <li key={i}>
-            <pre dangerouslySetInnerHTML={{ __html: toHtml(log || '') }} />
+            <pre dangerouslySetInnerHTML={{ __html: toHtml(log) }} />
           </li>
         ))}
       </ul>
