@@ -3,6 +3,10 @@ html, body {
   min-width: 1200px;
 }
 
+td {
+  word-break: break-all;
+}
+
 pre {
   white-space: pre-wrap;
   word-wrap: break-word;

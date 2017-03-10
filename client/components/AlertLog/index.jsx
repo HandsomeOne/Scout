@@ -94,9 +94,15 @@ class AlertLog extends Component {
       {
         title: '发送至',
         dataIndex: 'message.recipients',
-        render: recipients => recipients.map(
-          recipient => <Tag key={recipient}>{recipient}</Tag>,
-        ),
+        render: recipients => recipients.map((recipient) => {
+          let color = ''
+          if (/^\+?\d+$/.test(recipient)) {
+            color = 'orange'
+          } else if (/@/.test(recipient)) {
+            color = 'purple'
+          }
+          return <Tag key={recipient} color={color}>{recipient}</Tag>
+        }),
       },
     ]
     return (
