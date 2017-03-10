@@ -1,5 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
-import { Form, Icon, Button, Checkbox, message } from 'antd'
+import { Form, Icon, Button, Switch, message } from 'antd'
 import fetch from 'isomorphic-fetch'
 import { origin } from '../../config'
 import $ from './index.css'
@@ -65,11 +65,11 @@ class Settings extends Component {
             <AlertURLDetail alertURL={getFieldValue('alertURL')} />
           </div>
 
-          <Item>
+          <Item label="在接口恢复时通知">
             {getFieldDecorator('alertOnRecovery', {
               valuePropName: 'checked',
               initialValue: settings.alertOnRecovery,
-            })(<Checkbox>在接口恢复时通知</Checkbox>)}
+            })(<Switch />)}
           </Item>
           <Button
             onClick={this.submit}
