@@ -29,7 +29,7 @@
 
 ![](https://i.imgur.com/W0U9uPQ.png)
 
-![](https://i.imgur.com/MtnsYdQ.png)
+![](https://i.imgur.com/hOmr2KQ.png)
 
 ### 环境需求
 ```
