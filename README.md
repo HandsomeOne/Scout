@@ -14,6 +14,7 @@
 - 支持异常容忍次数，连续异常次数在此之下的不告警
 - 可配置从异常状态中恢复时是否通知到接受组
 - 告警通过 HTTP 传输数据，可自由配置接受告警的 URL
+- 支持 Apdex
 
 #### 用户界面（就是好看又好用）
 
@@ -30,6 +31,8 @@
 ![](https://i.imgur.com/W0U9uPQ.png)
 
 ![](https://i.imgur.com/hOmr2KQ.png)
+
+![](https://i.imgur.com/SAERuF8.png)
 
 ### 环境需求
 ```
