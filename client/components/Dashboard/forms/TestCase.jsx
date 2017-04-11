@@ -148,6 +148,7 @@ export default class TestCase extends Component {
         isTesting: false,
         testTime: Date.now(),
         testResult,
+        isConsoleVisible: testResult.logs.length,
       })
     })
   }
