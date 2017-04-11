@@ -16,7 +16,7 @@ export default function BasicForm(props) {
         <Item label="名称" >
           {getFieldDecorator('name', {
             initialValue: scout.name,
-            rules: [{ required: true }],
+            rules: [{ required: true, whitespace: true }],
           })(<Input />)}
         </Item>
       </Col>
@@ -25,7 +25,7 @@ export default function BasicForm(props) {
         <Item label="标签" >
           {getFieldDecorator('tags', {
             initialValue: scout.tags,
-          })(<Select mode="tags" notFoundContent="空" tokenSeparators={[',', ' ']}>
+          })(<Select mode="tags" tokenSeparators={[',', ' ']}>
             {props.allTags.map(tag => <Option key={tag}>{tag}</Option>)}
           </Select>)}
         </Item>
@@ -49,7 +49,7 @@ export default function BasicForm(props) {
         <Item label="URL" >
           {getFieldDecorator('URL', {
             initialValue: scout.URL,
-            rules: [{ required: true }],
+            rules: [{ type: 'url' }],
           })(<PrefixedURL />)}
         </Item>
       </Col>
@@ -64,7 +64,7 @@ export default function BasicForm(props) {
     <Item label="告警接收人" >
       {getFieldDecorator('recipients', {
         initialValue: scout.recipients,
-      })(<Select mode="tags" notFoundContent="空" tokenSeparators={[',', ' ']}>
+      })(<Select mode="tags" tokenSeparators={[',', ' ']}>
         {props.allRecipients.map(recipient => <Option key={recipient}>{recipient}</Option>)}
       </Select>)}
     </Item>

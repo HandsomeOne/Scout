@@ -39,12 +39,36 @@ export default function AdvancedForm(props) {
     <Item label="请求头">
       {getFieldDecorator('headers', {
         initialValue: scout.headers,
+        rules: [{
+          message: '请求头不应该含有空项',
+          validator: (rules, value, callback) => {
+            if (value && value.some(header => !(
+              header[0] && header[0].trim() && header[1] && header[1].trim()
+            ))) {
+              callback(new Error())
+            } else {
+              callback()
+            }
+          },
+        }],
       })(<HTTPHeaders />)}
     </Item>
 
     <Item label="活跃时间段" extra="若不指定时间段，默认为 7×24">
       {getFieldDecorator('workTime', {
         initialValue: scout.workTime,
+        rules: [{
+          message: '活跃时间段不应该含有空项',
+          validator: (rules, value, callback) => {
+            if (value && value.some(header => !(
+              header[0] && header[0].length && header[1] && header[1].length
+            ))) {
+              callback(new Error())
+            } else {
+              callback()
+            }
+          },
+        }],
       })(<WorkTime />)}
     </Item>
   </Form>)

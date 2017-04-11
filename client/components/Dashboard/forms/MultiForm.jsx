@@ -1,8 +1,8 @@
 import React, { PropTypes as T } from 'react'
 import { Form, InputNumber, Row, Col, Slider, Select } from 'antd'
-import HTTPHeaders from './forms/custom/HTTPHeaders'
-import WorkTime from './forms/custom/WorkTime'
-import formatTinyTime from '../../utils/formatTinyTime'
+import HTTPHeaders from './custom/HTTPHeaders'
+import WorkTime from './custom/WorkTime'
+import formatTinyTime from '../../../utils/formatTinyTime'
 
 function MultiForm(props) {
   const { form } = props
@@ -16,7 +16,7 @@ function MultiForm(props) {
       <Item label="需要修改的字段">
         {getFieldDecorator('fields', {
           initialValue: [],
-        })(<Select mode="tags" notFoundContent="空" tokenSeparators={[',', ' ']}>
+        })(<Select mode="tags" tokenSeparators={[',', ' ']}>
           <Option key="tags">标签</Option>
           <Option key="recipients">告警接收人</Option>
           <Option key="interval">检测时间间隔/min</Option>
@@ -34,7 +34,6 @@ function MultiForm(props) {
               initialValue: [],
             })(<Select
               mode="tags"
-              notFoundContent="空"
               disabled={!fields.includes('tags')}
               tokenSeparators={[',', ' ']}
             >
@@ -49,7 +48,6 @@ function MultiForm(props) {
               initialValue: [],
             })(<Select
               mode="tags"
-              notFoundContent="空"
               disabled={!fields.includes('recipients')}
               tokenSeparators={[',', ' ']}
             >
@@ -88,12 +86,36 @@ function MultiForm(props) {
       <Item label="请求头">
         {getFieldDecorator('headers', {
           initialValue: [],
+          rules: [{
+            message: '请求头不应该含有空项',
+            validator: (rules, value, callback) => {
+              if (value && value.some(header => !(
+                header[0] && header[0].trim() && header[1] && header[1].trim()
+              ))) {
+                callback(new Error())
+              } else {
+                callback()
+              }
+            },
+          }],
         })(<HTTPHeaders disabled={!fields.includes('headers')} />)}
       </Item>
 
       <Item label="活跃时间段" extra="若不指定时间段，默认为 7×24">
         {getFieldDecorator('workTime', {
           initialValue: [],
+          rules: [{
+            message: '活跃时间段不应该含有空项',
+            validator: (rules, value, callback) => {
+              if (value && value.some(header => !(
+                header[0] && header[0].length && header[1] && header[1].length
+              ))) {
+                callback(new Error())
+              } else {
+                callback()
+              }
+            },
+          }],
         })(<WorkTime disabled={!fields.includes('workTime')} />)}
       </Item>
     </Form>

@@ -85,7 +85,6 @@ export default class AlertURLDetail extends Component {
             placeholder="告警接收人"
             mode="tags"
             size="large"
-            notFoundContent="空"
             onChange={this.update}
             tokenSeparators={[',', ' ']}
           />

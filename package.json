@@ -1,6 +1,6 @@
 {
   "name": "scout",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "URL watcher",
   "scripts": {
     "start": "webpack-dev-server -d",

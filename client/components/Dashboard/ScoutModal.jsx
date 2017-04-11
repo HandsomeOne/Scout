@@ -39,46 +39,46 @@ class ScoutModal extends Component {
     }
   }
   handleOk = () => {
-    const data = this.form.getFieldsValue()
-    if (this.props.activeId) {
-      if (isSubsetOf.call(data, this.state.scout)) {
-        this.props.closeModal()
-        message.info('未修改')
-      } else {
-        fetch(`${origin}/scout/${this.props.activeId}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        })
-        .then(res => res.json())
-        .then((json) => {
-          this.props.setScouts(
-            this.props.scouts.map(scout => (
-              scout.id === this.props.activeId ? Object.assign(scout, json) : scout
-            )),
-          )
+    this.form.validateFieldsAndScroll((err) => {
+      if (err) return
+
+      const data = this.form.getFieldsValue()
+      if (this.props.activeId) {
+        if (isSubsetOf.call(data, this.state.scout)) {
           this.props.closeModal()
-          message.success('修改成功')
-        })
-      }
-    } else {
-      this.form.validateFieldsAndScroll((err) => {
-        if (!err) {
-          fetch(`${origin}/scout`, {
-            method: 'POST',
+          message.info('未修改')
+        } else {
+          fetch(`${origin}/scout/${this.props.activeId}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
           })
           .then(res => res.json())
           .then((json) => {
-            this.props.setScouts([json].concat(this.props.scouts))
-            this.setState({ newId: this.state.newId + 1 })
+            this.props.setScouts(
+              this.props.scouts.map(scout => (
+                scout.id === this.props.activeId ? Object.assign(scout, json) : scout
+              )),
+            )
             this.props.closeModal()
-            message.success('添加成功')
+            message.success('修改成功')
           })
         }
-      })
-    }
+      } else {
+        fetch(`${origin}/scout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        .then(res => res.json())
+        .then((json) => {
+          this.props.setScouts([json].concat(this.props.scouts))
+          this.setState({ newId: this.state.newId + 1 })
+          this.props.closeModal()
+          message.success('添加成功')
+        })
+      }
+    })
   }
 
   render() {
