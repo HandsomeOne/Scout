@@ -30,10 +30,12 @@
   "devDependencies": {
     "autoprefixer": "^6.5.3",
     "babel-core": "^6.18.2",
+    "babel-eslint": "^7.2.1",
     "babel-loader": "^6.2.7",
     "babel-plugin-import": "^1.0.1",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.0",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^14.0.0",

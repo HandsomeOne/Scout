@@ -3,18 +3,13 @@ import { Menu, Dropdown, Icon, Checkbox } from 'antd'
 import union from '../../utils/union'
 
 export default class TagFilter extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visible: false,
-    }
-    this.handleVisibleChange = this.handleVisibleChange.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+  state = {
+    visible: false,
   }
-  handleVisibleChange(visible) {
+  handleVisibleChange = (visible) => {
     this.setState({ visible })
   }
-  handleChange(tag, checked) {
+  handleChange = (tag, checked) => {
     const ids = this.props.scouts
                 .filter(scout => scout.tags.includes(tag))
                 .map(scout => scout.id)

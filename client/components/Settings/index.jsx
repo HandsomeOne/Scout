@@ -7,15 +7,10 @@ import AlertURLDetail from './AlertURLDetail'
 import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
 
 class Settings extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAlertURLDetailVisible: false,
-      isTesting: false,
-      settings: {},
-    }
-    this.submit = this.submit.bind(this)
-    this.toggleAlertURLDetail = this.toggleAlertURLDetail.bind(this)
+  state = {
+    isAlertURLDetailVisible: false,
+    isTesting: false,
+    settings: {},
   }
   componentDidMount() {
     fetch(`${origin}/settings`)
@@ -24,7 +19,7 @@ class Settings extends Component {
       this.setState({ settings })
     })
   }
-  submit() {
+  submit = () => {
     const data = this.props.form.getFieldsValue()
     fetch(`${origin}/settings`, {
       method: 'PATCH',
@@ -35,7 +30,7 @@ class Settings extends Component {
       message.success('更新成功')
     })
   }
-  toggleAlertURLDetail() {
+  toggleAlertURLDetail = () => {
     this.setState({
       isAlertURLDetailVisible: !this.state.isAlertURLDetailVisible,
     })

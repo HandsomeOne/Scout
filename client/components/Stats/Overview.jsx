@@ -4,10 +4,7 @@ import { origin } from '../../config'
 import $ from './Overview.css'
 
 export default class Overview extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+  state = {}
   componentDidMount() {
     fetch(`${origin}/stats/${this.props.id}?since=${this.props.since}`)
     .then(res => res.json())

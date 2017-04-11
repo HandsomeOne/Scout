@@ -34,9 +34,6 @@ export default class TestCase extends Component {
       },
       isConsoleVisible: false,
     }
-    this.request = this.request.bind(this)
-    this.test = this.test.bind(this)
-    this.toggleConsole = this.toggleConsole.bind(this)
   }
   componentDidMount() {
     if (this.state.URL) {
@@ -111,7 +108,7 @@ export default class TestCase extends Component {
       ApdexTarget: getFieldValue('ApdexTarget'),
     })
   }
-  request() {
+  request = () => {
     this.setState({ isRequesting: true })
     fetch(`${origin}/request`, {
       method: 'POST',
@@ -133,7 +130,7 @@ export default class TestCase extends Component {
       })
     })
   }
-  test() {
+  test = () => {
     this.setState({ isTesting: true })
     fetch(`${origin}/test`, {
       method: 'POST',
@@ -154,7 +151,7 @@ export default class TestCase extends Component {
       })
     })
   }
-  toggleConsole() {
+  toggleConsole = () => {
     this.setState({
       isConsoleVisible: !this.state.isConsoleVisible,
     })
@@ -228,8 +225,8 @@ export default class TestCase extends Component {
       </div>
 
       <ul className={$.console} style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
-        {this.state.testResult.logs.map((log, i) => (
-          <li key={i}>
+        {this.state.testResult.logs.map(log => (
+          <li>
             <pre dangerouslySetInnerHTML={{ __html: toHtml(log) }} />
           </li>
         ))}

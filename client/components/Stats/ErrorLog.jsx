@@ -7,11 +7,8 @@ import formatTinyTime from '../../utils/formatTinyTime'
 import calendar from '../../utils/calendar'
 
 export default class ErrorLog extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      logs: [],
-    }
+  state = {
+    logs: [],
   }
   componentDidMount() {
     moment.locale('zh-cn')

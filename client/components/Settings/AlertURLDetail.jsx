@@ -5,15 +5,10 @@ import { origin, colors as C } from '../../config'
 import $ from './AlertURLDetail.css'
 
 export default class AlertURLDetail extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      recipients: [],
-      result: {},
-      isSending: false,
-    }
-    this.send = this.send.bind(this)
-    this.update = this.update.bind(this)
+  state = {
+    recipients: [],
+    result: {},
+    isSending: false,
   }
   getRequestOutput() {
     const result = this.state.result
@@ -41,7 +36,7 @@ export default class AlertURLDetail extends Component {
         return ''
     }
   }
-  send() {
+  send = () => {
     this.setState({ isSending: true })
 
     fetch(`${origin}/settings/test`, {
@@ -60,7 +55,7 @@ export default class AlertURLDetail extends Component {
       })
     })
   }
-  update(recipients) {
+  update = (recipients) => {
     this.setState({ recipients })
   }
 

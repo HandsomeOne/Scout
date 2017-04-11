@@ -26,20 +26,16 @@ function stringify({ protocol, url }) {
 }
 
 export default class PrefixedURL extends Component {
-  constructor(props) {
-    super(props)
-    this.state = parse(props.value)
-    this.onSelect = this.onSelect.bind(this)
-    this.onChange = this.onChange.bind(this)
-  }
+  state = parse(this.props.value)
+
   componentWillReceiveProps(nextProps) {
     this.setState(parse(nextProps.value))
   }
-  onSelect(value) {
+  onSelect = (value) => {
     this.state.protocol = value
     this.props.onChange(stringify(this.state))
   }
-  onChange(e) {
+  onChange = (e) => {
     this.state.url = e.target.value
     this.props.onChange(stringify(this.state))
   }

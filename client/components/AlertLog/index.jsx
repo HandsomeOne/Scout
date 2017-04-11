@@ -25,20 +25,15 @@ function renderHTTP(record) {
 }
 
 class AlertLog extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
-      alertLogs: [],
-    }
-    this.pageSize = 10
-    this.handleChange = this.handleChange.bind(this)
+  state = {
+    loading: false,
+    alertLogs: [],
   }
-
   componentDidMount() {
     this.fetch()
   }
 
+  pageSize = 10
   fetch(page = 1) {
     this.setState({ loading: true })
     fetch(`${origin}/alertlogs?page=${page}&pageSize=${this.pageSize}`)
@@ -51,7 +46,7 @@ class AlertLog extends Component {
     })
   }
 
-  handleChange(pagination) {
+  handleChange = (pagination) => {
     this.fetch(pagination.current)
   }
 

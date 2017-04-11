@@ -4,19 +4,15 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/javascript/javascript'
 
 export default class CodeEditor extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.value,
-    }
-    this.updateCode = this.updateCode.bind(this)
+  state = {
+    value: this.props.value,
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
       value: nextProps.value,
     })
   }
-  updateCode(newCode) {
+  updateCode = (newCode) => {
     this.props.onChange(newCode)
   }
   render() {

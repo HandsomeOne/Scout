@@ -10,11 +10,8 @@ import $ from './Scouts.css'
 import randomColor from '../../utils/randomColor'
 
 export default class Scouts extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-    }
+  state = {
+    loading: true,
   }
   componentDidMount() {
     const get = () => {

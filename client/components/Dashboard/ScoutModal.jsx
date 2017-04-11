@@ -11,14 +11,10 @@ function isSubsetOf(set) {
 }
 
 class ScoutModal extends Component {
-  constructor() {
-    super()
-    this.state = {
-      newId: 0,
-      scout: {},
-      isVisible: false,
-    }
-    this.handleOk = this.handleOk.bind(this)
+  state = {
+    newId: 0,
+    scout: {},
+    isVisible: false,
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen && !this.props.isOpen) {
@@ -42,7 +38,7 @@ class ScoutModal extends Component {
       this.setState({ isVisible: false })
     }
   }
-  handleOk() {
+  handleOk = () => {
     const data = this.form.getFieldsValue()
     if (this.props.activeId) {
       if (isSubsetOf.call(data, this.state.scout)) {

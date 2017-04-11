@@ -5,12 +5,9 @@ import ErrorLog from './ErrorLog'
 import $ from './index.css'
 
 class Stats extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      since: 1440,
-      interval: 30,
-    }
+  state = {
+    since: 1440,
+    interval: 30,
   }
   render() {
     const { id } = this.props.match.params

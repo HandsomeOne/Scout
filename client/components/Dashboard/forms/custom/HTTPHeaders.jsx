@@ -2,12 +2,8 @@ import React, { Component, PropTypes as T } from 'react'
 import { Input, Button, Row, Col } from 'antd'
 
 export default class HTTPHeaders extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      headers: props.value,
-    }
-    this.add = this.add.bind(this)
+  state = {
+    headers: this.props.value,
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -18,7 +14,7 @@ export default class HTTPHeaders extends Component {
     this.state.headers[i][j] = e.target.value
     this.props.onChange(this.state.headers)
   }
-  add() {
+  add = () => {
     this.props.onChange(this.state.headers.concat([[]]))
   }
   del(i) {
@@ -29,7 +25,7 @@ export default class HTTPHeaders extends Component {
     const { Group } = Input
     return (<Group size="large">
       {this.state.headers.map((header, i) =>
-        <Row key={i} type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
+        <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
           <Col span={8}>
             <Input
               placeholder="键"

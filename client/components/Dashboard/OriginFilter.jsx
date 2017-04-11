@@ -2,18 +2,13 @@ import React, { Component, PropTypes as T } from 'react'
 import { Menu, Dropdown, Icon, Checkbox } from 'antd'
 
 export default class OriginFilter extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visible: false,
-    }
-    this.handleVisibleChange = this.handleVisibleChange.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+  state = {
+    visible: false,
   }
-  handleVisibleChange(visible) {
+  handleVisibleChange = (visible) => {
     this.setState({ visible })
   }
-  handleChange(origin, checked) {
+  handleChange = (origin, checked) => {
     const ids = this.props.scouts
                 .filter(scout => scout.origin === origin)
                 .map(scout => scout.id)

@@ -5,11 +5,7 @@ import MultiForm from './MultiForm'
 import { origin } from '../../config'
 
 class MultiModal extends Component {
-  constructor(props) {
-    super(props)
-    this.handleOk = this.handleOk.bind(this)
-  }
-  handleOk() {
+  handleOk = () => {
     this.form.validateFieldsAndScroll((err) => {
       if (!err) {
         const data = this.form.getFieldsValue()

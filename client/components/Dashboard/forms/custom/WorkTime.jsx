@@ -32,12 +32,8 @@ const displayRenderFrom = displayRenderFactory.bind(null, '从')
 const displayRenderTo = displayRenderFactory.bind(null, '至')
 
 export default class WorkTime extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      workTime: props.value,
-    }
-    this.add = this.add.bind(this)
+  state = {
+    workTime: this.props.value,
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -48,7 +44,7 @@ export default class WorkTime extends Component {
     this.state.workTime[i][j] = value
     this.props.onChange(this.state.workTime)
   }
-  add() {
+  add = () => {
     this.props.onChange(this.state.workTime.concat([[]]))
   }
   del(i) {
@@ -65,7 +61,7 @@ export default class WorkTime extends Component {
     return (<div>
       <WorkTimeChart workTime={this.state.workTime} />
       {this.state.workTime.map((range, i) =>
-        <Row key={i} type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
+        <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
           <Col span={10}>
             <Cascader
               {...CascaderProps}

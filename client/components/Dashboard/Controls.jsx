@@ -5,11 +5,8 @@ import OriginFilter from './OriginFilter'
 import $ from './Controls.css'
 
 export default class Controls extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isModalOpen: false,
-    }
+  state = {
+    isModalOpen: false,
   }
   render() {
     return (

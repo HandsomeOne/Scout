@@ -6,49 +6,38 @@ import MultiModal from './MultiModal'
 import union from '../../utils/union'
 
 export default class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectable: false,
-      isModalOpen: false,
-      isMultiModalOpen: false,
-      scouts: [],
-      selectedScouts: [],
-    }
-    this.handleSelectChange = this.handleSelectChange.bind(this)
-    this.setScouts = this.setScouts.bind(this)
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
-    this.openMultiModal = this.openMultiModal.bind(this)
-    this.closeMultiModal = this.closeMultiModal.bind(this)
-    this.select = this.select.bind(this)
-    this.deselect = this.deselect.bind(this)
+  state = {
+    selectable: false,
+    isModalOpen: false,
+    isMultiModalOpen: false,
+    scouts: [],
+    selectedScouts: [],
   }
-  setScouts(scouts) {
+  setScouts = (scouts) => {
     this.setState({ scouts })
   }
-  handleSelectChange(selectedScouts) {
+  handleSelectChange = (selectedScouts) => {
     this.setState({ selectedScouts })
   }
-  openModal(activeId) {
+  openModal = (activeId) => {
     this.setState({
       isModalOpen: true,
       activeId,
     })
   }
-  closeModal() {
+  closeModal = () => {
     this.setState({ isModalOpen: false })
   }
-  openMultiModal() {
+  openMultiModal = () => {
     this.setState({ isMultiModalOpen: true })
   }
-  closeMultiModal() {
+  closeMultiModal = () => {
     this.setState({ isMultiModalOpen: false })
   }
-  select() {
+  select = () => {
     this.setState({ selectable: true })
   }
-  deselect() {
+  deselect = () => {
     this.setState({ selectable: false })
   }
   render() {
