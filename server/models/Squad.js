@@ -113,6 +113,7 @@ function patrol(scout) {
       responseTime,
       body: isJSON ? JSON.parse(body) : body,
       console: { log() { } },
+      log() {},
     })
 
     return {

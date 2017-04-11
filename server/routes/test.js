@@ -5,19 +5,20 @@ const inspect = require('util').inspect
 module.exports = (server) => {
   server.post('/test', (req, res) => {
     const logs = []
+
+    function log(...any) {
+      logs.push(any.map(v => (
+        typeof v === 'string' ? v : inspect(v, { colors: true })
+      )).join(' '))
+    }
     try {
       new vm.Script(req.params.testCase).runInNewContext({
         assert,
         statusCode: req.params.statusCode,
         responseTime: req.params.responseTime,
         body: req.params.body,
-        console: {
-          log(...any) {
-            logs.push(any.map(v => (
-              typeof v === 'string' ? v : inspect(v, { colors: true })
-            )).join(' '))
-          },
-        },
+        console: { log },
+        log,
       })
       res.send({
         status: 'OK',
