@@ -1,0 +1,33 @@
+.errorlog {
+  padding: 80px 0;
+}
+
+.errorlog h2 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.errorlog .timeline {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.detail {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin-top: 8px;
+}
+
+.detail td {
+  border: 1px solid #ececec;
+  padding: 8px 16px;
+}
+
+.detail td:first-child {
+  background-color: #f8f8f8;
+  width: 120px;
+}
+
+.ok {
+  text-align: center;
+}

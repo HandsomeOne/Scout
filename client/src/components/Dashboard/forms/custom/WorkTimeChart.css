@@ -1,0 +1,48 @@
+.day {
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  height: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 5px;
+}
+
+.middle {
+  position: relative;
+  height: 100%;
+}
+
+.range {
+  position: absolute;
+  background-color: #fdf161;
+  height: 100%;
+  border-radius: 5px;
+  box-sizing: content-box;
+  padding: 0 5px;
+  margin: 0 -5px;
+}
+
+.lines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 13px;
+}
+
+.lines > div {
+  height: 100%;
+  width: 1px;
+  background-color: #ececec;
+}
+
+.time {
+  display: flex !important;
+  justify-content: space-between;
+  display: relative;
+  z-index: 99;
+  line-height: normal;
+}

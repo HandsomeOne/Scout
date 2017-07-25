@@ -1,0 +1,26 @@
+import mongoose from './db'
+
+const AlertLogSchema = new mongoose.Schema({
+  scoutId: mongoose.Schema.Types.ObjectId,
+  message: {
+    recipients: [String],
+    name: String,
+    URL: String,
+    status: String,
+    statusCode: Number,
+    responseTime: Number,
+    now: Date,
+    errName: String,
+    errMessage: String,
+    body: String,
+    readType: String,
+    testCase: String,
+  },
+  time: { type: Date, default: Date.now },
+  status: { type: 'String', enum: ['OK', 'Error'], required: true },
+  statusCode: Number,
+  errMessage: String,
+  body: String,
+})
+
+export default mongoose.model('AlertLog', AlertLogSchema)

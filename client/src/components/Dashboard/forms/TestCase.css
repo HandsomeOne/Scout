@@ -1,0 +1,69 @@
+.line {
+  line-height: 32px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.flexline {
+  height: 32px;
+  line-height: 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexline a {
+  width: 80px;
+  text-align: right;
+  flex-basis: 80px;
+  flex-shrink: 0;
+}
+
+.pre {
+  height: 200px;
+  overflow: auto;
+  padding: 0 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+}
+
+.run {
+  position: absolute !important;
+  bottom: 16px;
+  right: 16px;
+  z-index: 3001;
+}
+
+.console {
+  height: 150px;
+  overflow: auto;
+  border-radius: 4px;
+  background-color: #323232;
+  color: #ccc;
+}
+
+.console li {
+  min-height: 19px;
+  padding: 0 16px;
+  border-bottom: 1px solid #666;
+}
+
+.CodeMirror {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  line-height: 1.5;
+  height: 150px !important;
+}
+
+.CodeMirror pre {
+  font-variant-ligatures: normal;
+}
+
+.fadein {
+  animation: fadein 0.3s ease-out;
+}
+@keyframes fadein {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}

@@ -1,0 +1,20 @@
+.alerturldetail {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 32px;
+}
+
+.alerturldetail pre {
+  margin-bottom: 16px;
+}
+.alerturldetail pre:last-child {
+  margin-bottom: 0;
+}
+
+.alerturldetail .row {
+  flex-wrap: nowrap;
+}
+.alerturldetail .row  button {
+  margin-left: 16px;
+}

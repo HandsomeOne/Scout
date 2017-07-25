@@ -1,0 +1,19 @@
+{
+  "name": "scout-server",
+  "version": "0.11.0",
+  "dependencies": {
+    "@types/mongoose": "^4.7.19",
+    "@types/node-fetch": "^1.6.7",
+    "@types/restify": "^5.0.1",
+    "@types/restify-cors-middleware": "^1.0.0",
+    "mongoose": "^4.11.4",
+    "node-fetch": "^1.7.1",
+    "restify": "^5.0.1",
+    "restify-cors-middleware": "^1.0.0",
+    "typescript": "^2.4.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node build/index"
+  }
+}
