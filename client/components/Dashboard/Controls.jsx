@@ -5,9 +5,6 @@ import OriginFilter from './OriginFilter'
 import $ from './Controls.css'
 
 export default class Controls extends Component {
-  state = {
-    isModalOpen: false,
-  }
   render() {
     return (
       <div style={{ padding: '16px 0' }}>

@@ -1,7 +1,5 @@
 import React, { Component, PropTypes as T } from 'react'
 import { Form, Icon, Button, Switch, message } from 'antd'
-import fetch from 'isomorphic-fetch'
-import { origin } from '../../config'
 import $ from './index.css'
 import AlertURLDetail from './AlertURLDetail'
 import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
@@ -9,25 +7,16 @@ import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
 class Settings extends Component {
   state = {
     isAlertURLDetailVisible: false,
-    isTesting: false,
-    settings: {},
   }
-  componentDidMount() {
-    fetch(`${origin}/settings`)
-    .then(res => res.json())
-    .then((settings) => {
-      this.setState({ settings })
-    })
-  }
+
   submit = () => {
     const data = this.props.form.getFieldsValue()
-    fetch(`${origin}/settings`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    .then(() => {
-      message.success('更新成功')
+    this.props.onSubmit(data, (isSucc) => {
+      if (isSucc) {
+        message.success('更新成功')
+      } else {
+        message.success('更新失败')
+      }
     })
   }
   toggleAlertURLDetail = () => {
@@ -38,8 +27,8 @@ class Settings extends Component {
   render() {
     const { Item } = Form
     const { getFieldDecorator } = this.props.form
-    const { settings } = this.state
     const { getFieldValue } = this.props.form
+    const { settings } = this.props
 
     return (
       <div className={$.container}>
@@ -83,6 +72,8 @@ Settings.propTypes = {
     getFieldsValue: T.func,
     getFieldValue: T.func,
   }),
+  onSubmit: T.func,
+  settings: T.object,
 }
 
 export default Form.create()(Settings)

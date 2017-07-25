@@ -1,29 +1,15 @@
 import React, { Component, PropTypes as T } from 'react'
 import moment from 'moment'
 import { Timeline } from 'antd'
-import { origin } from '../../config'
 import $ from './ErrorLog.css'
 import formatTinyTime from '../../utils/formatTinyTime'
 import calendar from '../../utils/calendar'
 
 export default class ErrorLog extends Component {
-  state = {
-    logs: [],
-  }
-  componentDidMount() {
-    moment.locale('zh-cn')
-    const { id, since } = this.props
-    fetch(`${origin}/stats/errorlog/${id}?since=${since}`)
-    .then(res => res.json())
-    .then((json) => {
-      this.setState({
-        logs: json,
-      })
-    })
-  }
   render() {
+    moment.locale('zh-cn')
     const { Item } = Timeline
-    const { logs } = this.state
+    const { logs } = this.props
 
     return (
       <div className={$.errorlog}>
@@ -74,6 +60,5 @@ export default class ErrorLog extends Component {
 }
 
 ErrorLog.propTypes = {
-  id: T.string,
-  since: T.number,
+  logs: T.arrayOf(T.shape()),
 }
