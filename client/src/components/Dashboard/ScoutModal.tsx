@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Modal, message } from 'antd'
 import ScoutForm from './ScoutForm'
-import { origin } from '../../config'
 
 function isSubsetOf(this: any, set: any) {
   return Object.keys(this).every(key => (
@@ -10,8 +9,9 @@ function isSubsetOf(this: any, set: any) {
 }
 
 interface P {
-  scouts: any[],
-  setScouts: (...args: any[]) => any,
+  scout: any
+  patchScout: (...args: any[]) => any,
+  addScout: (...args: any[]) => any,
   activeId?: string,
   isOpen: boolean,
   allTags: string[],
@@ -23,83 +23,51 @@ class ScoutModal extends React.Component<P> {
   form: any
   state = {
     newId: 0,
-    scout: {},
     isVisible: false,
   }
 
-  componentWillReceiveProps(nextProps: P) {
-    if (nextProps.isOpen && !this.props.isOpen) {
-      if (nextProps.activeId) {
-        fetch(`${origin}/scout/${nextProps.activeId}`)
-        .then(res => res.json())
-        .then((scout) => {
-          this.setState({
-            scout,
-            isVisible: true,
-          })
-        })
-      } else {
-        this.setState({
-          scout: {},
-          isVisible: true,
-        })
-      }
-    }
-    if (!nextProps.isOpen && this.props.isOpen) {
-      this.setState({ isVisible: false })
-    }
+  shouldComponentUpdate(nextProps: P) {
+    return this.props.isOpen !== nextProps.isOpen
   }
+
   handleOk = () => {
     this.form.validateFieldsAndScroll((err?: Error) => {
       if (err) return
 
       const data = this.form.getFieldsValue()
       if (this.props.activeId) {
-        if (isSubsetOf.call(data, this.state.scout)) {
+        if (isSubsetOf.call(data, this.props.scout)) {
           this.props.closeModal()
           message.info('未修改')
         } else {
-          fetch(`${origin}/scout/${this.props.activeId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-          })
-          .then(res => res.json())
-          .then((json) => {
-            this.props.setScouts(
-              this.props.scouts.map(scout => (
-                scout.id === this.props.activeId ? Object.assign(scout, json) : scout
-              )),
-            )
-            this.props.closeModal()
-            message.success('修改成功')
+          this.props.patchScout(this.props.activeId, data, (isSucc: any) => {
+            if (isSucc) {
+              message.success('修改成功')
+              this.props.closeModal()
+            }
           })
         }
       } else {
-        fetch(`${origin}/scout`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        })
-        .then(res => res.json())
-        .then((json) => {
-          this.props.setScouts([json].concat(this.props.scouts))
-          this.setState({ newId: this.state.newId + 1 })
-          this.props.closeModal()
-          message.success('添加成功')
+        this.props.addScout(data, (isSucc: any) => {
+          if (isSucc) {
+            this.setState({ newId: this.state.newId + 1 })
+            message.success('添加成功')
+            this.props.closeModal()
+          }
         })
       }
     })
   }
 
   render() {
-    const { scout } = this.state
+    const { scout } = this.props
+
     return (
       <Modal
         maskClosable={false}
         title={this.props.activeId ? `编辑${(scout as any).name}` : '添加监控'}
         width={720}
-        visible={this.state.isVisible}
+        visible={this.props.isOpen}
         onOk={this.handleOk}
         onCancel={this.props.closeModal}
       >

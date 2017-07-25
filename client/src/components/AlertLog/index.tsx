@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
 import { PaginationProps } from 'antd/lib/pagination'
 import * as moment from 'moment'
-import { origin, colors as C } from '../../config'
+import { colors as C } from '../../config'
 import './index.css'
 
 function renderHTTP(record: any) {
@@ -24,34 +24,22 @@ function renderHTTP(record: any) {
   )
 }
 
-class AlertLog extends React.Component {
-  state = {
-    loading: false,
-    alertLogs: [],
-  }
-  pageSize = 10
+interface P {
+  loadData: any
+  pageSize: any
+  loading: boolean
+  alertLogs: any[]
+}
 
-  componentDidMount() {
-    this.fetch()
-  }
-
-  fetch(page: number = 1) {
-    this.setState({ loading: true })
-    fetch(`${origin}/alertlogs?page=${page}&pageSize=${this.pageSize}`)
-      .then(res => res.json())
-      .then((alertLogs) => {
-        this.setState({
-          alertLogs,
-          loading: false,
-        })
-      })
-  }
-
+class AlertLog extends React.Component<P> {
   handleChange = (pagination: PaginationProps) => {
-    this.fetch(pagination.current)
+    const { loadData, pageSize } = this.props
+    loadData(pagination.current, pageSize)
   }
 
   render() {
+    const { loading, alertLogs } = this.props
+
     return (
       <Table
         bordered
@@ -105,7 +93,7 @@ class AlertLog extends React.Component {
             }),
           },
         ]}
-        dataSource={this.state.alertLogs}
+        dataSource={alertLogs}
         expandedRowRender={renderHTTP}
         onChange={this.handleChange}
         rowKey="id"
@@ -113,7 +101,7 @@ class AlertLog extends React.Component {
           total: 200,
           simple: true,
         }}
-        loading={this.state.loading}
+        loading={loading}
       />
     )
   }

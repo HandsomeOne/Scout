@@ -1,16 +1,10 @@
 import * as React from 'react'
-import * as moment from 'moment'
 import { Timeline } from 'antd'
-import { origin } from '../../config'
 import { formatTinyTime, calendar } from '../../utils'
 import './ErrorLog.css'
 
 interface P {
-  id: string,
   since: number,
-}
-
-interface S {
   logs: {
     start: number
     end: number
@@ -25,24 +19,10 @@ interface S {
   }[]
 }
 
-export default class ErrorLog extends React.Component<P, S> {
-  state: S = {
-    logs: [],
-  }
-  componentDidMount() {
-    moment.locale('zh-cn')
-    const { id, since } = this.props
-    fetch(`${origin}/stats/errorlog/${id}?since=${since}`)
-      .then(res => res.json())
-      .then((json) => {
-        this.setState({
-          logs: json,
-        })
-      })
-  }
+export default class ErrorLog extends React.Component<P> {
   render() {
     const { Item } = Timeline
-    const { logs } = this.state
+    const { logs } = this.props
 
     return (
       <div className="errorlog">

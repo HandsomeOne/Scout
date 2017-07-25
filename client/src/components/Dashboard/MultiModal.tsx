@@ -1,11 +1,9 @@
 import * as React from 'react'
 import { Modal, message } from 'antd'
 import MultiForm from './forms/MultiForm'
-import { origin } from '../../config'
 
 interface P {
-  scouts: any[],
-  setScouts: (...args: any[]) => any,
+  patchScouts: (...args: any[]) => any,
   isOpen: boolean,
   allTags: string[],
   allRecipients: string[],
@@ -26,24 +24,11 @@ class MultiModal extends React.Component<P> {
       ), {})
 
       if (data.fields.length) {
-        fetch(`${origin}/scouts`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ids: this.props.selectedScouts,
-            patch,
-          }),
-        })
-        .then(res => res.json())
-        .then((json) => {
-          this.props.setScouts(
-            this.props.scouts.map(scout => (
-              this.props.selectedScouts.includes(scout.id) ?
-              Object.assign(scout, json.find((s: any) => s.id === scout.id)) :
-              scout
-            )))
-          this.props.closeMultiModal()
-          message.success('修改成功')
+        this.props.patchScouts(this.props.selectedScouts, patch, (isSucc: any) => {
+          if (isSucc) {
+            this.props.closeMultiModal()
+            message.success('修改成功')
+          }
         })
       } else {
         this.props.closeMultiModal()

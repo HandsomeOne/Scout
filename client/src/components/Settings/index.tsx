@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Form, Icon, Button, Switch, message } from 'antd'
-import { origin } from '../../config'
 import './index.css'
 import AlertURLDetail from './AlertURLDetail'
 import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
@@ -11,48 +10,40 @@ interface P {
     getFieldsValue: (...args: any[]) => any,
     getFieldValue: (...args: any[]) => any,
   }
+  onSubmit: (...args: any[]) => any,
+  settings: any
 }
 
 interface S {
   isAlertURLDetailVisible: boolean
-  isTesting: boolean
-  settings: any
 }
 
 class Settings extends React.Component<P, S> {
   state: S = {
     isAlertURLDetailVisible: false,
-    isTesting: false,
-    settings: {},
   }
-  componentDidMount() {
-    fetch(`${origin}/settings`)
-    .then(res => res.json())
-    .then((settings) => {
-      this.setState({ settings })
-    })
-  }
+
   submit = () => {
     const data = this.props.form.getFieldsValue()
-    fetch(`${origin}/settings`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    .then(() => {
-      message.success('更新成功')
+    this.props.onSubmit(data, (isSucc: any) => {
+      if (isSucc) {
+        message.success('更新成功')
+      } else {
+        message.success('更新失败')
+      }
     })
   }
+
   toggleAlertURLDetail = () => {
     this.setState({
       isAlertURLDetailVisible: !this.state.isAlertURLDetailVisible,
     })
   }
+
   render() {
     const { Item } = Form
-    const { getFieldDecorator } = this.props.form
-    const { settings } = this.state
-    const { getFieldValue } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    const { settings } = this.props
 
     return (
       <div className="container">

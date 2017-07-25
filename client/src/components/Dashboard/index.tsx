@@ -5,60 +5,86 @@ import Controls from './Controls'
 import MultiModal from './MultiModal'
 import { union } from 'lodash'
 
+interface P {
+  scouts: any[]
+  scout: any
+  selectedScouts: string[]
+  activeId: string,
+  fetchScouts: (...args: any[]) => any
+  patchScouts: (...args: any[]) => any
+  cleanSelectedScouts: (...args: any[]) => any
+  selectScouts: (...args: any[]) => any
+  addScout: (...args: any[]) => any
+  deleteScout: (...args: any[]) => any
+  patchScout: (...args: any[]) => any
+  fetchScout: (...args: any[]) => any
+  cleanChosenScout: (...args: any[]) => any
+  loading: boolean
+}
+
 interface S {
   selectable: boolean
   isModalOpen: boolean
   isMultiModalOpen: boolean
-  scouts: any[]
-  selectedScouts: any[]
   activeId?: string
 }
 
-export default class Dashboard extends React.Component<{}, S> {
+export default class Dashboard extends React.Component<P, S> {
   state: S = {
     selectable: false,
     isModalOpen: false,
     isMultiModalOpen: false,
-    scouts: [],
-    selectedScouts: [],
   }
-  setScouts = (scouts: any) => {
-    this.setState({ scouts })
-  }
+
   handleSelectChange = (selectedScouts: any) => {
-    this.setState({ selectedScouts })
+    this.props.selectScouts(selectedScouts)
   }
-  openModal = (activeId: any) => {
-    this.setState({
-      isModalOpen: true,
-      activeId,
-    })
+
+  openModal = (id?: string) => {
+    if (id !== undefined) {
+      this.props.fetchScout(id, (isSucc: any) => {
+        if (isSucc) {
+          this.setState({ isModalOpen: true })
+        }
+      })
+    } else {
+      this.setState({ isModalOpen: true })
+    }
   }
+
   closeModal = () => {
+    this.props.cleanChosenScout()
     this.setState({ isModalOpen: false })
   }
+
   openMultiModal = () => {
     this.setState({ isMultiModalOpen: true })
   }
+
   closeMultiModal = () => {
+    this.props.cleanSelectedScouts()
     this.setState({ isMultiModalOpen: false })
   }
+
   select = () => {
     this.setState({ selectable: true })
   }
+
   deselect = () => {
     this.setState({ selectable: false })
   }
+
   render() {
-    const { scouts } = this.state
-    const allTags = union(scouts.map(scout => scout.tags))
-    const allRecipients = union(scouts.map(scout => scout.recipients))
+    const { scouts } = this.props
+    const allTags = union<string>(...scouts.map(scout => scout.tags))
+    const allRecipients = union<string>(...scouts.map(scout => scout.recipients))
+
     return (
       <div>
         <Controls
           selectable={this.state.selectable}
-          scouts={this.state.scouts}
-          selectedScouts={this.state.selectedScouts}
+          scouts={scouts}
+          selectedScouts={this.props.selectedScouts}
           openModal={this.openModal}
           openMultiModal={this.openMultiModal}
           handleSelectChange={this.handleSelectChange}
@@ -67,27 +93,29 @@ export default class Dashboard extends React.Component<{}, S> {
         />
         <Scouts
           selectable={this.state.selectable}
-          selectedScouts={this.state.selectedScouts}
-          scouts={this.state.scouts}
+          selectedScouts={this.props.selectedScouts}
+          scouts={scouts}
           handleSelectChange={this.handleSelectChange}
-          setScouts={this.setScouts}
+          fetchScouts={this.props.fetchScouts}
+          deleteScout={this.props.deleteScout}
+          loading={this.props.loading}
           openModal={this.openModal}
         />
         <ScoutModal
           allTags={allTags}
           allRecipients={allRecipients}
-          scouts={this.state.scouts}
-          setScouts={this.setScouts}
-          activeId={this.state.activeId}
+          scout={this.props.scout}
+          patchScout={this.props.patchScout}
+          addScout={this.props.addScout}
+          activeId={this.props.activeId}
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
         />
         <MultiModal
           allTags={allTags}
           allRecipients={allRecipients}
-          selectedScouts={this.state.selectedScouts}
-          scouts={this.state.scouts}
-          setScouts={this.setScouts}
+          selectedScouts={this.props.selectedScouts}
+          patchScouts={this.props.patchScouts}
           isOpen={this.state.isMultiModalOpen}
           closeMultiModal={this.closeMultiModal}
         />

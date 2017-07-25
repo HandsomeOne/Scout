@@ -5,25 +5,23 @@ import ErrorLog from './ErrorLog'
 import './index.css'
 
 interface P {
-  match: {
-    params: {
-      id: string
-    }
-  }
+  common: any
+  health: any
+  logs: any[]
+  id: string,
+  since: number,
+  interval: number,
 }
 
 class Stats extends React.Component<P> {
-  state = {
-    since: 1440,
-    interval: 30,
-  }
   render() {
-    const { id } = this.props.match.params
+    const { since, interval } = this.props
+
     return (
       <div className="stats">
-        <Overview id={id} since={this.state.since} />
-        <Health id={id} since={this.state.since} interval={this.state.interval} />
-        <ErrorLog id={id} since={this.state.since} />
+        <Overview since={since} common={this.props.common} />
+        <Health since={since} interval={interval} health={this.props.health} />
+        <ErrorLog since={since} logs={this.props.logs} />
       </div>
     )
   }

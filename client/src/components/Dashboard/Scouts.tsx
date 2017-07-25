@@ -1,50 +1,43 @@
 import * as React from 'react'
 import { Table, Icon, Popconfirm, Tag, message } from 'antd'
 import { Link } from 'react-router-dom'
-import { origin, colors as C } from '../../config'
+import { colors as C } from '../../config'
 import HealthChart from './HealthChart'
 import { formatTinyTime, healthToColor, randomColor, I } from '../../utils'
 import './Scouts.css'
 
 interface P {
   scouts: I.Scout[]
+  loading: boolean
   selectedScouts: string[],
+  deleteScout: (...args: any[]) => any,
+  fetchScouts: (...args: any[]) => any,
   handleSelectChange: (...args: any[]) => any,
-  setScouts: (...args: any[]) => any,
   openModal: (...args: any[]) => any,
   selectable: boolean,
 }
 
 export default class Scouts extends React.Component<P> {
-  state = {
-    loading: true,
-  }
   timeout: number
 
   componentDidMount() {
     const get = () => {
-      this.setState({ loading: true })
-      fetch(`${origin}/scouts`)
-        .then(res => res.json())
-        .then((scouts) => {
-          this.props.setScouts(scouts.reverse())
-          this.setState({ loading: false })
-        })
+      this.props.fetchScouts()
       this.timeout = setTimeout(get, 60000)
     }
     get()
   }
+
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
+
   delScout(id: string) {
-    fetch(`${origin}/scout/${id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
+    this.props.deleteScout(id, (isSucc: any) => {
+      if (isSucc) {
         message.success('删除成功')
-        this.props.setScouts(this.props.scouts.filter(scout => scout.id !== id))
-      })
+      }
+    })
   }
   render() {
     return (
@@ -131,7 +124,7 @@ export default class Scouts extends React.Component<P> {
         ]}
         rowKey="id"
         dataSource={this.props.scouts}
-        loading={this.state.loading}
+        loading={this.props.loading}
         rowSelection={this.props.selectable ? {
           type: 'checkbox',
           selectedRowKeys: this.props.selectedScouts,

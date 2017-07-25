@@ -1,34 +1,22 @@
 import * as React from 'react'
 import { formatTinyTime } from '../../utils'
-import { origin } from '../../config'
 import './Overview.css'
 
 interface P {
-  id: string,
+  common: {
+    name?: string
+    URL?: string
+    Apdex?: number
+    ApdexTarget?: number
+    OK?: number
+    Error?: number
+    Idle?: number
+    meanResponseTime?: number
+  },
   since: number,
 }
 
-interface S {
-  name?: string
-  URL?: string
-  Apdex?: number
-  ApdexTarget?: number
-  OK?: number
-  Error?: number
-  Idle?: number
-  meanResponseTime?: number
-}
-
-export default class Overview extends React.Component<P, S> {
-  state: S = {}
-  componentDidMount() {
-    fetch(`${origin}/stats/${this.props.id}?since=${this.props.since}`)
-      .then(res => res.json())
-      .then((json) => {
-        this.setState(json)
-      })
-  }
-
+export default class Overview extends React.Component<P> {
   render() {
     const {
       name,
@@ -39,7 +27,8 @@ export default class Overview extends React.Component<P, S> {
       Error = 0,
       Idle = 0,
       meanResponseTime,
-    } = this.state
+    } = this.props.common
+
     const total = OK + Error + Idle
     const health = total ? (OK + Idle) / total : 0
     return (

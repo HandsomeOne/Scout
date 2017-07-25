@@ -66,6 +66,7 @@ export default class PrefixedURL extends React.Component<P> {
     return (
       <Input
         size="large"
+        style={{ width: '100%' }}
         addonBefore={protocol}
         disabled={this.props.disabled}
         onChange={this.onChange}

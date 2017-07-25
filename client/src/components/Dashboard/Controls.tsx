@@ -16,9 +16,6 @@ interface P {
 }
 
 export default class Controls extends React.Component<P> {
-  state = {
-    isModalOpen: false,
-  }
   render() {
     return (
       <div style={{ padding: '16px 0' }}>
