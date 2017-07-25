@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes as T } from 'react'
 import { Link } from 'react-router-dom'
 import { Table, Tag } from 'antd'
-import fetch from 'isomorphic-fetch'
 import moment from 'moment'
-import { origin, colors as C } from '../../config'
+import { colors as C } from '../../config'
 import $ from './index.css'
 
 function renderHTTP(record) {
@@ -25,32 +24,20 @@ function renderHTTP(record) {
 }
 
 class AlertLog extends Component {
-  state = {
-    loading: false,
-    alertLogs: [],
-  }
-  componentDidMount() {
-    this.fetch()
-  }
 
-  pageSize = 10
-  fetch(page = 1) {
-    this.setState({ loading: true })
-    fetch(`${origin}/alertlogs?page=${page}&pageSize=${this.pageSize}`)
-    .then(res => res.json())
-    .then((alertLogs) => {
-      this.setState({
-        alertLogs,
-        loading: false,
-      })
-    })
+  constructor(props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange = (pagination) => {
-    this.fetch(pagination.current)
+    const { loadData, pageSize } = this.props
+    loadData(pagination.current, pageSize)
   }
 
   render() {
+    const { loading, alertLogs } = this.props
+
     const columns = [
       {
         width: 100,
@@ -105,7 +92,7 @@ class AlertLog extends Component {
         bordered
         className={$.alertlog}
         columns={columns}
-        dataSource={this.state.alertLogs}
+        dataSource={alertLogs}
         expandedRowRender={renderHTTP}
         onChange={this.handleChange}
         rowKey="id"
@@ -113,10 +100,17 @@ class AlertLog extends Component {
           total: 200,
           simple: true,
         }}
-        loading={this.state.loading}
+        loading={loading}
       />
     )
   }
+}
+
+AlertLog.propTypes = {
+  loading: T.bool,
+  alertLogs: T.arrayOf(T.shape()),
+  pageSize: T.number,
+  loadData: T.func,
 }
 
 export default AlertLog

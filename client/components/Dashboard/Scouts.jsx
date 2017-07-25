@@ -10,34 +10,26 @@ import $ from './Scouts.css'
 import randomColor from '../../utils/randomColor'
 
 export default class Scouts extends Component {
-  state = {
-    loading: true,
-  }
   componentDidMount() {
     const get = () => {
-      this.setState({ loading: true })
-      fetch(`${origin}/scouts`)
-      .then(res => res.json())
-      .then((scouts) => {
-        this.props.setScouts(scouts.reverse())
-        this.setState({ loading: false })
-      })
+      this.props.fetchScouts()
       this.timeout = setTimeout(get, 60000)
     }
     get()
   }
+
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
+
   delScout(id) {
-    fetch(`${origin}/scout/${id}`, {
-      method: 'DELETE',
-    })
-    .then(() => {
-      message.success('删除成功')
-      this.props.setScouts(this.props.scouts.filter(scout => scout.id !== id))
+    this.props.deleteScout(id, (isSucc) => {
+      if (isSucc) {
+        message.success('删除成功')
+      }
     })
   }
+
   render() {
     const columns = [
       {
@@ -130,7 +122,7 @@ export default class Scouts extends Component {
       columns={columns}
       rowKey="id"
       dataSource={this.props.scouts}
-      loading={this.state.loading}
+      loading={this.props.loading}
       rowSelection={this.props.selectable ? {
         type: 'checkbox',
         selectedRowKeys: this.props.selectedScouts,
@@ -146,7 +138,9 @@ Scouts.propTypes = {
   })),
   selectedScouts: T.arrayOf(T.string),
   handleSelectChange: T.func,
-  setScouts: T.func,
+  deleteScout: T.func,
+  fetchScouts: T.func,
+  loading: T.bool,
   openModal: T.func,
   selectable: T.bool,
 }

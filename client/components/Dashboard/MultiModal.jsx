@@ -15,24 +15,11 @@ class MultiModal extends Component {
       ), Object.create(null))
 
       if (data.fields.length) {
-        fetch(`${origin}/scouts`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ids: this.props.selectedScouts,
-            patch,
-          }),
-        })
-        .then(res => res.json())
-        .then((json) => {
-          this.props.setScouts(
-            this.props.scouts.map(scout => (
-              this.props.selectedScouts.includes(scout.id) ?
-              Object.assign(scout, json.find(s => s.id === scout.id)) :
-              scout
-            )))
-          this.props.closeMultiModal()
-          message.success('修改成功')
+        this.props.patchScouts(this.props.selectedScouts, patch, (isSucc) => {
+          if (isSucc) {
+            this.props.closeMultiModal()
+            message.success('修改成功')
+          }
         })
       } else {
         this.props.closeMultiModal()
@@ -63,8 +50,7 @@ class MultiModal extends Component {
 }
 
 MultiModal.propTypes = {
-  scouts: T.arrayOf(T.shape()),
-  setScouts: T.func,
+  patchScouts: T.func,
   isOpen: T.bool,
   allTags: T.arrayOf(T.string),
   allRecipients: T.arrayOf(T.string),

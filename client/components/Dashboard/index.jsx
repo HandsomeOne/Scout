@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes as T } from 'react'
 import Scouts from './Scouts'
 import ScoutModal from './ScoutModal'
 import Controls from './Controls'
@@ -10,28 +10,31 @@ export default class Dashboard extends Component {
     selectable: false,
     isModalOpen: false,
     isMultiModalOpen: false,
-    scouts: [],
-    selectedScouts: [],
-  }
-  setScouts = (scouts) => {
-    this.setState({ scouts })
   }
   handleSelectChange = (selectedScouts) => {
-    this.setState({ selectedScouts })
+    this.props.selectScouts(selectedScouts)
   }
-  openModal = (activeId) => {
-    this.setState({
-      isModalOpen: true,
-      activeId,
-    })
+  openModal = (id) => {
+    const me = this
+    if (id !== undefined) {
+      this.props.fetchScout(id, (isSucc) => {
+        if (isSucc) {
+          me.setState({ isModalOpen: true })
+        }
+      })
+    } else {
+      me.setState({ isModalOpen: true })
+    }
   }
   closeModal = () => {
+    this.props.cleanChosenScout()
     this.setState({ isModalOpen: false })
   }
   openMultiModal = () => {
     this.setState({ isMultiModalOpen: true })
   }
   closeMultiModal = () => {
+    this.props.cleanSelectedScouts()
     this.setState({ isMultiModalOpen: false })
   }
   select = () => {
@@ -41,15 +44,15 @@ export default class Dashboard extends Component {
     this.setState({ selectable: false })
   }
   render() {
-    const { scouts } = this.state
+    const { scouts } = this.props
     const allTags = union(scouts.map(scout => scout.tags))
     const allRecipients = union(scouts.map(scout => scout.recipients))
     return (
       <div>
         <Controls
           selectable={this.state.selectable}
-          scouts={this.state.scouts}
-          selectedScouts={this.state.selectedScouts}
+          scouts={scouts}
+          selectedScouts={this.props.selectedScouts}
           openModal={this.openModal}
           openMultiModal={this.openMultiModal}
           handleSelectChange={this.handleSelectChange}
@@ -58,26 +61,30 @@ export default class Dashboard extends Component {
         />
         <Scouts
           selectable={this.state.selectable}
-          selectedScouts={this.state.selectedScouts}
-          scouts={this.state.scouts}
+          selectedScouts={this.props.selectedScouts}
+          scouts={scouts}
           handleSelectChange={this.handleSelectChange}
-          setScouts={this.setScouts}
+          fetchScouts={this.props.fetchScouts}
+          deleteScout={this.props.deleteScout}
+          loading={this.props.loading}
           openModal={this.openModal}
         />
         <ScoutModal
           allTags={allTags}
           allRecipients={allRecipients}
-          scouts={this.state.scouts}
-          setScouts={this.setScouts}
-          activeId={this.state.activeId}
+          scout={this.props.scout}
+          fetchScout={this.props.fetchScout}
+          patchScout={this.props.patchScout}
+          addScout={this.props.addScout}
+          activeId={this.props.activeId}
           isOpen={this.state.isModalOpen}
           closeModal={this.closeModal}
         />
         <MultiModal
           allTags={allTags}
           allRecipients={allRecipients}
-          selectedScouts={this.state.selectedScouts}
-          scouts={this.state.scouts}
+          selectedScouts={this.props.selectedScouts}
+          patchScouts={this.props.patchScouts}
           setScouts={this.setScouts}
           isOpen={this.state.isMultiModalOpen}
           closeMultiModal={this.closeMultiModal}
@@ -85,4 +92,21 @@ export default class Dashboard extends Component {
       </div>
     )
   }
+}
+
+Dashboard.propTypes = {
+  scouts: T.arrayOf(T.shape()),
+  scout: T.object,
+  selectedScouts: T.arrayOf(T.shape()),
+  activeId: T.string,
+  fetchScouts: T.func,
+  patchScouts: T.func,
+  cleanSelectedScouts: T.func,
+  selectScouts: T.func,
+  addScout: T.func,
+  deleteScout: T.func,
+  patchScout: T.func,
+  fetchScout: T.func,
+  cleanChosenScout: T.func,
+  loading: T.bool,
 }

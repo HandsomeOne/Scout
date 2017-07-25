@@ -1,17 +1,8 @@
 import React, { Component, PropTypes as T } from 'react'
 import formatTinyTime from '../../utils/formatTinyTime'
-import { origin } from '../../config'
 import $ from './Overview.css'
 
 export default class Overview extends Component {
-  state = {}
-  componentDidMount() {
-    fetch(`${origin}/stats/${this.props.id}?since=${this.props.since}`)
-    .then(res => res.json())
-    .then((json) => {
-      this.setState(json)
-    })
-  }
   render() {
     const {
       name,
@@ -22,7 +13,7 @@ export default class Overview extends Component {
       Error = 0,
       Idle = 0,
       meanResponseTime,
-    } = this.state
+    } = this.props.common
     const total = OK + Error + Idle
     const health = total ? (OK + Idle) / total : 0
     return (
@@ -61,6 +52,6 @@ export default class Overview extends Component {
 }
 
 Overview.propTypes = {
-  id: T.string,
+  common: T.object,
   since: T.number,
 }

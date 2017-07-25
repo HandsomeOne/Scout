@@ -2,10 +2,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import React from 'react'
 import { Layout } from 'antd'
 
-import Dashboard from './Dashboard'
-import Settings from './Settings'
-import AlertLog from './AlertLog'
-import Stats from './Stats'
+import DashboardContainer from '../containers/DashboardContainer'
+import SettingsContainer from '../containers/SettingsContainer'
+import StatsContainer from '../containers/StatsContainer'
+import AlertLogContainer from '../containers/AlertLogContainer'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -16,10 +16,10 @@ export default function App() {
       <Layout>
         <Header />
         <Content style={{ padding: '0 50px 0' }}>
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/alertlog" component={AlertLog} />
-          <Route path="/stats/:id" component={Stats} />
+          <Route exact path="/" component={DashboardContainer} />
+          <Route path="/settings" component={SettingsContainer} />
+          <Route path="/alertlog" component={AlertLogContainer} />
+          <Route path="/stats/:id" component={StatsContainer} />
         </Content>
         <Footer />
       </Layout>
