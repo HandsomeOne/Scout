@@ -12,11 +12,11 @@ export = (server) => {
       )).join(' '))
     }
     try {
-      new Script(req.params.testCase).runInNewContext({
+      new Script(req.body.testCase).runInNewContext({
         assert,
-        statusCode: req.params.statusCode,
-        responseTime: req.params.responseTime,
-        body: req.params.body,
+        statusCode: req.body.statusCode,
+        responseTime: req.body.responseTime,
+        body: req.body.body,
         console: { log },
         log,
       })

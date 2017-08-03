@@ -9,10 +9,10 @@ export = (server) => {
     let responseTime
     const start = Date.now()
     Promise.resolve().then(() => (
-      fetch(req.params.URL, {
-        method: req.params.method,
-        body: req.params.body,
-        headers: arrayToHeaders(req.params.headers),
+      fetch(req.body.URL, {
+        method: req.body.method,
+        body: req.body.body,
+        headers: arrayToHeaders(req.body.headers),
       })
     ))
       .then((_res) => {
@@ -22,7 +22,7 @@ export = (server) => {
         return _res.text()
       })
       .then((_body) => {
-        const isJSON = req.params.readType === 'json'
+        const isJSON = req.body.readType === 'json'
         const body = isJSON ? JSON.parse(_body) : _body
         const beautifiedBody = isJSON ? inspect(body, { colors: true }) : body
         res.send({

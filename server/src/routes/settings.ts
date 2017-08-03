@@ -23,11 +23,11 @@ export = (server) => {
     let statusText
     Promise.resolve()
     .then(() => (
-      fetch(req.params.alertURL, {
+      fetch(req.body.alertURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          recipients: req.params.recipients,
+          recipients: req.body.recipients,
           name: '查询当前时间',
           URL: 'https://your.server/your/api',
           status: 'Error',

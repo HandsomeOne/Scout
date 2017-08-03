@@ -15,8 +15,8 @@
     "@types/node" "*"
 
 "@types/mongodb@*":
-  version "2.2.7"
-  resolved "http://r.cnpmjs.org/@types/mongodb/download/@types/mongodb-2.2.7.tgz#35c04cb60ff06d0c6ab71cc6561e41baf094fa70"
+  version "2.2.9"
+  resolved "http://r.cnpmjs.org/@types/mongodb/download/@types/mongodb-2.2.9.tgz#0dc823148103b7c943b16209f1899e33acd5faf6"
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
@@ -35,8 +35,8 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "8.0.16"
-  resolved "http://r.cnpmjs.org/@types/node/download/@types/node-8.0.16.tgz#5aa51abd72621a0ce53fb86bccd76825ee1b4ca9"
+  version "8.0.19"
+  resolved "http://r.cnpmjs.org/@types/node/download/@types/node-8.0.19.tgz#e46e2b0243de7d03f15b26b45c59ebb84f657a4e"
 
 "@types/restify-cors-middleware@^1.0.0":
   version "1.0.0"
@@ -100,8 +100,8 @@ buffer-shims@~1.0.0:
   resolved "http://r.cnpmjs.org/buffer-shims/download/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
 
 bunyan@^1.8.1:
-  version "1.8.10"
-  resolved "http://r.cnpmjs.org/bunyan/download/bunyan-1.8.10.tgz#201fedd26c7080b632f416072f53a90b9a52981c"
+  version "1.8.12"
+  resolved "http://r.cnpmjs.org/bunyan/download/bunyan-1.8.12.tgz#f150f0f6748abdd72aeae84f04403be2ef113797"
   optionalDependencies:
     dtrace-provider "~0.8"
     moment "^2.10.6"
@@ -188,15 +188,11 @@ escape-regexp-component@^1.0.2:
   version "1.0.2"
   resolved "http://r.cnpmjs.org/escape-regexp-component/download/escape-regexp-component-1.0.2.tgz#9c63b6d0b25ff2a88c3adbd18c5b61acc3b9faa2"
 
-extsprintf@1.0.2:
-  version "1.0.2"
-  resolved "http://r.cnpmjs.org/extsprintf/download/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
-
 extsprintf@1.2.0:
   version "1.2.0"
   resolved "http://r.cnpmjs.org/extsprintf/download/extsprintf-1.2.0.tgz#5ad946c22f5b32ba7f8cd7426711c6e8a3fc2529"
 
-extsprintf@^1.2.0:
+extsprintf@1.3.0, extsprintf@^1.2.0:
   version "1.3.0"
   resolved "http://r.cnpmjs.org/extsprintf/download/extsprintf-1.3.0.tgz#96918440e3041a7a414f8c52e3c574eb3c3e1e05"
 
@@ -289,13 +285,13 @@ json-schema@0.2.3:
   resolved "http://r.cnpmjs.org/json-schema/download/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
 
 jsprim@^1.2.2:
-  version "1.4.0"
-  resolved "http://r.cnpmjs.org/jsprim/download/jsprim-1.4.0.tgz#a3b87e40298d8c380552d8cc7628a0bb95a22918"
+  version "1.4.1"
+  resolved "http://r.cnpmjs.org/jsprim/download/jsprim-1.4.1.tgz#313e66bc1e5cc06e438bc1b7499c2e5c56acb6a2"
   dependencies:
     assert-plus "1.0.0"
-    extsprintf "1.0.2"
+    extsprintf "1.3.0"
     json-schema "0.2.3"
-    verror "1.3.6"
+    verror "1.10.0"
 
 kareem@1.5.0:
   version "1.5.0"
@@ -360,8 +356,8 @@ mongodb@2.2.27:
     readable-stream "2.2.7"
 
 mongoose@^4.11.4:
-  version "4.11.4"
-  resolved "http://r.cnpmjs.org/mongoose/download/mongoose-4.11.4.tgz#3d74111105ee8b619eb1c1d790e7bfc4e8cba7bb"
+  version "4.11.5"
+  resolved "http://r.cnpmjs.org/mongoose/download/mongoose-4.11.5.tgz#59e4a1d84dcd36cc51f3e639b771cb8359f539aa"
   dependencies:
     async "2.1.4"
     bson "~1.0.4"
@@ -494,8 +490,8 @@ resolve-from@^2.0.0:
   resolved "http://r.cnpmjs.org/resolve-from/download/resolve-from-2.0.0.tgz#9480ab20e94ffa1d9e80a804c7ea147611966b57"
 
 restify-cors-middleware@^1.0.0:
-  version "1.0.0"
-  resolved "http://r.cnpmjs.org/restify-cors-middleware/download/restify-cors-middleware-1.0.0.tgz#bdaacbb6a54e8e0ddd8f857900964274909cbe04"
+  version "1.0.1"
+  resolved "http://r.cnpmjs.org/restify-cors-middleware/download/restify-cors-middleware-1.0.1.tgz#6388d0d52d286e22650133d151a89d48b22fa0ab"
   dependencies:
     assert-plus "^1.0.0"
 
@@ -634,25 +630,19 @@ vasync@^1.6.4:
   dependencies:
     verror "1.6.0"
 
-verror@1.3.6:
-  version "1.3.6"
-  resolved "http://r.cnpmjs.org/verror/download/verror-1.3.6.tgz#cff5df12946d297d2baaefaa2689e25be01c005c"
-  dependencies:
-    extsprintf "1.0.2"
-
-verror@1.6.0:
-  version "1.6.0"
-  resolved "http://r.cnpmjs.org/verror/download/verror-1.6.0.tgz#7d13b27b1facc2e2da90405eb5ea6e5bdd252ea5"
-  dependencies:
-    extsprintf "1.2.0"
-
-verror@^1.8.1, verror@^1.9.0:
+verror@1.10.0, verror@^1.8.1, verror@^1.9.0:
   version "1.10.0"
   resolved "http://r.cnpmjs.org/verror/download/verror-1.10.0.tgz#3a105ca17053af55d6e270c1f8288682e18da400"
   dependencies:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+verror@1.6.0:
+  version "1.6.0"
+  resolved "http://r.cnpmjs.org/verror/download/verror-1.6.0.tgz#7d13b27b1facc2e2da90405eb5ea6e5bdd252ea5"
+  dependencies:
+    extsprintf "1.2.0"
 
 wbuf@^1.1.0, wbuf@^1.7.2:
   version "1.7.2"

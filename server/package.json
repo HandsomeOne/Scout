@@ -12,6 +12,7 @@
     "restify-cors-middleware": "^1.0.0",
     "typescript": "^2.4.2"
   },
+  "main": "build/index.js",
   "scripts": {
     "build": "tsc",
     "start": "tsc && node build/index"
