@@ -16,4 +16,4 @@ export const colors = {
   cyan: '#00a2ae',
 }
 
-export const version = '0.11.0'
+export const { version } = require('../package.json')
