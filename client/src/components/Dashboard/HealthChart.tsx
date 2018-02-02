@@ -42,7 +42,7 @@ export default function HealthChart({ now, statuses }: P) {
           </div>
         )
         return (
-          <Tooltip title={tip}>
+          <Tooltip title={tip} key={i}>
             <div className="chartbar" style={{ opacity: total ? 1 - (Idle / total) : 0 }}>
               <div>
                 <div

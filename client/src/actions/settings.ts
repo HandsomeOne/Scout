@@ -20,7 +20,6 @@ export const fetchSettings = () => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -38,6 +37,5 @@ export const patchSettings = (data: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })

@@ -28,6 +28,5 @@ export const fetchAlertLogs = (page: any, pageSize: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })

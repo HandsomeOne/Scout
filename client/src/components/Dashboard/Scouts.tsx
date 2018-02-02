@@ -3,11 +3,11 @@ import { Table, Icon, Popconfirm, Tag, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { colors as C } from '../../config'
 import HealthChart from './HealthChart'
-import { formatTinyTime, healthToColor, randomColor, I } from '../../utils'
+import { formatTinyTime, healthToColor, randomColor } from '../../utils'
 import './Scouts.css'
 
 interface P {
-  scouts: I.Scout[]
+  scouts: IScout[]
   loading: boolean
   selectedScouts: string[],
   deleteScout: (...args: any[]) => any,
@@ -23,7 +23,7 @@ export default class Scouts extends React.Component<P> {
   componentDidMount() {
     const get = () => {
       this.props.fetchScouts()
-      this.timeout = setTimeout(get, 60000)
+      this.timeout = window.setTimeout(get, 60000)
     }
     get()
   }
@@ -48,7 +48,7 @@ export default class Scouts extends React.Component<P> {
             title: '名称',
             dataIndex: 'name',
             className: this.props.selectable ? '' : 'summary',
-            render: (name: string, record: I.Scout) => (
+            render: (name: string, record: IScout) => (
               <div>
                 <div className="firstline">
                   <Link to={`/stats/${record.id}`} className="name">{name}</Link>
@@ -86,7 +86,7 @@ export default class Scouts extends React.Component<P> {
             title: 'Apdex',
             dataIndex: 'Apdex',
             className: 'Apdex',
-            render: (Apdex, record: I.Scout) => (
+            render: (Apdex, record: IScout) => (
               <div>
                 {typeof Apdex !== 'number' ?
                   <span style={{ color: '#999' }}>NaN</span> :
@@ -100,7 +100,7 @@ export default class Scouts extends React.Component<P> {
             width: 50,
             fixed: 'right',
             className: 'icon',
-            render: (text, record: I.Scout) => (
+            render: (text, record: IScout) => (
               <a onClick={() => this.props.openModal(record.id)}>
                 <Icon type="edit" />
               </a>
@@ -111,7 +111,7 @@ export default class Scouts extends React.Component<P> {
             width: 50,
             fixed: 'right',
             className: 'icon',
-            render: (text, record: I.Scout) => (
+            render: (text, record: IScout) => (
               <Popconfirm
                 title="确定删除？"
                 placement="topRight"

@@ -4,12 +4,11 @@
   "dependencies": {
     "@types/classnames": "^2.2.0",
     "@types/d3": "^4.10.0",
-    "@types/jest": "^20.0.4",
     "@types/lodash": "^4.14.71",
-    "@types/react": "^15.0.38",
-    "@types/react-codemirror": "^0.2.7",
-    "@types/react-dom": "^15.5.1",
-    "@types/react-redux": "^4.4.47",
+    "@types/react": "^16.0.36",
+    "@types/react-codemirror": "^1.0.0",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-redux": "^5.0.14",
     "@types/react-router-dom": "^4.0.7",
     "ansi_up": "^2.0.2",
     "antd": "^2.12.2",
@@ -18,13 +17,14 @@
     "d3": "^4.10.0",
     "d3-tip": "^0.7.1",
     "lodash": "^4.17.4",
-    "react": "^15.6.1",
+    "react": "^16.2.0",
     "react-codemirror": "^1.0.0",
-    "react-dom": "^15.6.1",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "typescript": "^2.7.1"
   },
   "devDependencies": {
     "react-scripts-ts": "^2.5.0"

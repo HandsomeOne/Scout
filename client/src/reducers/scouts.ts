@@ -38,7 +38,6 @@ const handlerScouts = (state: any = {
         selectedScouts: action.payload.json,
       })
 
-
     case ADD_SCOUT:
       return Object.assign({}, state, { scouts: [
         action.payload.json,
@@ -64,7 +63,6 @@ const handlerScouts = (state: any = {
         chosenScout: {},
         activeId: undefined,
       })
-
 
     default:
       return state

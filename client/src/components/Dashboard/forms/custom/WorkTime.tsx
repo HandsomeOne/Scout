@@ -75,7 +75,7 @@ export default class WorkTime extends React.Component<P> {
       <div>
         <WorkTimeChart workTime={this.state.workTime as any} />
         {this.state.workTime.map((r, i) =>
-          <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
+          <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }} key={i}>
             <Col span={10}>
               <Cascader
                 {...CascaderProps}

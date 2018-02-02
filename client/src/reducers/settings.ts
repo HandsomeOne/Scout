@@ -11,5 +11,4 @@ const handleSettings = (state = {
   }
 }
 
-
 export default handleSettings

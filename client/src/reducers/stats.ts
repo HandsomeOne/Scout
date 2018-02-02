@@ -17,5 +17,4 @@ const handleStats = (state = {
   }
 }
 
-
 export default handleStats

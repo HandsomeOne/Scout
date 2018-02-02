@@ -22,7 +22,6 @@ export const fetchStats = (id: any, since: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.log(err)
       return false
     })
 
@@ -44,7 +43,6 @@ export const fetchStatsHealth = (id: any, since: any, interval: any) => (dispatc
       return true
     })
     .catch((err) => {
-      console.log(err)
       return false
     })
 
@@ -66,6 +64,5 @@ export const fetchStatsErrorlog = (id: any, since: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.log(err)
       return false
     })

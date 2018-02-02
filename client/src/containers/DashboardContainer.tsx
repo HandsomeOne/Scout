@@ -8,7 +8,7 @@ import Dashboard from '../components/Dashboard/index'
 class DashboardContainer extends React.Component<any> {
   render() {
     return (
-      <Dashboard {...this.props} />
+      <Dashboard {...this.props as any} />
     )
   }
 }
@@ -28,9 +28,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
   patchScouts: (selectedScouts: any, patch: any, callback: any) => {
     dispatch(loadScouts())
-    dispatch(patchScouts(selectedScouts, patch)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(patchScouts(selectedScouts, patch))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   cleanSelectedScouts: () => {
     dispatch(cleanSelectedScouts())
@@ -40,24 +39,20 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
 
   addScout: (data: any, callback: any) => {
-    dispatch(addScout(data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(addScout(data))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   deleteScout: (id: any, callback: any) => {
-    dispatch(deleteScout(id)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(deleteScout(id))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   patchScout: (id: any, data: any, callback: any) => {
-    dispatch(patchScout(id, data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(patchScout(id, data))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   fetchScout: (id: any, callback: any) => {
-    dispatch(fetchScout(id)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(fetchScout(id))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   cleanChosenScout: () => {
     dispatch(cleanChosenScout())

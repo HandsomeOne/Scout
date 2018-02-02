@@ -38,7 +38,6 @@ export const fetchScouts = () => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -67,7 +66,6 @@ export const patchScouts = (selectedScouts: any, patch: any) => (dispatch: any) 
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -82,7 +80,6 @@ export const selectScouts = (selectedScouts: any) => (dispatch: any) => (dispatc
     json: selectedScouts,
   },
 }))
-
 
 export const addScout = (data: any) => (dispatch: any) =>
   fetch(`${origin}/scout`, {
@@ -105,7 +102,6 @@ export const addScout = (data: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -125,7 +121,6 @@ export const deleteScout = (id: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -152,7 +147,6 @@ export const patchScout = (id: any, data: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 
@@ -175,7 +169,6 @@ export const fetchScout = (id: any) => (dispatch: any) =>
       return true
     })
     .catch((err) => {
-      console.error(err)
       return false
     })
 

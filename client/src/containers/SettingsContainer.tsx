@@ -19,9 +19,8 @@ const mapStateToProps = (state: any) => ({ settings: state.settings.settings })
 
 const mapDispatchToProps = (dispatch: any) => ({
   onSubmit: (data: any, callback: any) => {
-    dispatch(patchSettings(data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
-    })
+    dispatch(patchSettings(data))
+      .then((isSucc: any) => callback !== undefined && callback(isSucc))
   },
   onLoad: () => {
     dispatch(fetchSettings())

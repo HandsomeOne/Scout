@@ -18,7 +18,7 @@ class StatsContainer extends React.Component<any> {
 
   render() {
     return (
-      this.state.loadFinish && <Stats {...this.props} />
+      this.state.loadFinish && <Stats {...this.props as any} />
     )
   }
 }
@@ -38,9 +38,9 @@ const mapDispatchToProps = (dispatch: any) => ({
       dispatch(fetchStats(id, since)),
       dispatch(fetchStatsHealth(id, since, interval)),
       dispatch(fetchStatsErrorlog(id, since)),
-    ]).then((results) => {
-      (callback !== undefined) && callback(results.every(e => (e === true)))
-    })
+    ])
+      .then(results => callback !== undefined
+        && callback(results.every(e => (e === true))))
   },
 })
 

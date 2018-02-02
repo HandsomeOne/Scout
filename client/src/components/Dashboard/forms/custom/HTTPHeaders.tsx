@@ -39,7 +39,7 @@ export default class HTTPHeaders extends React.Component<P> {
     return (
       <Group size="large">
         {this.state.headers.map((header, i) =>
-          <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
+          <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }} key={i}>
             <Col span={8}>
               <Input
                 placeholder="键"
