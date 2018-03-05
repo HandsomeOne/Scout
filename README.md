@@ -60,6 +60,15 @@ pm2 start ./server/build mongodb://username:password@host/database
 ```
 然后访问 http://localhost:3001/ 。
 
+### Docker启动
+```sh
+git clone https://github.com/HandsomeOne/Scout.git
+
+cd Scout/
+
+docker-compose up -d
+```
+
 ### 升级
 ```sh
 cd Scout
