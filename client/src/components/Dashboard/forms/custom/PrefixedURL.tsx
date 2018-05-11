@@ -1,16 +1,17 @@
 import * as React from 'react'
 import { Input, Select } from 'antd'
 
+const doubleSlash = '//'
 const protocols = ['http:', 'https:']
 function parse(value: string) {
   let protocol = 'http:'
   let url = value.trim()
   let mayFind = true
 
-  function find(_protocol: string) {
-    if (url.indexOf(`${_protocol}//`) === 0) {
-      protocol = _protocol
-      url = url.slice(_protocol.length + 2)
+  function find(p: string) {
+    if (url.indexOf(`${p}//`) === 0) {
+      protocol = p
+      url = url.slice(p.length + 2)
       mayFind = true
     }
   }
@@ -21,15 +22,15 @@ function parse(value: string) {
   return { protocol, url }
 }
 
-function stringify({ protocol, url }: { protocol: string, url: string }) {
+function stringify({ protocol, url }: { protocol: string; url: string }) {
   const parsed = parse(`${protocol}//${url}`)
   return `${parsed.protocol}//${parsed.url}`
 }
 
 interface P {
-  value?: string,
-  onChange?: (...args: any[]) => any,
-  disabled?: boolean,
+  value?: string
+  onChange?: (...args: any[]) => any
+  disabled?: boolean
 }
 
 export default class PrefixedURL extends React.Component<P> {
@@ -59,8 +60,8 @@ export default class PrefixedURL extends React.Component<P> {
         value={this.state.protocol}
         style={{ width: 75 }}
       >
-        <Option value="http:">http://</Option>
-        <Option value="https:">https://</Option>
+        <Option value="http:">http:{doubleSlash}</Option>
+        <Option value="https:">https:{doubleSlash}</Option>
       </Select>
     )
     return (

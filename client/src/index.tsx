@@ -9,14 +9,11 @@ import 'antd/dist/antd.min.css'
 import App from './App'
 import './index.css'
 
-const store = createStore(
-  reducer,
-  applyMiddleware(
-    thunkMiddleware,
-  ),
-)
+const store = createStore(reducer, applyMiddleware(thunkMiddleware))
 
 ReactDOM.render(
-  <Provider store={store}><App /></Provider>,
-  document.getElementById('root') as HTMLElement
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root'),
 )

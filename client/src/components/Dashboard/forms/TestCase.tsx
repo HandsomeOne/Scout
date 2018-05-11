@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { Form, Select, Button, Row, Col, Icon, Tooltip } from 'antd'
 
-declare const require: any
-const AU = require('ansi_up')
-const au = new AU.default()
+import AU from 'ansi_up'
 import * as classnames from 'classnames'
 import CodeEditor from './custom/CodeEditor'
 import { origin, colors as C } from '../../../config'
 import './TestCase.css'
 
+const au = new AU()
 function toHtml(s: string = '') {
   return au.ansi_to_html(
-    s.replace(/&/g, '&amp;')
+    s
+      .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;'),
@@ -20,12 +20,12 @@ function toHtml(s: string = '') {
 
 interface P {
   form: {
-    getFieldDecorator: (...args: any[]) => any,
-    getFieldValue: (...args: any[]) => any,
+    getFieldDecorator: (...args: any[]) => any
+    getFieldValue: (...args: any[]) => any
   }
   scout: {
-    readType: string,
-    testCase: string,
+    readType: string
+    testCase: string
   }
 }
 
@@ -82,7 +82,7 @@ export default class TestCase extends React.Component<P, S> {
       },
       testTime: 0,
       isConsoleVisible: false,
-      requestResult: {}
+      requestResult: {},
     } as any
   }
   componentDidMount() {
@@ -97,49 +97,45 @@ export default class TestCase extends React.Component<P, S> {
     let output
     if (result.status === 'OK') {
       output = [
-        (
-          <Tooltip key="statusCode" title={<code>statusCode</code>}>
-            <span
-              style={{
-                float: 'left',
-                color: [
-                  C.cyan,
-                  C.blue,
-                  C.green,
-                  C.yellow,
-                  C.red,
-                  C.pink,
-                ][Math.floor(result.statusCode / 100)],
-              }}
-            >
-              {result.statusCode} {result.statusText}
-            </span>
-          </Tooltip>
-        ),
-        (
-          <Tooltip key="responseTime" title={<code>responseTime</code>}>
-            <span
-              style={{
-                float: 'right',
-                color: (() => {
-                  const ratio = result.responseTime / (this.state.ApdexTarget || 500)
-                  if (ratio <= 1) {
-                    return C.green
-                  }
-                  if (ratio <= 4) {
-                    return C.yellow
-                  }
-                  return C.orange
-                })(),
-              }}
-            >
-              {result.responseTime}ms
-            </span>
-          </Tooltip>
-        ),
+        <Tooltip key="statusCode" title={<code>statusCode</code>}>
+          <span
+            style={{
+              float: 'left',
+              color: [C.cyan, C.blue, C.green, C.yellow, C.red, C.pink][
+                Math.floor(result.statusCode / 100)
+              ],
+            }}
+          >
+            {result.statusCode} {result.statusText}
+          </span>
+        </Tooltip>,
+        <Tooltip key="responseTime" title={<code>responseTime</code>}>
+          <span
+            style={{
+              float: 'right',
+              color: (() => {
+                const ratio =
+                  result.responseTime / (this.state.ApdexTarget || 500)
+                if (ratio <= 1) {
+                  return C.green
+                }
+                if (ratio <= 4) {
+                  return C.yellow
+                }
+                return C.orange
+              })(),
+            }}
+          >
+            {result.responseTime}ms
+          </span>
+        </Tooltip>,
       ]
     } else if (result.status === 'Error') {
-      output = <span style={{ color: C.red }}>{result.name}: {result.message}</span>
+      output = (
+        <span style={{ color: C.red }}>
+          {result.name}: {result.message}
+        </span>
+      )
     }
     return (
       <div
@@ -157,7 +153,11 @@ export default class TestCase extends React.Component<P, S> {
       case 'OK':
         return <span style={{ color: C.green }}>测试通过</span>
       case 'Error':
-        return <span style={{ color: C.red }}>{result.name}: {result.message}</span>
+        return (
+          <span style={{ color: C.red }}>
+            {result.name}: {result.message}
+          </span>
+        )
       default:
         return ''
     }
@@ -186,7 +186,7 @@ export default class TestCase extends React.Component<P, S> {
       }),
     })
       .then(res => res.json())
-      .then((requestResult) => {
+      .then(requestResult => {
         this.setState({
           isRequesting: false,
           requestTime: Date.now(),
@@ -209,7 +209,7 @@ export default class TestCase extends React.Component<P, S> {
       }),
     })
       .then(res => res.json())
-      .then((testResult) => {
+      .then(testResult => {
         this.setState({
           isTesting: false,
           testTime: Date.now(),
@@ -249,7 +249,9 @@ export default class TestCase extends React.Component<P, S> {
         loading={this.state.isTesting}
         className="run"
         onClick={this.test}
-        disabled={this.state.requestResult && !('body' in this.state.requestResult)}
+        disabled={
+          this.state.requestResult && !('body' in this.state.requestResult)
+        }
       >
         运行
       </Button>
@@ -267,38 +269,68 @@ export default class TestCase extends React.Component<P, S> {
             <Item style={{ marginBottom: 0 }}>
               {getFieldDecorator('readType', {
                 initialValue: scout.readType || 'text',
-              })(<Select onChange={(readType: string) => { this.setState({ readType }) }}>
-                <Option value="text">text</Option>
-                <Option value="json">json</Option>
-              </Select>)}
+              })(
+                <Select
+                  onChange={(readType: string) => {
+                    this.setState({ readType })
+                  }}
+                >
+                  <Option value="text">text</Option>
+                  <Option value="json">json</Option>
+                </Select>,
+              )}
             </Item>
           </Col>
-          {this.state.URL ? requestButton : <Tooltip title="请填写 URL">{requestButton}</Tooltip>}
+          {this.state.URL ? (
+            requestButton
+          ) : (
+            <Tooltip title="请填写 URL">{requestButton}</Tooltip>
+          )}
         </Row>
 
         {this.getRequestOutput()}
 
         <Tooltip title={<code>body</code>}>
-          <pre className="pre" dangerouslySetInnerHTML={{ __html: toHtml(requestResult!.beautifiedBody) }} />
+          <pre
+            className="pre"
+            dangerouslySetInnerHTML={{
+              __html: toHtml(requestResult!.beautifiedBody),
+            }}
+          />
         </Tooltip>
 
-        <Item label="条件" style={{ marginBottom: 0 }} wrapperCol={{ span: 24 }}>
+        <Item
+          label="条件"
+          style={{ marginBottom: 0 }}
+          wrapperCol={{ span: 24 }}
+        >
           {getFieldDecorator('testCase', {
             initialValue: scout.testCase,
           })(<CodeEditor />)}
-          {requestResult!.status === 'OK' ? runButton : <Tooltip title="请执行一次成功的请求">{runButton}</Tooltip>}
+          {requestResult!.status === 'OK' ? (
+            runButton
+          ) : (
+            <Tooltip title="请执行一次成功的请求">{runButton}</Tooltip>
+          )}
         </Item>
 
         <div className="flexline">
-          <span key={this.state.testTime} className={classnames('fadein', 'line')}>
+          <span
+            key={this.state.testTime}
+            className={classnames('fadein', 'line')}
+          >
             {this.getTestOutput()}
           </span>
           <a onClick={this.toggleConsole}>
-            <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} /> 控制台日志
+            <Icon type={this.state.isConsoleVisible ? 'up' : 'down'} />{' '}
+            控制台日志
           </a>
         </div>
 
-        <ul className="console" style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}>
+        <ul
+          className="console"
+          style={{ display: this.state.isConsoleVisible ? 'block' : 'none' }}
+        >
           {this.state.testResult.logs.map(log => (
             <li>
               <pre dangerouslySetInnerHTML={{ __html: toHtml(log) }} />

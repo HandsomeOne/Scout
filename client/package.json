@@ -2,37 +2,47 @@
   "name": "scout-client",
   "version": "0.11.1",
   "dependencies": {
-    "@types/classnames": "^2.2.0",
-    "@types/d3": "^4.10.0",
-    "@types/jest": "^20.0.4",
-    "@types/lodash": "^4.14.71",
-    "@types/react": "^15.0.38",
-    "@types/react-codemirror": "^0.2.7",
-    "@types/react-dom": "^15.5.1",
-    "@types/react-redux": "^4.4.47",
-    "@types/react-router-dom": "^4.0.7",
-    "ansi_up": "^2.0.2",
-    "antd": "^2.12.2",
+    "@types/d3-tip": "^3.5.5",
+    "ansi_up": "^3.0.0",
+    "antd": "^3.5.1",
     "classnames": "^2.2.5",
     "codemirror": "^5.28.0",
-    "d3": "^4.10.0",
-    "d3-tip": "^0.7.1",
+    "d3": "^5.3.0",
+    "d3-tip": "^0.9.1",
     "lodash": "^4.17.4",
-    "react": "^15.6.1",
+    "react": "^16.3.2",
     "react-codemirror": "^1.0.0",
-    "react-dom": "^15.6.1",
+    "react-dom": "^16.3.2",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
-    "redux": "^3.7.2",
+    "redux": "^3",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "react-scripts-ts": "^2.5.0"
+    "@types/classnames": "^2.2.0",
+    "@types/d3": "^5.0.0",
+    "@types/jest": "^22.2.3",
+    "@types/lodash": "^4.14.71",
+    "@types/react": "^16.3.14",
+    "@types/react-codemirror": "^1.0.1",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^5",
+    "@types/react-router-dom": "^4.0.7",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.0",
+    "prettier": "^1.12.1",
+    "react-scripts-ts": "^2.5.0",
+    "typescript": "^2.8.3"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "build": "react-scripts-ts build"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

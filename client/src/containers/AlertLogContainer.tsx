@@ -9,9 +9,7 @@ class AlertLogContainer extends React.Component<any> {
   }
 
   render() {
-    return (
-      <AlertLog {...this.props} />
-    )
+    return <AlertLog {...this.props as any} />
   }
 }
 

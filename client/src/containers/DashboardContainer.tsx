@@ -1,15 +1,22 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { loadScouts, fetchScouts, patchScouts,
-  addScout, deleteScout, patchScout, fetchScout,
-  cleanChosenScout, cleanSelectedScouts, selectScouts } from '../actions/scouts'
+import {
+  loadScouts,
+  fetchScouts,
+  patchScouts,
+  addScout,
+  deleteScout,
+  patchScout,
+  fetchScout,
+  cleanChosenScout,
+  cleanSelectedScouts,
+  selectScouts,
+} from '../actions/scouts'
 import Dashboard from '../components/Dashboard/index'
 
 class DashboardContainer extends React.Component<any> {
   render() {
-    return (
-      <Dashboard {...this.props} />
-    )
+    return <Dashboard {...this.props as any} />
   }
 }
 
@@ -29,7 +36,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   patchScouts: (selectedScouts: any, patch: any, callback: any) => {
     dispatch(loadScouts())
     dispatch(patchScouts(selectedScouts, patch)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) {
+        callback(isSucc)
+      }
     })
   },
   cleanSelectedScouts: () => {
@@ -41,22 +50,30 @@ const mapDispatchToProps = (dispatch: any) => ({
 
   addScout: (data: any, callback: any) => {
     dispatch(addScout(data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) {
+        callback(isSucc)
+      }
     })
   },
   deleteScout: (id: any, callback: any) => {
     dispatch(deleteScout(id)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) {
+        callback(isSucc)
+      }
     })
   },
   patchScout: (id: any, data: any, callback: any) => {
     dispatch(patchScout(id, data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) {
+        callback(isSucc)
+      }
     })
   },
   fetchScout: (id: any, callback: any) => {
     dispatch(fetchScout(id)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) {
+        callback(isSucc)
+      }
     })
   },
   cleanChosenScout: () => {

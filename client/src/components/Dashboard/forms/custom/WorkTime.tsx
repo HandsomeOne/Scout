@@ -74,15 +74,22 @@ export default class WorkTime extends React.Component<P> {
     return (
       <div>
         <WorkTimeChart workTime={this.state.workTime as any} />
-        {this.state.workTime.map((r, i) =>
-          <Row type="flex" justify="space-between" style={{ marginBottom: '8px' }}>
+        {this.state.workTime.map((r, i) => (
+          <Row
+            type="flex"
+            justify="space-between"
+            style={{ marginBottom: '8px' }}
+            key={i}
+          >
             <Col span={10}>
               <Cascader
                 {...CascaderProps}
                 placeholder="从"
                 displayRender={displayRenderFrom}
                 value={this.state.workTime[i][0]}
-                onChange={(value) => { this.update(value, i, 0) }}
+                onChange={value => {
+                  this.update(value, i, 0)
+                }}
               />
             </Col>
             <Col span={10}>
@@ -91,17 +98,22 @@ export default class WorkTime extends React.Component<P> {
                 placeholder="至"
                 displayRender={displayRenderTo}
                 value={this.state.workTime[i][1]}
-                onChange={(value) => { this.update(value, i, 1) }}
+                onChange={value => {
+                  this.update(value, i, 1)
+                }}
               />
             </Col>
             <Button
               type="ghost"
               icon="delete"
-              onClick={() => { this.del(i) }}
+              onClick={() => {
+                this.del(i)
+              }}
             >
               删除
             </Button>
-          </Row>)}
+          </Row>
+        ))}
         <Button
           type="dashed"
           size="large"

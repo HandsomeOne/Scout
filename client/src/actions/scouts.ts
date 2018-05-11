@@ -13,22 +13,23 @@ export const FATCH_SCOUT = 'FATCH_SCOUT'
 
 export const CLEAN_CHOSEN_SCOUT = 'CLEAN_CHOSEN_SCOUT'
 
-export const loadScouts = () => (dispatch: any) => (dispatch({
-  type: LOADING_SCOUTS,
-  payload: {
-    loading: true,
-  },
-}))
+export const loadScouts = () => (dispatch: any) =>
+  dispatch({
+    type: LOADING_SCOUTS,
+    payload: {
+      loading: true,
+    },
+  })
 
 export const fetchScouts = () => (dispatch: any) =>
   fetch(`${origin}/scouts`)
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
       return res.json()
     })
-    .then((json) => {
+    .then(json => {
       dispatch({
         type: RECV_SCOUTS,
         payload: {
@@ -37,12 +38,13 @@ export const fetchScouts = () => (dispatch: any) =>
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
-export const patchScouts = (selectedScouts: any, patch: any) => (dispatch: any) =>
+export const patchScouts = (selectedScouts: any, patch: any) => (
+  dispatch: any,
+) =>
   fetch(`${origin}/scouts`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -51,13 +53,13 @@ export const patchScouts = (selectedScouts: any, patch: any) => (dispatch: any) 
       patch,
     }),
   })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
       return res.json()
     })
-    .then((json) => {
+    .then(json => {
       dispatch({
         type: PATCH_SCOUTS,
         payload: {
@@ -66,23 +68,23 @@ export const patchScouts = (selectedScouts: any, patch: any) => (dispatch: any) 
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
-export const cleanSelectedScouts = () => (dispatch: any) => (dispatch({
-  type: CLEAN_SELECTED_SCOUTS,
-  payload: {},
-}))
+export const cleanSelectedScouts = () => (dispatch: any) =>
+  dispatch({
+    type: CLEAN_SELECTED_SCOUTS,
+    payload: {},
+  })
 
-export const selectScouts = (selectedScouts: any) => (dispatch: any) => (dispatch({
-  type: SELECTED_SCOUTS,
-  payload: {
-    json: selectedScouts,
-  },
-}))
-
+export const selectScouts = (selectedScouts: any) => (dispatch: any) =>
+  dispatch({
+    type: SELECTED_SCOUTS,
+    payload: {
+      json: selectedScouts,
+    },
+  })
 
 export const addScout = (data: any) => (dispatch: any) =>
   fetch(`${origin}/scout`, {
@@ -90,12 +92,13 @@ export const addScout = (data: any) => (dispatch: any) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
       return res.json()
-    }).then((json) => {
+    })
+    .then(json => {
       dispatch({
         type: ADD_SCOUT,
         payload: {
@@ -104,18 +107,18 @@ export const addScout = (data: any) => (dispatch: any) =>
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
 export const deleteScout = (id: any) => (dispatch: any) =>
   fetch(`${origin}/scout/${id}`, { method: 'DELETE' })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
-    }).then(() => {
+    })
+    .then(() => {
       dispatch({
         type: DELETE_SCOUT,
         payload: {
@@ -124,8 +127,7 @@ export const deleteScout = (id: any) => (dispatch: any) =>
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
@@ -135,13 +137,13 @@ export const patchScout = (id: any, data: any) => (dispatch: any) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
       return res.json()
     })
-    .then((json) => {
+    .then(json => {
       dispatch({
         type: PATCH_SCOUT,
         payload: {
@@ -151,20 +153,19 @@ export const patchScout = (id: any, data: any) => (dispatch: any) =>
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
 export const fetchScout = (id: any) => (dispatch: any) =>
   fetch(`${origin}/scout/${id}`)
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
         throw new Error(res.statusText)
       }
       return res.json()
     })
-    .then((json) => {
+    .then(json => {
       dispatch({
         type: FATCH_SCOUT,
         payload: {
@@ -174,12 +175,12 @@ export const fetchScout = (id: any) => (dispatch: any) =>
       })
       return true
     })
-    .catch((err) => {
-      console.error(err)
+    .catch(err => {
       return false
     })
 
-export const cleanChosenScout = () => (dispatch: any) => (dispatch({
-  type: CLEAN_CHOSEN_SCOUT,
-  payload: {},
-}))
+export const cleanChosenScout = () => (dispatch: any) =>
+  dispatch({
+    type: CLEAN_CHOSEN_SCOUT,
+    payload: {},
+  })

@@ -9,9 +9,7 @@ class SettingsContainer extends React.Component<any> {
   }
 
   render() {
-    return (
-      <Settings {...this.props} />
-    )
+    return <Settings {...this.props} />
   }
 }
 
@@ -20,7 +18,7 @@ const mapStateToProps = (state: any) => ({ settings: state.settings.settings })
 const mapDispatchToProps = (dispatch: any) => ({
   onSubmit: (data: any, callback: any) => {
     dispatch(patchSettings(data)).then((isSucc: any) => {
-      (callback !== undefined) && callback(isSucc)
+      if (callback) callback(isSucc)
     })
   },
   onLoad: () => {
