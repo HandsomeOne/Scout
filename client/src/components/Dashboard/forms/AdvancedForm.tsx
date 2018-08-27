@@ -26,7 +26,7 @@ export default function AdvancedForm(props: P) {
     <Form>
       <Row gutter={16}>
         <Col span={6}>
-          <Item label="检测时间间隔/min" >
+          <Item label="检测时间间隔/min">
             {getFieldDecorator('interval', {
               initialValue: scout.interval || 5,
             })(<InputNumber min={1} max={30} />)}
@@ -34,7 +34,7 @@ export default function AdvancedForm(props: P) {
         </Col>
 
         <Col span={6}>
-          <Item label="异常容忍次数" >
+          <Item label="异常容忍次数">
             {getFieldDecorator('tolerance', {
               initialValue: scout.tolerance || 0,
             })(<InputNumber min={0} max={10} />)}
@@ -45,7 +45,14 @@ export default function AdvancedForm(props: P) {
           <Item label="Apdex 目标响应时间" wrapperCol={{ span: 24 }}>
             {getFieldDecorator('ApdexTarget', {
               initialValue: scout.ApdexTarget || 500,
-            })(<Slider min={100} max={2000} step={100} tipFormatter={formatTinyTime} />)}
+            })(
+              <Slider
+                min={100}
+                max={2000}
+                step={100}
+                tipFormatter={formatTinyTime}
+              />,
+            )}
           </Item>
         </Col>
       </Row>
@@ -53,36 +60,58 @@ export default function AdvancedForm(props: P) {
       <Item label="请求头">
         {getFieldDecorator('headers', {
           initialValue: scout.headers,
-          rules: [{
-            message: '请求头不应该含有空项',
-            validator: (rules: any, value: any, callback: any) => {
-              if (value && value.some((header: any) => !(
-                header[0] && header[0].trim() && header[1] && header[1].trim()
-              ))) {
-                callback(new Error())
-              } else {
-                callback()
-              }
+          rules: [
+            {
+              message: '请求头不应该含有空项',
+              validator: (rules: any, value: any, callback: any) => {
+                if (
+                  value &&
+                  value.some(
+                    (header: any) =>
+                      !(
+                        header[0] &&
+                        header[0].trim() &&
+                        header[1] &&
+                        header[1].trim()
+                      ),
+                  )
+                ) {
+                  callback(new Error())
+                } else {
+                  callback()
+                }
+              },
             },
-          }],
+          ],
         })(<HTTPHeaders />)}
       </Item>
 
       <Item label="活跃时间段" extra="若不指定时间段，默认为 7×24">
         {getFieldDecorator('workTime', {
           initialValue: scout.workTime,
-          rules: [{
-            message: '活跃时间段不应该含有空项',
-            validator: (rules: any, value: any, callback: any) => {
-              if (value && value.some((header: any) => !(
-                header[0] && header[0].length && header[1] && header[1].length
-              ))) {
-                callback(new Error())
-              } else {
-                callback()
-              }
+          rules: [
+            {
+              message: '活跃时间段不应该含有空项',
+              validator: (rules: any, value: any, callback: any) => {
+                if (
+                  value &&
+                  value.some(
+                    (header: any) =>
+                      !(
+                        header[0] &&
+                        header[0].length &&
+                        header[1] &&
+                        header[1].length
+                      ),
+                  )
+                ) {
+                  callback(new Error())
+                } else {
+                  callback()
+                }
+              },
             },
-          }],
+          ],
         })(<WorkTime />)}
       </Item>
     </Form>

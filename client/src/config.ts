@@ -1,9 +1,9 @@
 declare const process: any
 
 export const origin =
-  process.env.NODE_ENV === 'production' ?
-    location.origin :
-    'http://localhost:3001'
+  process.env.NODE_ENV === 'production'
+    ? location.origin
+    : 'http://localhost:3001'
 
 export const colors = {
   red: '#f04134',

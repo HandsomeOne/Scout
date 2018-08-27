@@ -12,11 +12,11 @@
 }
 
 .tip {
-  background-color: rgba(64,64,64,.85);
+  background-color: rgba(64, 64, 64, 0.85);
   color: #fff;
   padding: 8px 10px;
   border-radius: 4px;
-  box-shadow: 0 1px 6px rgba(0,0,0,.2);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
   min-height: 34px;
 }
 
@@ -34,5 +34,5 @@
   height: 0;
   border-color: transparent;
   border-style: solid;
-  border-top-color: rgba(64,64,64,.85);
+  border-top-color: rgba(64, 64, 64, 0.85);
 }

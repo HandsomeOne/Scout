@@ -3,20 +3,20 @@ import { Modal, message } from 'antd'
 import ScoutForm from './ScoutForm'
 
 function isSubsetOf(this: any, set: any) {
-  return Object.keys(this).every(key => (
-    JSON.stringify(this[key]) === JSON.stringify(set[key])
-  ))
+  return Object.keys(this).every(
+    key => JSON.stringify(this[key]) === JSON.stringify(set[key]),
+  )
 }
 
 interface P {
   scout: any
-  patchScout: (...args: any[]) => any,
-  addScout: (...args: any[]) => any,
-  activeId?: string,
-  isOpen: boolean,
-  allTags: string[],
-  allRecipients: string[],
-  closeModal: (...args: any[]) => any,
+  patchScout: (...args: any[]) => any
+  addScout: (...args: any[]) => any
+  activeId?: string
+  isOpen: boolean
+  allTags: string[]
+  allRecipients: string[]
+  closeModal: (...args: any[]) => any
 }
 
 class ScoutModal extends React.Component<P> {
@@ -73,7 +73,9 @@ class ScoutModal extends React.Component<P> {
       >
         <ScoutForm
           key={this.props.activeId || this.state.newId}
-          ref={(c: any) => { this.form = c }}
+          ref={(c: any) => {
+            this.form = c
+          }}
           scout={scout}
           allTags={this.props.allTags}
           allRecipients={this.props.allRecipients}

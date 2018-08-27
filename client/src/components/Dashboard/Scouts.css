@@ -14,8 +14,12 @@
 }
 
 @keyframes new {
-  from { background: #faf4b2 }
-  to { background: #fff }
+  from {
+    background: #faf4b2;
+  }
+  to {
+    background: #fff;
+  }
 }
 
 .icon {

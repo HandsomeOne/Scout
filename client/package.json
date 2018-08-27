@@ -3,31 +3,33 @@
   "version": "0.11.2",
   "dependencies": {
     "@types/classnames": "^2.2.0",
-    "@types/d3": "^4.10.0",
+    "@types/d3": "^5.0.0",
     "@types/lodash": "^4.14.71",
     "@types/react": "^16.0.36",
     "@types/react-codemirror": "^1.0.0",
     "@types/react-dom": "^16.0.3",
-    "@types/react-redux": "^5.0.14",
+    "@types/react-redux": "^6.0.6",
     "@types/react-router-dom": "^4.0.7",
-    "ansi_up": "^2.0.2",
-    "antd": "^2.12.2",
+    "ansi_up": "^3.0.0",
+    "antd": "^3.8.3",
     "classnames": "^2.2.5",
     "codemirror": "^5.28.0",
-    "d3": "^4.10.0",
-    "d3-tip": "^0.7.1",
+    "d3": "^5.7.0",
+    "d3-tip": "^0.9.1",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-codemirror": "^1.0.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
-    "redux": "^3.7.2",
+    "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "typescript": "^2.7.1"
+    "typescript": "^3.0.1"
   },
   "devDependencies": {
-    "react-scripts-ts": "^2.5.0"
+    "prettier": "^1.14.2",
+    "react-scripts-ts": "^2.5.0",
+    "tslint-config-prettier": "^1.15.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",

@@ -10,16 +10,25 @@ function ScoutForm(props: any) {
   return (
     <Tabs
       defaultActiveKey="basic"
-      onChange={(key) => {
+      onChange={key => {
         if (key === 'testCase' && testCase) {
           testCase.renewRequest()
         }
       }}
     >
-      <TabPane tab="基本信息" key="basic"><BasicForm {...props} /></TabPane>
-      <TabPane tab="高级设置" key="advanced"><AdvancedForm {...props} /></TabPane>
+      <TabPane tab="基本信息" key="basic">
+        <BasicForm {...props} />
+      </TabPane>
+      <TabPane tab="高级设置" key="advanced">
+        <AdvancedForm {...props} />
+      </TabPane>
       <TabPane tab="测试用例" key="testCase">
-        <TestCase {...props} ref={(e) => { testCase = e }} />
+        <TestCase
+          {...props}
+          ref={e => {
+            testCase = e
+          }}
+        />
       </TabPane>
     </Tabs>
   )

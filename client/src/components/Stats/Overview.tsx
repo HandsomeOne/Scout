@@ -12,8 +12,8 @@ interface P {
     Error?: number
     Idle?: number
     meanResponseTime?: number
-  },
-  since: number,
+  }
+  since: number
 }
 
 export default class Overview extends React.Component<P> {
@@ -56,10 +56,10 @@ export default class Overview extends React.Component<P> {
           <h1>{name}</h1>
           <p>{URL}</p>
           <p className="summary">
-            在过去的 {this.props.since / 60} 小时中，
-          接口共被检测了 {total} 次，
-          其中有 {Error} 次异常，
-          {Idle} 次处于休眠时间。</p>
+            在过去的 {this.props.since / 60} 小时中， 接口共被检测了 {total}{' '}
+            次， 其中有 {Error} 次异常，
+            {Idle} 次处于休眠时间。
+          </p>
         </div>
       </div>
     )

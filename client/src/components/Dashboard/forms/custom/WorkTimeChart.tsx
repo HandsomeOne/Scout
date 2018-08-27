@@ -3,10 +3,18 @@ import { Row, Col } from 'antd'
 import { range } from 'lodash'
 import './WorkTimeChart.css'
 
-const weekdays = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+const weekdays = [
+  '星期天',
+  '星期一',
+  '星期二',
+  '星期三',
+  '星期四',
+  '星期五',
+  '星期六',
+]
 
 interface P {
-  workTime: number[][][],
+  workTime: number[][][]
 }
 
 export default class WorkTimeChart extends React.Component<P> {
@@ -16,7 +24,7 @@ export default class WorkTimeChart extends React.Component<P> {
 
   getRanges() {
     function toPercent(hour: number, minute: number) {
-      return (hour + (minute / 60)) * (100 / 24)
+      return (hour + minute / 60) * (100 / 24)
     }
     function compare(a: number[], b: number[]) {
       for (let i = 0; i < 3; i += 1) {
@@ -33,7 +41,7 @@ export default class WorkTimeChart extends React.Component<P> {
     }[][] = weekdays.map(() => [])
 
     if (this.props.workTime.length === 0) {
-      ranges.forEach((r) => {
+      ranges.forEach(r => {
         r.push({
           left: '0',
           width: '100%',
@@ -42,7 +50,7 @@ export default class WorkTimeChart extends React.Component<P> {
       return ranges
     }
 
-    this.props.workTime.forEach((arr) => {
+    this.props.workTime.forEach(arr => {
       const [start, end] = arr
       if (start && end) {
         const left = toPercent(start[1], start[2])
@@ -111,14 +119,24 @@ export default class WorkTimeChart extends React.Component<P> {
             </div>
           ))}
           <div className="lines">
-            {weekdays.map((_, i) => <div key={i} />)}
+            {weekdays.map((_, i) => (
+              <div key={i} />
+            ))}
           </div>
         </Col>
-        <Col span={2} style={{ lineHeight: '26px' }}>
-          {weekdays.map((v, i) => <div key={i}>{v}</div>)}
+        <Col span={2} style={{ lineHeight: '26px', whiteSpace: 'nowrap' }}>
+          {weekdays.map((v, i) => (
+            <div key={i}>{v}</div>
+          ))}
         </Col>
         <Col span={22} className="time">
-          {range(7).map((_, i) => <div key={i}>{i * 4 < 10 && '0'}{i * 4}:00</div>)}
+          {range(7).map((_, i) => (
+            <div key={i}>
+              {i * 4 < 10 && '0'}
+              {i * 4}
+              :00
+            </div>
+          ))}
         </Col>
       </Row>
     )

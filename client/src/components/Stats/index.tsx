@@ -8,9 +8,9 @@ interface P {
   common: any
   health: any
   logs: any[]
-  id: string,
-  since: number,
-  interval: number,
+  id: string
+  since: number
+  interval: number
 }
 
 class Stats extends React.Component<P> {

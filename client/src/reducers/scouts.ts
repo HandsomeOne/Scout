@@ -1,14 +1,26 @@
-import { LOADING_SCOUTS, RECV_SCOUTS, PATCH_SCOUTS,
-  ADD_SCOUT, DELETE_SCOUT, PATCH_SCOUT, FATCH_SCOUT,
-  CLEAN_CHOSEN_SCOUT, CLEAN_SELECTED_SCOUTS, SELECTED_SCOUTS } from '../actions/scouts'
+import {
+  LOADING_SCOUTS,
+  RECV_SCOUTS,
+  PATCH_SCOUTS,
+  ADD_SCOUT,
+  DELETE_SCOUT,
+  PATCH_SCOUT,
+  FATCH_SCOUT,
+  CLEAN_CHOSEN_SCOUT,
+  CLEAN_SELECTED_SCOUTS,
+  SELECTED_SCOUTS,
+} from '../actions/scouts'
 
-const handlerScouts = (state: any = {
-  loading: false,
-  scouts: [],
-  chosenScout: {},
-  activeId: undefined,
-  selectedScouts: [],
-}, action: any) => {
+const handlerScouts = (
+  state: any = {
+    loading: false,
+    scouts: [],
+    chosenScout: {},
+    activeId: undefined,
+    selectedScouts: [],
+  },
+  action: any,
+) => {
   switch (action.type) {
     case LOADING_SCOUTS:
       return Object.assign({}, state, { loading: action.payload.loading })
@@ -39,19 +51,23 @@ const handlerScouts = (state: any = {
       })
 
     case ADD_SCOUT:
-      return Object.assign({}, state, { scouts: [
-        action.payload.json,
-        ...state.scouts,
-      ] })
+      return Object.assign({}, state, {
+        scouts: [action.payload.json, ...state.scouts],
+      })
     case DELETE_SCOUT:
       return Object.assign({}, state, {
-        scouts: state.scouts.filter((scout: any) => scout.id !== action.payload.id),
+        scouts: state.scouts.filter(
+          (scout: any) => scout.id !== action.payload.id,
+        ),
       })
     case PATCH_SCOUT:
       return Object.assign({}, state, {
-        state: state.scouts.map((scout: any) => (
-          scout.id === action.payload.id ? Object.assign(scout, action.payload.json) : scout
-        )),
+        state: state.scouts.map(
+          (scout: any) =>
+            scout.id === action.payload.id
+              ? Object.assign(scout, action.payload.json)
+              : scout,
+        ),
       })
     case FATCH_SCOUT:
       return Object.assign({}, state, {

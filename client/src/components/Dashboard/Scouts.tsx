@@ -9,12 +9,12 @@ import './Scouts.css'
 interface P {
   scouts: IScout[]
   loading: boolean
-  selectedScouts: string[],
-  deleteScout: (...args: any[]) => any,
-  fetchScouts: (...args: any[]) => any,
-  handleSelectChange: (...args: any[]) => any,
-  openModal: (...args: any[]) => any,
-  selectable: boolean,
+  selectedScouts: string[]
+  deleteScout: (...args: any[]) => any
+  fetchScouts: (...args: any[]) => any
+  handleSelectChange: (...args: any[]) => any
+  openModal: (...args: any[]) => any
+  selectable: boolean
 }
 
 export default class Scouts extends React.Component<P> {
@@ -51,8 +51,14 @@ export default class Scouts extends React.Component<P> {
             render: (name: string, record: IScout) => (
               <div>
                 <div className="firstline">
-                  <Link to={`/stats/${record.id}`} className="name">{name}</Link>
-                  {record.tags.map(tag => <Tag key={tag} color={randomColor(tag)}>{tag}</Tag>)}
+                  <Link to={`/stats/${record.id}`} className="name">
+                    {name}
+                  </Link>
+                  {record.tags.map(tag => (
+                    <Tag key={tag} color={randomColor(tag)}>
+                      {tag}
+                    </Tag>
+                  ))}
                 </div>
                 <div
                   className="longtext"
@@ -67,11 +73,12 @@ export default class Scouts extends React.Component<P> {
             title: '　',
             dataIndex: 'status',
             width: 50,
-            render: (status: string) => ({
-              OK: <Icon type="check" style={{ color: C.green }} />,
-              Error: <Icon type="exception" style={{ color: C.orange }} />,
-              Idle: <Icon type="pause" style={{ color: '#999' }} />,
-            }[status || 'Idle']),
+            render: (status: string) =>
+              ({
+                OK: <Icon type="check" style={{ color: C.green }} />,
+                Error: <Icon type="exception" style={{ color: C.orange }} />,
+                Idle: <Icon type="pause" style={{ color: '#999' }} />,
+              }[status || 'Idle']),
             className: 'icon',
           },
           {
@@ -88,10 +95,16 @@ export default class Scouts extends React.Component<P> {
             className: 'Apdex',
             render: (Apdex, record: IScout) => (
               <div>
-                {typeof Apdex !== 'number' ?
-                  <span style={{ color: '#999' }}>NaN</span> :
-                  <span style={{ color: healthToColor(Apdex) }}>{Apdex.toFixed(2)}</span>}
-                <div className="ApdexTarget">~{formatTinyTime(record.ApdexTarget)}</div>
+                {typeof Apdex !== 'number' ? (
+                  <span style={{ color: '#999' }}>NaN</span>
+                ) : (
+                  <span style={{ color: healthToColor(Apdex) }}>
+                    {Apdex.toFixed(2)}
+                  </span>
+                )}
+                <div className="ApdexTarget">
+                  ~{formatTinyTime(record.ApdexTarget)}
+                </div>
               </div>
             ),
           },
@@ -117,7 +130,9 @@ export default class Scouts extends React.Component<P> {
                 placement="topRight"
                 onConfirm={() => this.delScout(record.id)}
               >
-                <a><Icon type="delete" style={{ color: C.red }} /></a>
+                <a>
+                  <Icon type="delete" style={{ color: C.red }} />
+                </a>
               </Popconfirm>
             ),
           },
@@ -125,11 +140,15 @@ export default class Scouts extends React.Component<P> {
         rowKey="id"
         dataSource={this.props.scouts}
         loading={this.props.loading}
-        rowSelection={this.props.selectable ? {
-          type: 'checkbox',
-          selectedRowKeys: this.props.selectedScouts,
-          onChange: this.props.handleSelectChange,
-        } : undefined}
+        rowSelection={
+          this.props.selectable
+            ? {
+                type: 'checkbox',
+                selectedRowKeys: this.props.selectedScouts,
+                onChange: this.props.handleSelectChange,
+              }
+            : undefined
+        }
       />
     )
   }

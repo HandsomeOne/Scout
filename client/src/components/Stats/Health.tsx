@@ -8,9 +8,9 @@ import { healthToColor } from '../../utils'
 import './Health.css'
 
 interface P {
-  health: any,
-  since: number,
-  interval: number,
+  health: any
+  since: number
+  interval: number
 }
 
 export default class Health extends React.Component<P> {
@@ -18,23 +18,25 @@ export default class Health extends React.Component<P> {
 
   componentDidMount() {
     const { since, interval, health: json } = this.props
-    const data = json.statuses.map(({ OK = 0, Errors = {}, Idle = 0 }, i: any) => {
-      const errors = Object.keys(Errors)
-      const totalErrors = errors.reduce((p, e) => p + Errors[e], 0)
+    const data = json.statuses.map(
+      ({ OK = 0, Errors = {}, Idle = 0 }, i: any) => {
+        const errors = Object.keys(Errors)
+        const totalErrors = errors.reduce((p, e) => p + Errors[e], 0)
 
-      const total = OK + totalErrors + Idle
-      const validTotal = OK + totalErrors
-      const time = moment(json.now - ((i + 0.5) * interval * 60 * 1000))
-      return {
-        OK,
-        totalErrors,
-        Errors,
-        Idle,
-        time: moment(time),
-        health: validTotal ? OK / validTotal : 0,
-        idleRatio: total ? Idle / total : 1,
-      }
-    })
+        const total = OK + totalErrors + Idle
+        const validTotal = OK + totalErrors
+        const time = moment(json.now - (i + 0.5) * interval * 60 * 1000)
+        return {
+          OK,
+          totalErrors,
+          Errors,
+          Idle,
+          time: moment(time),
+          health: validTotal ? OK / validTotal : 0,
+          idleRatio: total ? Idle / total : 1,
+        }
+      },
+    )
 
     const svg = d3.select(this.svg)
     const margin = { top: 20, right: 20, bottom: 30, left: 20 }
@@ -42,26 +44,38 @@ export default class Health extends React.Component<P> {
     const height = +svg.attr('height') - margin.top - margin.bottom
     const barWidth = width / data.length / 1.1
 
-    const x = d3.scaleTime()
+    const x = d3
+      .scaleTime()
       .domain([moment(json.now), moment(json.now).subtract(since, 'minutes')])
       .range([0, width])
-    const y = d3.scaleLinear().domain([0, 1]).range([0, height - barWidth])
+    const y = d3
+      .scaleLinear()
+      .domain([0, 1])
+      .range([0, height - barWidth])
 
-    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
+    const g = svg
+      .append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`)
 
     const tip = d3Tip()
       .attr('class', 'tip')
       .offset([-10, 0])
-      .html((d: any) => `
+      .html(
+        (d: any) => `
         ${d.time.isSame(moment(), 'day') ? '' : '昨日 '}
         ${d.time.format('HH:mm')} 左右
-        ${d.OK + d.totalErrors + d.Idle ?
-          `${d.OK ? `<p>OK：${d.OK}</p>` : ''}
-          ${Object.keys(d.Errors).map(e => `<p>${e}：${d.Errors[e]}</p>`).join('')}
-          ${d.Idle ? `<p>Idle：${d.Idle}</p>` : ''}` :
-          `<p class="$"default"">无数据</p>`}
+        ${
+          d.OK + d.totalErrors + d.Idle
+            ? `${d.OK ? `<p>OK：${d.OK}</p>` : ''}
+          ${Object.keys(d.Errors)
+            .map(e => `<p>${e}：${d.Errors[e]}</p>`)
+            .join('')}
+          ${d.Idle ? `<p>Idle：${d.Idle}</p>` : ''}`
+            : `<p class="$"default"">无数据</p>`
+        }
         <div class="$"arrow"">
-      `)
+      `,
+      )
 
     svg.call(tip)
 
@@ -72,7 +86,8 @@ export default class Health extends React.Component<P> {
 
     g.selectAll('rect')
       .data(data)
-      .enter().append('rect')
+      .enter()
+      .append('rect')
       .attr('class', 'bar')
       .attr('fill', (d: any) => healthToColor(d.health))
       .attr('opacity', (d: any) => 1 - d.idleRatio)
@@ -89,7 +104,9 @@ export default class Health extends React.Component<P> {
     return (
       <div className="health">
         <svg
-          ref={(s) => { this.svg = s }}
+          ref={s => {
+            this.svg = s
+          }}
           width="960"
           height="320"
         />

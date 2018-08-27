@@ -6,11 +6,11 @@ import PrefixedURL from '../Dashboard/forms/custom/PrefixedURL'
 
 interface P {
   form: {
-    getFieldDecorator: (...args: any[]) => any,
-    getFieldsValue: (...args: any[]) => any,
-    getFieldValue: (...args: any[]) => any,
+    getFieldDecorator: (...args: any[]) => any
+    getFieldsValue: (...args: any[]) => any
+    getFieldValue: (...args: any[]) => any
   }
-  onSubmit: (...args: any[]) => any,
+  onSubmit: (...args: any[]) => any
   settings: any
 }
 
@@ -56,11 +56,16 @@ class Settings extends React.Component<P, S> {
 
           <p style={{ height: 32, lineHeight: '32px' }}>
             <a style={{ float: 'right' }} onClick={this.toggleAlertURLDetail}>
-              <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} /> 接口规格
+              <Icon type={this.state.isAlertURLDetailVisible ? 'up' : 'down'} />{' '}
+              接口规格
             </a>
           </p>
 
-          <div style={{ display: this.state.isAlertURLDetailVisible ? 'block' : 'none' }}>
+          <div
+            style={{
+              display: this.state.isAlertURLDetailVisible ? 'block' : 'none',
+            }}
+          >
             <AlertURLDetail alertURL={getFieldValue('alertURL')} />
           </div>
 
@@ -70,11 +75,7 @@ class Settings extends React.Component<P, S> {
               initialValue: settings.alertOnRecovery,
             })(<Switch />)}
           </Item>
-          <Button
-            onClick={this.submit}
-            size="large"
-            type="primary"
-          >
+          <Button onClick={this.submit} size="large" type="primary">
             更新
           </Button>
         </Form>

@@ -6,13 +6,13 @@
   border-radius: 3px;
   padding: 3px 0;
   margin: 0 1px;
-  transition: box-shadow .2s, opacity .2s;
+  transition: box-shadow 0.2s, opacity 0.2s;
   display: inline-block;
   box-sizing: content-box;
 }
 
 .chartbar:hover {
-  box-shadow: 0 0 2px #108EE9;
+  box-shadow: 0 0 2px #108ee9;
 }
 
 .chartbar > div {
@@ -27,7 +27,7 @@
   position: absolute;
   bottom: 0;
   box-sizing: content-box;
-  transition: background-color .2s, height .2s;
+  transition: background-color 0.2s, height 0.2s;
   width: 100%;
 }
 

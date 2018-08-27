@@ -3,12 +3,12 @@ import { Modal, message } from 'antd'
 import MultiForm from './forms/MultiForm'
 
 interface P {
-  patchScouts: (...args: any[]) => any,
-  isOpen: boolean,
-  allTags: string[],
-  allRecipients: string[],
-  selectedScouts: string[],
-  closeMultiModal: (...args: any[]) => any,
+  patchScouts: (...args: any[]) => any
+  isOpen: boolean
+  allTags: string[]
+  allRecipients: string[]
+  selectedScouts: string[]
+  closeMultiModal: (...args: any[]) => any
 }
 
 class MultiModal extends React.Component<P> {
@@ -19,17 +19,22 @@ class MultiModal extends React.Component<P> {
       if (err) return
 
       const data = this.form.getFieldsValue()
-      const patch = data.fields.reduce((c: any, p: any) => (
-        Object.assign(c, { [p]: data[p] })
-      ), {})
+      const patch = data.fields.reduce(
+        (c: any, p: any) => Object.assign(c, { [p]: data[p] }),
+        {},
+      )
 
       if (data.fields.length) {
-        this.props.patchScouts(this.props.selectedScouts, patch, (isSucc: any) => {
-          if (isSucc) {
-            this.props.closeMultiModal()
-            message.success('修改成功')
-          }
-        })
+        this.props.patchScouts(
+          this.props.selectedScouts,
+          patch,
+          (isSucc: any) => {
+            if (isSucc) {
+              this.props.closeMultiModal()
+              message.success('修改成功')
+            }
+          },
+        )
       } else {
         this.props.closeMultiModal()
         message.info('未修改')
@@ -49,7 +54,9 @@ class MultiModal extends React.Component<P> {
       >
         <MultiForm
           key={this.props.selectedScouts.join(',')}
-          ref={(c: any) => { this.form = c }}
+          ref={(c: any) => {
+            this.form = c
+          }}
           allTags={this.props.allTags}
           allRecipients={this.props.allRecipients}
         />

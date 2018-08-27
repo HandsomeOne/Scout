@@ -9,9 +9,7 @@ class AlertLogContainer extends React.Component<any> {
   }
 
   render() {
-    return (
-      <AlertLog {...this.props as any} />
-    )
+    return <AlertLog {...this.props as any} />
   }
 }
 
@@ -28,4 +26,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AlertLogContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AlertLogContainer)

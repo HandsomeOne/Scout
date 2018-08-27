@@ -11,15 +11,14 @@ function renderHTTP(record: any) {
   return (
     <div>
       请求体:
-      <pre>{
-        JSON.stringify(record.message, null, 2)
-      }</pre>
+      <pre>{JSON.stringify(record.message, null, 2)}</pre>
       <br />
       {isOK ? '返回体:' : '错误信息:'}
-      <pre>{
-        (isOK ? record.body : record.errMessage) ||
-        <span className="default">[空]</span>
-      }</pre>
+      <pre>
+        {(isOK ? record.body : record.errMessage) || (
+          <span className="default">[空]</span>
+        )}
+      </pre>
     </div>
   )
 }
@@ -49,11 +48,8 @@ class AlertLog extends React.Component<P> {
             width: 100,
             title: '告警接口状态',
             dataIndex: 'status',
-            render: (status, record: any) => (
-              record.statusCode ?
-                `${status} / ${record.statusCode}` :
-                status
-            ),
+            render: (status, record: any) =>
+              record.statusCode ? `${status} / ${record.statusCode}` : status,
           },
           {
             width: 100,
@@ -64,13 +60,14 @@ class AlertLog extends React.Component<P> {
           {
             title: '描述',
             dataIndex: 'message',
-            render: message => (
-              message.status === 'Error' ?
+            render: message =>
+              message.status === 'Error' ? (
                 <span style={{ color: C.red }}>
                   {message.errName}: {message.errMessage}
-                </span> :
+                </span>
+              ) : (
                 <span style={{ color: C.green }}>恢复正常</span>
-            ),
+              ),
           },
           {
             title: '从属条目',
@@ -82,15 +79,20 @@ class AlertLog extends React.Component<P> {
           {
             title: '发送至',
             dataIndex: 'message.recipients',
-            render: recipients => recipients.map((recipient: string) => {
-              let color = ''
-              if (/^\+?\d+$/.test(recipient)) {
-                color = 'orange'
-              } else if (/@/.test(recipient)) {
-                color = 'purple'
-              }
-              return <Tag key={recipient} color={color}>{recipient}</Tag>
-            }),
+            render: recipients =>
+              recipients.map((recipient: string) => {
+                let color = ''
+                if (/^\+?\d+$/.test(recipient)) {
+                  color = 'orange'
+                } else if (/@/.test(recipient)) {
+                  color = 'purple'
+                }
+                return (
+                  <Tag key={recipient} color={color}>
+                    {recipient}
+                  </Tag>
+                )
+              }),
           },
         ]}
         dataSource={alertLogs}

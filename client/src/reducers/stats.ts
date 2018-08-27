@@ -1,10 +1,17 @@
-import { RECV_STATS, RECV_STATS_HEALTH, RECV_STATS_ERRORLOG } from '../actions/stats'
+import {
+  RECV_STATS,
+  RECV_STATS_HEALTH,
+  RECV_STATS_ERRORLOG,
+} from '../actions/stats'
 
-const handleStats = (state = {
-  common: {},
-  health: {},
-  logs: [],
-}, action: any) => {
+const handleStats = (
+  state = {
+    common: {},
+    health: {},
+    logs: [],
+  },
+  action: any,
+) => {
   switch (action.type) {
     case RECV_STATS:
       return Object.assign({}, state, { common: action.payload.json })

@@ -4,7 +4,7 @@ import { origin, colors as C } from '../../config'
 import './AlertURLDetail.css'
 
 interface P {
-  alertURL: string,
+  alertURL: string
 }
 
 interface S {
@@ -26,21 +26,20 @@ export default class AlertURLDetail extends React.Component<P, S> {
         return (
           <span
             style={{
-              color: [
-                C.cyan,
-                C.blue,
-                C.green,
-                C.yellow,
-                C.red,
-                C.pink,
-              ][Math.floor(result.statusCode / 100)],
+              color: [C.cyan, C.blue, C.green, C.yellow, C.red, C.pink][
+                Math.floor(result.statusCode / 100)
+              ],
             }}
           >
             {result.statusCode} {result.statusText}
           </span>
         )
       case 'Error':
-        return <span style={{ color: C.red }}>{result.name}: {result.message}</span>
+        return (
+          <span style={{ color: C.red }}>
+            {result.name}: {result.message}
+          </span>
+        )
       default:
         return ''
     }
@@ -56,13 +55,13 @@ export default class AlertURLDetail extends React.Component<P, S> {
         recipients: this.state.recipients,
       }),
     })
-    .then(res => res.json())
-    .then((result) => {
-      this.setState({
-        isSending: false,
-        result,
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          isSending: false,
+          result,
+        })
       })
-    })
   }
   update = (recipients: string[]) => {
     this.setState({ recipients })
@@ -72,22 +71,30 @@ export default class AlertURLDetail extends React.Component<P, S> {
     return (
       <div className="alerturldetail">
         <pre>
-          POST {this.props.alertURL}<br />
-          Content-Type: application/json<br /><br />
-          {JSON.stringify({
-            recipients: this.state.recipients,
-            name: '查询当前时间',
-            URL: 'https://your.server/your/api',
-            status: 'Error',
-            statusCode: 200,
-            responseTime: 53,
-            now: 1484292986935,
-            errName: 'AssertionError',
-            errMessage: '慢了123秒',
-            body: '{now:1484292863588}',
-            readType: 'json',
-            testCase: 'const d = Date.now() - body.now\nassert(d < 60000, `慢了${d/1000|0}秒`)',
-          }, null, 2)}
+          POST {this.props.alertURL}
+          <br />
+          Content-Type: application/json
+          <br />
+          <br />
+          {JSON.stringify(
+            {
+              recipients: this.state.recipients,
+              name: '查询当前时间',
+              URL: 'https://your.server/your/api',
+              status: 'Error',
+              statusCode: 200,
+              responseTime: 53,
+              now: 1484292986935,
+              errName: 'AssertionError',
+              errMessage: '慢了123秒',
+              body: '{now:1484292863588}',
+              readType: 'json',
+              testCase:
+                'const d = Date.now() - body.now\nassert(d < 60000, `慢了${d/1000|0}秒`)',
+            },
+            null,
+            2,
+          )}
         </pre>
         <Row type="flex" justify="space-between" className="row">
           <Select
@@ -107,9 +114,7 @@ export default class AlertURLDetail extends React.Component<P, S> {
           </Button>
         </Row>
 
-        <div style={{ lineHeight: '32px' }}>
-          {this.getRequestOutput()}
-        </div>
+        <div style={{ lineHeight: '32px' }}>{this.getRequestOutput()}</div>
 
         <pre>{this.state.result.body}</pre>
       </div>

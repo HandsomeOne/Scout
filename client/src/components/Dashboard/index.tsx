@@ -9,7 +9,7 @@ interface P {
   scouts: any[]
   scout: any
   selectedScouts: string[]
-  activeId: string,
+  activeId: string
   fetchScouts: (...args: any[]) => any
   patchScouts: (...args: any[]) => any
   cleanSelectedScouts: (...args: any[]) => any
@@ -77,7 +77,9 @@ export default class Dashboard extends React.Component<P, S> {
   render() {
     const { scouts } = this.props
     const allTags = union<string>(...scouts.map(scout => scout.tags))
-    const allRecipients = union<string>(...scouts.map(scout => scout.recipients))
+    const allRecipients = union<string>(
+      ...scouts.map(scout => scout.recipients),
+    )
 
     return (
       <div>

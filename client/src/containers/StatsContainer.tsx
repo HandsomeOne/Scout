@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { fetchStats, fetchStatsHealth, fetchStatsErrorlog } from '../actions/stats'
+import {
+  fetchStats,
+  fetchStatsHealth,
+  fetchStatsErrorlog,
+} from '../actions/stats'
 import Stats from '../components/Stats/index'
 
 class StatsContainer extends React.Component<any> {
@@ -17,9 +21,7 @@ class StatsContainer extends React.Component<any> {
   }
 
   render() {
-    return (
-      this.state.loadFinish && <Stats {...this.props as any} />
-    )
+    return this.state.loadFinish && <Stats {...this.props as any} />
   }
 }
 
@@ -38,10 +40,14 @@ const mapDispatchToProps = (dispatch: any) => ({
       dispatch(fetchStats(id, since)),
       dispatch(fetchStatsHealth(id, since, interval)),
       dispatch(fetchStatsErrorlog(id, since)),
-    ])
-      .then(results => callback !== undefined
-        && callback(results.every(e => (e === true))))
+    ]).then(
+      results =>
+        callback !== undefined && callback(results.every(e => e === true)),
+    )
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(StatsContainer)
