@@ -21,7 +21,7 @@ require('./routes/request')(server)
 require('./routes/test')(server)
 require('./routes/alertLog')(server)
 
-server.get(/\/?.*/, restify.plugins.serveStatic({
+server.get('/*', restify.plugins.serveStatic({
   directory: path.join(__dirname, '../../client/build'),
   default: 'index.html',
 }))
