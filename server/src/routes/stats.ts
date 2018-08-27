@@ -5,16 +5,18 @@ import getStats from '../utils/getStats'
 import getErrorLog from '../utils/getErrorLog'
 const { getStatuses } = require('../utils/getFoldedStats')
 
-export = (server) => {
+export = server => {
   server.get('/stats/__snapshots/:id', (req, res) => {
-    Scout.findById(req.params.id).lean()
+    Scout.findById(req.params.id)
+      .lean()
       .then((scout: any) => {
         res.send(scout.snapshots)
       })
   })
 
   server.get('/stats/:id', (req, res) => {
-    Scout.findById(req.params.id).lean()
+    Scout.findById(req.params.id)
+      .lean()
       .then((scout: any) => {
         const snapshots = cut(scout.snapshots, req.params.since)
         const stats: any = getStats(snapshots, scout.ApdexTarget)
@@ -26,17 +28,23 @@ export = (server) => {
   })
 
   server.get('/stats/health/:id', (req, res) => {
-    Scout.findById(req.params.id).lean()
+    Scout.findById(req.params.id)
+      .lean()
       .then((scout: any) => {
         const now = Date.now()
-        const snapshots = cutAndFold(scout.snapshots, req.params.since, req.params.interval)
+        const snapshots = cutAndFold(
+          scout.snapshots,
+          req.params.since,
+          req.params.interval,
+        )
         const statuses = getStatuses(snapshots)
         res.send({ now, statuses })
       })
   })
 
   server.get('/stats/errorlog/:id', (req, res) => {
-    Scout.findById(req.params.id).lean()
+    Scout.findById(req.params.id)
+      .lean()
       .then((scout: any) => {
         const snapshots = cut(scout.snapshots, req.params.since)
         const stats = getErrorLog(snapshots)

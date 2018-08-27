@@ -21,12 +21,14 @@ require('./routes/request')(server)
 require('./routes/test')(server)
 require('./routes/alertLog')(server)
 
-server.get('/*', restify.plugins.serveStatic({
-  directory: path.join(__dirname, '../../client/build'),
-  default: 'index.html',
-}))
+server.get(
+  '/*',
+  restify.plugins.serveStatic({
+    directory: path.join(__dirname, '../../client/build'),
+    default: 'index.html',
+  }),
+)
 server.listen(3001)
-
 
 import * as Squad from './models/Squad'
 

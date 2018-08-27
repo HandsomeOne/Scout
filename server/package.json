@@ -16,5 +16,8 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node build/index"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.2"
   }
 }

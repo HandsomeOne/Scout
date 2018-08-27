@@ -2,14 +2,16 @@ import { Script } from 'vm'
 import * as assert from 'assert'
 import { inspect } from 'util'
 
-export = (server) => {
+export = server => {
   server.post('/test', (req, res) => {
     const logs = []
 
     function log(...any) {
-      logs.push(any.map(v => (
-        typeof v === 'string' ? v : inspect(v, { colors: true })
-      )).join(' '))
+      logs.push(
+        any
+          .map(v => (typeof v === 'string' ? v : inspect(v, { colors: true })))
+          .join(' '),
+      )
     }
     try {
       new Script(req.body.testCase).runInNewContext({

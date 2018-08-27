@@ -1,6 +1,11 @@
 import cut from './cut'
 
-export default function cutAndFold(snapshots, since = 1440, interval = 60, now = Date.now()) {
+export default function cutAndFold(
+  snapshots,
+  since = 1440,
+  interval = 60,
+  now = Date.now(),
+) {
   const cutSnapshots = cut(snapshots, since, now)
   const result = []
   for (let i = 0; i < since / interval; i += 1) {

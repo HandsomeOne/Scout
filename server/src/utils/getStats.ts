@@ -23,6 +23,6 @@ export default function getStats(snapshots, ApdexTarget) {
     }
   }
   stats.meanResponseTime = totalResponseTime / total
-  stats.Apdex = (satisfied + (tolerating / 2)) / total
+  stats.Apdex = (satisfied + tolerating / 2) / total
   return stats
 }
